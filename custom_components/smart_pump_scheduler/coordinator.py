@@ -394,6 +394,8 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
 
     async def _start_run_now(self, minutes: int):
         """Turn the pump on now for `minutes`, overriding the schedule."""
+        was_queued = self._run_now_pending_minutes is not None
+
         now = dt_util.now()
         self._run_now_until = now + timedelta(minutes=minutes)
         self._run_now_pending_minutes = None
@@ -404,7 +406,26 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
             minutes * 60,
             lambda _: self.hass.async_create_task(self._end_run_now()),
         )
+
+        if was_queued:
+            await self._notify_run_now_started(minutes)
+
         await self.async_refresh()
+
+    async def _notify_run_now_started(self, minutes: int) -> None:
+        """Notify the user that a deferred run-now request has started."""
+        current_price = self._prices.get(dt_util.now().hour)
+        price_text = f" ({current_price})" if current_price is not None else ""
+        await self.hass.services.async_call(
+            "persistent_notification",
+            "create",
+            {
+                "title": "Smart Pump Scheduler",
+                "message": f"Price dropped below the max threshold{price_text} – the pump is now running for {minutes} minutes.",
+                "notification_id": f"smart_pump_scheduler_run_now_{self.entry_id}",
+            },
+            blocking=False,
+        )
 
     async def _end_run_now(self):
         """Hand control back to the normal schedule after a run-now session."""
