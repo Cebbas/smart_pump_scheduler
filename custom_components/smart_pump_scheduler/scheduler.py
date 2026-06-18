@@ -189,6 +189,27 @@ def get_savings(
     return round(max(0.0, cost_expensive - cost_actual), 2)
 
 
+def format_hour_ranges(hours: list[int]) -> str:
+    """
+    Format scheduled hours as readable time ranges.
+    [2, 3, 14, 15, 16] -> "02:00–04:00, 14:00–17:00"
+    """
+    if not hours:
+        return "none"
+
+    ranges: list[tuple[int, int]] = []
+    start = prev = hours[0]
+    for h in hours[1:]:
+        if h == prev + 1:
+            prev = h
+            continue
+        ranges.append((start, prev))
+        start = prev = h
+    ranges.append((start, prev))
+
+    return ", ".join(f"{s:02d}:00–{e + 1:02d}:00" for s, e in ranges)
+
+
 def _get_time_window(config: dict, weekday_name: str) -> tuple[time, time]:
     """Get start/stop time for a given weekday."""
     per_weekday = config.get(CONF_PER_WEEKDAY, False)

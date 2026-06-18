@@ -146,6 +146,9 @@
       "pump_timmar_kvar_idag": {
         "name": "Scheduled hours remaining"
       },
+      "pump_schemalagda_timmar": {
+        "name": "Scheduled hours today"
+      },
       "pump_energi_idag": {
         "name": "Energy today"
       },

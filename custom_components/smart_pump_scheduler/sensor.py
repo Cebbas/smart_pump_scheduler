@@ -17,6 +17,7 @@ from .const import (
     SUFFIX_CURRENT_PRICE,
     SUFFIX_NEXT_START,
     SUFFIX_HOURS_REMAINING,
+    SUFFIX_SCHEDULED_HOURS,
     SUFFIX_ENERGY_TODAY,
     SUFFIX_COST_TODAY,
     SUFFIX_SAVED_TODAY,
@@ -25,6 +26,7 @@ from .const import (
 )
 from .coordinator import SmartPumpSchedulerCoordinator
 from .device import build_device_info
+from .scheduler import format_hour_ranges
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
@@ -35,6 +37,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
         SmartPumpSchedulerPriceSensor(coordinator, entry, currency),
         SmartPumpSchedulerNextStartSensor(coordinator, entry),
         SmartPumpSchedulerHoursRemainingSensor(coordinator, entry),
+        SmartPumpSchedulerScheduledHoursSensor(coordinator, entry),
         SmartPumpSchedulerEnergyTodaySensor(coordinator, entry),
         SmartPumpSchedulerCostTodaySensor(coordinator, entry, currency),
         SmartPumpSchedulerSavedTodaySensor(coordinator, entry, currency),
@@ -87,6 +90,25 @@ class SmartPumpSchedulerHoursRemainingSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self):
         return self.coordinator.data.get("hours_remaining", 0)
+
+
+class SmartPumpSchedulerScheduledHoursSensor(CoordinatorEntity, SensorEntity):
+    _attr_has_entity_name = True
+    _attr_translation_key = "pump_schemalagda_timmar"
+    _attr_icon = "mdi:calendar-clock"
+
+    def __init__(self, coordinator, entry):
+        super().__init__(coordinator)
+        self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_SCHEDULED_HOURS}"
+        self._attr_device_info = build_device_info(entry)
+
+    @property
+    def native_value(self):
+        return format_hour_ranges(self.coordinator.data.get("scheduled_hours", []))
+
+    @property
+    def extra_state_attributes(self):
+        return {"hours": self.coordinator.data.get("scheduled_hours", [])}
 
 
 class SmartPumpSchedulerEnergyTodaySensor(CoordinatorEntity, SensorEntity):
