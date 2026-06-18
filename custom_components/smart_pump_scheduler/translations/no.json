@@ -105,12 +105,40 @@
   },
   "options": {
     "step": {
+      "price_source": {
+        "title": "Priskilde",
+        "description": "Velg hvor strømprisene skal hentes fra",
+        "data": {
+          "price_source": "Kilde"
+        },
+        "data_description": {}
+      },
+      "nordpool": {
+        "title": "Nordpool-innstillinger",
+        "data": {
+          "nordpool_area": "Strømområde",
+          "nordpool_currency": "Valuta",
+          "nordpool_vat": "Inkluder moms"
+        }
+      },
+      "price_sensor": {
+        "title": "Prissensor",
+        "description": "Velg en eksisterende sensor i Home Assistant som gir timespriser.",
+        "data": {
+          "price_sensor": "Prissensor"
+        }
+      },
       "pump_settings": {
         "title": "Pumpeinnstillinger",
         "data": {
+          "switch_entity": "Pumpebryter",
           "hours_per_day": "Timer per døgn",
           "min_price": "Kjør alltid under (øre/kWh)",
           "max_price": "Kjør aldri over (øre/kWh)"
+        },
+        "data_description": {
+          "min_price": "Valgfritt – pumpen kjører alltid når prisen er under denne grensen.",
+          "max_price": "Valgfritt – pumpen kjører aldri når prisen overstiger denne grensen."
         }
       },
       "schedule": {
@@ -118,7 +146,54 @@
         "data": {
           "per_weekday": "Forskjellige innstillinger per ukedag",
           "global_start": "Tidligste start",
-          "global_stop": "Seneste stopp"
+          "global_stop": "Seneste stopp",
+          "monday_active": "Mandag aktiv",
+          "monday_start": "Mandag start",
+          "monday_stop": "Mandag stopp",
+          "monday_hours": "Mandag timer",
+          "tuesday_active": "Tirsdag aktiv",
+          "tuesday_start": "Tirsdag start",
+          "tuesday_stop": "Tirsdag stopp",
+          "tuesday_hours": "Tirsdag timer",
+          "wednesday_active": "Onsdag aktiv",
+          "wednesday_start": "Onsdag start",
+          "wednesday_stop": "Onsdag stopp",
+          "wednesday_hours": "Onsdag timer",
+          "thursday_active": "Torsdag aktiv",
+          "thursday_start": "Torsdag start",
+          "thursday_stop": "Torsdag stopp",
+          "thursday_hours": "Torsdag timer",
+          "friday_active": "Fredag aktiv",
+          "friday_start": "Fredag start",
+          "friday_stop": "Fredag stopp",
+          "friday_hours": "Fredag timer",
+          "saturday_active": "Lørdag aktiv",
+          "saturday_start": "Lørdag start",
+          "saturday_stop": "Lørdag stopp",
+          "saturday_hours": "Lørdag timer",
+          "sunday_active": "Søndag aktiv",
+          "sunday_start": "Søndag start",
+          "sunday_stop": "Søndag stopp",
+          "sunday_hours": "Søndag timer"
+        }
+      },
+      "pause": {
+        "title": "Pauseinnstillinger",
+        "data": {
+          "enable_pause": "Aktiver pausefunksjon",
+          "pause_duration": "Pauselengde (minutter)",
+          "max_pauses": "Maks pauser per døgn"
+        }
+      },
+      "energy": {
+        "title": "Energimåling",
+        "data": {
+          "energy_source": "Energikilde",
+          "energy_sensor": "Energisensor",
+          "manual_watt": "Effektforbruk (W)"
+        },
+        "data_description": {
+          "manual_watt": "Brukes til kostnads- og besparingsberegninger når ingen sensor er tilkoblet."
         }
       }
     }

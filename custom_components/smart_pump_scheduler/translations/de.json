@@ -105,12 +105,40 @@
   },
   "options": {
     "step": {
+      "price_source": {
+        "title": "Preisquelle",
+        "description": "Wählen Sie, woher die Strompreise abgerufen werden sollen",
+        "data": {
+          "price_source": "Quelle"
+        },
+        "data_description": {}
+      },
+      "nordpool": {
+        "title": "Nordpool-Einstellungen",
+        "data": {
+          "nordpool_area": "Stromgebiet",
+          "nordpool_currency": "Währung",
+          "nordpool_vat": "MwSt. einschließen"
+        }
+      },
+      "price_sensor": {
+        "title": "Preissensor",
+        "description": "Wählen Sie einen vorhandenen Home Assistant-Sensor, der Stundenpreise liefert.",
+        "data": {
+          "price_sensor": "Preissensor"
+        }
+      },
       "pump_settings": {
         "title": "Pumpeneinstellungen",
         "data": {
+          "switch_entity": "Pumpenschalter",
           "hours_per_day": "Stunden pro Tag",
           "min_price": "Immer laufen unter (Ct/kWh)",
           "max_price": "Nie laufen über (Ct/kWh)"
+        },
+        "data_description": {
+          "min_price": "Optional – Pumpe läuft immer, wenn der Preis unter diesem Schwellenwert liegt.",
+          "max_price": "Optional – Pumpe läuft nie, wenn der Preis diesen Schwellenwert überschreitet."
         }
       },
       "schedule": {
@@ -118,7 +146,54 @@
         "data": {
           "per_weekday": "Verschiedene Einstellungen pro Wochentag",
           "global_start": "Frühester Start",
-          "global_stop": "Spätester Stopp"
+          "global_stop": "Spätester Stopp",
+          "monday_active": "Montag aktiv",
+          "monday_start": "Montag Start",
+          "monday_stop": "Montag Stopp",
+          "monday_hours": "Montag Stunden",
+          "tuesday_active": "Dienstag aktiv",
+          "tuesday_start": "Dienstag Start",
+          "tuesday_stop": "Dienstag Stopp",
+          "tuesday_hours": "Dienstag Stunden",
+          "wednesday_active": "Mittwoch aktiv",
+          "wednesday_start": "Mittwoch Start",
+          "wednesday_stop": "Mittwoch Stopp",
+          "wednesday_hours": "Mittwoch Stunden",
+          "thursday_active": "Donnerstag aktiv",
+          "thursday_start": "Donnerstag Start",
+          "thursday_stop": "Donnerstag Stopp",
+          "thursday_hours": "Donnerstag Stunden",
+          "friday_active": "Freitag aktiv",
+          "friday_start": "Freitag Start",
+          "friday_stop": "Freitag Stopp",
+          "friday_hours": "Freitag Stunden",
+          "saturday_active": "Samstag aktiv",
+          "saturday_start": "Samstag Start",
+          "saturday_stop": "Samstag Stopp",
+          "saturday_hours": "Samstag Stunden",
+          "sunday_active": "Sonntag aktiv",
+          "sunday_start": "Sonntag Start",
+          "sunday_stop": "Sonntag Stopp",
+          "sunday_hours": "Sonntag Stunden"
+        }
+      },
+      "pause": {
+        "title": "Pauseneinstellungen",
+        "data": {
+          "enable_pause": "Pausenfunktion aktivieren",
+          "pause_duration": "Pausendauer (Minuten)",
+          "max_pauses": "Max. Pausen pro Tag"
+        }
+      },
+      "energy": {
+        "title": "Energiemessung",
+        "data": {
+          "energy_source": "Energiequelle",
+          "energy_sensor": "Energiesensor",
+          "manual_watt": "Leistungsaufnahme (W)"
+        },
+        "data_description": {
+          "manual_watt": "Wird für Kosten- und Einsparungsberechnungen verwendet, wenn kein Sensor angeschlossen ist."
         }
       }
     }

@@ -105,12 +105,40 @@
   },
   "options": {
     "step": {
+      "price_source": {
+        "title": "Source de prix",
+        "description": "Choisissez d'où récupérer les prix de l'électricité",
+        "data": {
+          "price_source": "Source"
+        },
+        "data_description": {}
+      },
+      "nordpool": {
+        "title": "Paramètres Nordpool",
+        "data": {
+          "nordpool_area": "Zone électrique",
+          "nordpool_currency": "Devise",
+          "nordpool_vat": "Inclure la TVA"
+        }
+      },
+      "price_sensor": {
+        "title": "Capteur de prix",
+        "description": "Sélectionnez un capteur Home Assistant existant fournissant les prix horaires.",
+        "data": {
+          "price_sensor": "Capteur de prix"
+        }
+      },
       "pump_settings": {
         "title": "Paramètres de la pompe",
         "data": {
+          "switch_entity": "Interrupteur de la pompe",
           "hours_per_day": "Heures par jour",
           "min_price": "Toujours actif sous (c/kWh)",
           "max_price": "Jamais actif au-dessus (c/kWh)"
+        },
+        "data_description": {
+          "min_price": "Optionnel – la pompe fonctionne toujours quand le prix est sous ce seuil.",
+          "max_price": "Optionnel – la pompe ne fonctionne jamais quand le prix dépasse ce seuil."
         }
       },
       "schedule": {
@@ -118,7 +146,54 @@
         "data": {
           "per_weekday": "Paramètres différents par jour de semaine",
           "global_start": "Démarrage au plus tôt",
-          "global_stop": "Arrêt au plus tard"
+          "global_stop": "Arrêt au plus tard",
+          "monday_active": "Lundi actif",
+          "monday_start": "Lundi début",
+          "monday_stop": "Lundi fin",
+          "monday_hours": "Lundi heures",
+          "tuesday_active": "Mardi actif",
+          "tuesday_start": "Mardi début",
+          "tuesday_stop": "Mardi fin",
+          "tuesday_hours": "Mardi heures",
+          "wednesday_active": "Mercredi actif",
+          "wednesday_start": "Mercredi début",
+          "wednesday_stop": "Mercredi fin",
+          "wednesday_hours": "Mercredi heures",
+          "thursday_active": "Jeudi actif",
+          "thursday_start": "Jeudi début",
+          "thursday_stop": "Jeudi fin",
+          "thursday_hours": "Jeudi heures",
+          "friday_active": "Vendredi actif",
+          "friday_start": "Vendredi début",
+          "friday_stop": "Vendredi fin",
+          "friday_hours": "Vendredi heures",
+          "saturday_active": "Samedi actif",
+          "saturday_start": "Samedi début",
+          "saturday_stop": "Samedi fin",
+          "saturday_hours": "Samedi heures",
+          "sunday_active": "Dimanche actif",
+          "sunday_start": "Dimanche début",
+          "sunday_stop": "Dimanche fin",
+          "sunday_hours": "Dimanche heures"
+        }
+      },
+      "pause": {
+        "title": "Paramètres de pause",
+        "data": {
+          "enable_pause": "Activer la fonction pause",
+          "pause_duration": "Durée de pause (minutes)",
+          "max_pauses": "Pauses max par jour"
+        }
+      },
+      "energy": {
+        "title": "Suivi énergétique",
+        "data": {
+          "energy_source": "Source d'énergie",
+          "energy_sensor": "Capteur d'énergie",
+          "manual_watt": "Consommation électrique (W)"
+        },
+        "data_description": {
+          "manual_watt": "Utilisé pour les calculs de coût et d'économies quand aucun capteur n'est connecté."
         }
       }
     }

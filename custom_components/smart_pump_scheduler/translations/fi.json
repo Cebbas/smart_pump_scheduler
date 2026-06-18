@@ -105,12 +105,40 @@
   },
   "options": {
     "step": {
+      "price_source": {
+        "title": "Hintalähde",
+        "description": "Valitse mistä sähköhinnat haetaan",
+        "data": {
+          "price_source": "Lähde"
+        },
+        "data_description": {}
+      },
+      "nordpool": {
+        "title": "Nordpool-asetukset",
+        "data": {
+          "nordpool_area": "Sähköalue",
+          "nordpool_currency": "Valuutta",
+          "nordpool_vat": "Sisällytä ALV"
+        }
+      },
+      "price_sensor": {
+        "title": "Hinta-anturi",
+        "description": "Valitse olemassa oleva Home Assistant -anturi, joka tarjoaa tuntihinnat.",
+        "data": {
+          "price_sensor": "Hinta-anturi"
+        }
+      },
       "pump_settings": {
         "title": "Pumppuasetukset",
         "data": {
+          "switch_entity": "Pumpun kytkin",
           "hours_per_day": "Tuntia vuorokaudessa",
           "min_price": "Käynnistä aina alle (snt/kWh)",
           "max_price": "Älä käynnistä yli (snt/kWh)"
+        },
+        "data_description": {
+          "min_price": "Valinnainen – pumppu käynnistyy aina kun hinta on alle tämän rajan.",
+          "max_price": "Valinnainen – pumppu ei koskaan käynnisty kun hinta ylittää tämän rajan."
         }
       },
       "schedule": {
@@ -118,7 +146,54 @@
         "data": {
           "per_weekday": "Eri asetukset viikonpäivittäin",
           "global_start": "Aikaisin käynnistys",
-          "global_stop": "Myöhäisin pysäytys"
+          "global_stop": "Myöhäisin pysäytys",
+          "monday_active": "Maanantai aktiivinen",
+          "monday_start": "Maanantai alku",
+          "monday_stop": "Maanantai loppu",
+          "monday_hours": "Maanantai tunnit",
+          "tuesday_active": "Tiistai aktiivinen",
+          "tuesday_start": "Tiistai alku",
+          "tuesday_stop": "Tiistai loppu",
+          "tuesday_hours": "Tiistai tunnit",
+          "wednesday_active": "Keskiviikko aktiivinen",
+          "wednesday_start": "Keskiviikko alku",
+          "wednesday_stop": "Keskiviikko loppu",
+          "wednesday_hours": "Keskiviikko tunnit",
+          "thursday_active": "Torstai aktiivinen",
+          "thursday_start": "Torstai alku",
+          "thursday_stop": "Torstai loppu",
+          "thursday_hours": "Torstai tunnit",
+          "friday_active": "Perjantai aktiivinen",
+          "friday_start": "Perjantai alku",
+          "friday_stop": "Perjantai loppu",
+          "friday_hours": "Perjantai tunnit",
+          "saturday_active": "Lauantai aktiivinen",
+          "saturday_start": "Lauantai alku",
+          "saturday_stop": "Lauantai loppu",
+          "saturday_hours": "Lauantai tunnit",
+          "sunday_active": "Sunnuntai aktiivinen",
+          "sunday_start": "Sunnuntai alku",
+          "sunday_stop": "Sunnuntai loppu",
+          "sunday_hours": "Sunnuntai tunnit"
+        }
+      },
+      "pause": {
+        "title": "Taukоasetukset",
+        "data": {
+          "enable_pause": "Ota taukotoiminto käyttöön",
+          "pause_duration": "Tauon kesto (minuuttia)",
+          "max_pauses": "Enimmäistauot vuorokaudessa"
+        }
+      },
+      "energy": {
+        "title": "Energiamittaus",
+        "data": {
+          "energy_source": "Energialähde",
+          "energy_sensor": "Energia-anturi",
+          "manual_watt": "Tehonkulutus (W)"
+        },
+        "data_description": {
+          "manual_watt": "Käytetään kustannus- ja säästölaskelmiin, kun anturia ei ole kytketty."
         }
       }
     }

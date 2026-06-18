@@ -47,6 +47,20 @@ from .const import (
 )
 
 
+def _weekday_schema_dict(current: dict | None = None) -> dict:
+    """Build the per-weekday schedule fields, pre-filled from `current` if given."""
+    current = current or {}
+    schema_dict = {}
+    for day in WEEKDAYS:
+        schema_dict[vol.Optional(f"{day}_active", default=current.get(f"{day}_active", True))] = selector.BooleanSelector()
+        schema_dict[vol.Optional(f"{day}_start", default=current.get(f"{day}_start", "06:00"))] = selector.TimeSelector()
+        schema_dict[vol.Optional(f"{day}_stop", default=current.get(f"{day}_stop", "22:00"))] = selector.TimeSelector()
+        schema_dict[vol.Optional(f"{day}_hours", default=current.get(f"{day}_hours", DEFAULT_HOURS_PER_DAY))] = selector.NumberSelector(
+            selector.NumberSelectorConfig(min=1, max=24, step=1, mode=selector.NumberSelectorMode.BOX)
+        )
+    return schema_dict
+
+
 class SmartPumpSchedulerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle the config flow for Smart Pump Scheduler."""
 
@@ -172,14 +186,7 @@ class SmartPumpSchedulerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             vol.Required(CONF_GLOBAL_START, default=DEFAULT_GLOBAL_START): selector.TimeSelector(),
             vol.Required(CONF_GLOBAL_STOP, default=DEFAULT_GLOBAL_STOP): selector.TimeSelector(),
         }
-
-        for day in WEEKDAYS:
-            schema_dict[vol.Optional(f"{day}_active", default=True)] = selector.BooleanSelector()
-            schema_dict[vol.Optional(f"{day}_start", default="06:00")] = selector.TimeSelector()
-            schema_dict[vol.Optional(f"{day}_stop", default="22:00")] = selector.TimeSelector()
-            schema_dict[vol.Optional(f"{day}_hours", default=DEFAULT_HOURS_PER_DAY)] = selector.NumberSelector(
-                selector.NumberSelectorConfig(min=1, max=24, step=1, mode=selector.NumberSelectorMode.BOX)
-            )
+        schema_dict.update(_weekday_schema_dict())
 
         return self.async_show_form(
             step_id="schedule",
@@ -257,25 +264,98 @@ class SmartPumpSchedulerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
 
 class SmartPumpSchedulerOptionsFlow(config_entries.OptionsFlow):
-    """Handle options (reconfigure after setup)."""
+    """Handle options (reconfigure after setup) – mirrors the initial config flow."""
 
     def __init__(self, config_entry):
         self._entry = config_entry
-        self._data = dict(config_entry.data)
+        # entry.data holds the original setup values, entry.options holds any
+        # changes made here previously; options always win.
+        self._data = {**config_entry.data, **config_entry.options}
 
     async def async_step_init(self, user_input=None):
-        """Show options menu."""
-        return await self.async_step_pump_settings()
+        return await self.async_step_price_source()
+
+    async def async_step_price_source(self, user_input=None):
+        if user_input is not None:
+            self._data.update(user_input)
+            source = user_input[CONF_PRICE_SOURCE]
+            if source == PRICE_SOURCE_NORDPOOL:
+                return await self.async_step_nordpool()
+            elif source == PRICE_SOURCE_SENSOR:
+                return await self.async_step_price_sensor()
+            else:
+                return await self.async_step_pump_settings()
+
+        current = self._data
+        return self.async_show_form(
+            step_id="price_source",
+            data_schema=vol.Schema({
+                vol.Required(CONF_PRICE_SOURCE, default=current.get(CONF_PRICE_SOURCE, PRICE_SOURCE_NORDPOOL)): selector.SelectSelector(
+                    selector.SelectSelectorConfig(
+                        options=[
+                            {"value": PRICE_SOURCE_NORDPOOL, "label": "Nordpool"},
+                            {"value": PRICE_SOURCE_SENSOR, "label": "HA Sensor"},
+                            {"value": PRICE_SOURCE_FIXED, "label": "Fixed schedule"},
+                        ],
+                        mode=selector.SelectSelectorMode.LIST,
+                        translation_key="price_source",
+                    )
+                ),
+            }),
+        )
+
+    async def async_step_nordpool(self, user_input=None):
+        if user_input is not None:
+            self._data.update(user_input)
+            return await self.async_step_pump_settings()
+
+        current = self._data
+        return self.async_show_form(
+            step_id="nordpool",
+            data_schema=vol.Schema({
+                vol.Required(CONF_NORDPOOL_AREA, default=current.get(CONF_NORDPOOL_AREA, "SE3")): selector.SelectSelector(
+                    selector.SelectSelectorConfig(options=NORDPOOL_AREAS, mode=selector.SelectSelectorMode.DROPDOWN)
+                ),
+                vol.Required(CONF_NORDPOOL_CURRENCY, default=current.get(CONF_NORDPOOL_CURRENCY, "SEK")): selector.SelectSelector(
+                    selector.SelectSelectorConfig(options=NORDPOOL_CURRENCIES, mode=selector.SelectSelectorMode.DROPDOWN)
+                ),
+                vol.Required(CONF_NORDPOOL_VAT, default=current.get(CONF_NORDPOOL_VAT, True)): selector.BooleanSelector(),
+            }),
+        )
+
+    async def async_step_price_sensor(self, user_input=None):
+        errors = {}
+        if user_input is not None:
+            entity_id = user_input[CONF_PRICE_SENSOR]
+            if self.hass.states.get(entity_id) is None:
+                errors[CONF_PRICE_SENSOR] = "invalid_sensor"
+            else:
+                self._data.update(user_input)
+                return await self.async_step_pump_settings()
+
+        current = self._data
+        return self.async_show_form(
+            step_id="price_sensor",
+            data_schema=vol.Schema({
+                vol.Required(CONF_PRICE_SENSOR, default=current.get(CONF_PRICE_SENSOR)): selector.EntitySelector(
+                    selector.EntitySelectorConfig(domain="sensor")
+                ),
+            }),
+            errors=errors,
+        )
 
     async def async_step_pump_settings(self, user_input=None):
         if user_input is not None:
             self._data.update(user_input)
             return await self.async_step_schedule()
 
-        current = self._entry.data
+        current = self._data
         return self.async_show_form(
             step_id="pump_settings",
             data_schema=vol.Schema({
+                vol.Required(CONF_SWITCH_ENTITY, default=current.get(CONF_SWITCH_ENTITY)): selector.EntitySelector(
+                    selector.EntitySelectorConfig(domain="switch")
+                ),
                 vol.Required(CONF_HOURS_PER_DAY, default=current.get(CONF_HOURS_PER_DAY, DEFAULT_HOURS_PER_DAY)): selector.NumberSelector(
                     selector.NumberSelectorConfig(min=1, max=24, step=1, mode=selector.NumberSelectorMode.BOX)
                 ),
@@ -291,20 +371,75 @@ class SmartPumpSchedulerOptionsFlow(config_entries.OptionsFlow):
     async def async_step_schedule(self, user_input=None):
         if user_input is not None:
             self._data.update(user_input)
-            return self.async_create_entry(title="", data=self._data)
+            return await self.async_step_pause()
 
-        current = self._entry.data
+        current = self._data
         schema_dict = {
             vol.Required(CONF_PER_WEEKDAY, default=current.get(CONF_PER_WEEKDAY, False)): selector.BooleanSelector(),
             vol.Required(CONF_GLOBAL_START, default=current.get(CONF_GLOBAL_START, DEFAULT_GLOBAL_START)): selector.TimeSelector(),
             vol.Required(CONF_GLOBAL_STOP, default=current.get(CONF_GLOBAL_STOP, DEFAULT_GLOBAL_STOP)): selector.TimeSelector(),
         }
-        for day in WEEKDAYS:
-            schema_dict[vol.Optional(f"{day}_active", default=current.get(f"{day}_active", True))] = selector.BooleanSelector()
-            schema_dict[vol.Optional(f"{day}_start", default=current.get(f"{day}_start", "06:00"))] = selector.TimeSelector()
-            schema_dict[vol.Optional(f"{day}_stop", default=current.get(f"{day}_stop", "22:00"))] = selector.TimeSelector()
+        schema_dict.update(_weekday_schema_dict(current))
 
         return self.async_show_form(
             step_id="schedule",
             data_schema=vol.Schema(schema_dict),
+        )
+
+    async def async_step_pause(self, user_input=None):
+        if user_input is not None:
+            self._data.update(user_input)
+            return await self.async_step_energy()
+
+        current = self._data
+        return self.async_show_form(
+            step_id="pause",
+            data_schema=vol.Schema({
+                vol.Required(CONF_ENABLE_PAUSE, default=current.get(CONF_ENABLE_PAUSE, True)): selector.BooleanSelector(),
+                vol.Required(CONF_PAUSE_DURATION, default=current.get(CONF_PAUSE_DURATION, DEFAULT_PAUSE_DURATION)): selector.NumberSelector(
+                    selector.NumberSelectorConfig(min=5, max=480, step=5, mode=selector.NumberSelectorMode.BOX)
+                ),
+                vol.Required(CONF_MAX_PAUSES, default=current.get(CONF_MAX_PAUSES, DEFAULT_MAX_PAUSES)): selector.NumberSelector(
+                    selector.NumberSelectorConfig(min=1, max=20, step=1, mode=selector.NumberSelectorMode.BOX)
+                ),
+            }),
+        )
+
+    async def async_step_energy(self, user_input=None):
+        errors = {}
+        if user_input is not None:
+            source = user_input.get(CONF_ENERGY_SOURCE)
+            if source == ENERGY_SOURCE_MANUAL and user_input.get(CONF_MANUAL_WATT, 0) < 1:
+                errors[CONF_MANUAL_WATT] = "invalid_watt"
+            if source == ENERGY_SOURCE_SENSOR:
+                entity_id = user_input.get(CONF_ENERGY_SENSOR)
+                if entity_id and self.hass.states.get(entity_id) is None:
+                    errors[CONF_ENERGY_SENSOR] = "invalid_sensor"
+            if not errors:
+                self._data.update(user_input)
+                return self.async_create_entry(title="", data=self._data)
+
+        current = self._data
+        return self.async_show_form(
+            step_id="energy",
+            data_schema=vol.Schema({
+                vol.Required(CONF_ENERGY_SOURCE, default=current.get(CONF_ENERGY_SOURCE, ENERGY_SOURCE_NONE)): selector.SelectSelector(
+                    selector.SelectSelectorConfig(
+                        options=[
+                            {"value": ENERGY_SOURCE_SENSOR, "label": "Energy sensor"},
+                            {"value": ENERGY_SOURCE_MANUAL, "label": "Manual watt"},
+                            {"value": ENERGY_SOURCE_NONE, "label": "None"},
+                        ],
+                        mode=selector.SelectSelectorMode.LIST,
+                        translation_key="energy_source",
+                    )
+                ),
+                vol.Optional(CONF_ENERGY_SENSOR, default=current.get(CONF_ENERGY_SENSOR)): selector.EntitySelector(
+                    selector.EntitySelectorConfig(domain="sensor")
+                ),
+                vol.Optional(CONF_MANUAL_WATT, default=current.get(CONF_MANUAL_WATT, DEFAULT_MANUAL_WATT)): selector.NumberSelector(
+                    selector.NumberSelectorConfig(min=1, max=100000, step=1, mode=selector.NumberSelectorMode.BOX)
+                ),
+            }),
+            errors=errors,
         )

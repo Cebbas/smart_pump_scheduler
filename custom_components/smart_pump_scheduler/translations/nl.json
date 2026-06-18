@@ -105,12 +105,40 @@
   },
   "options": {
     "step": {
+      "price_source": {
+        "title": "Prijsbron",
+        "description": "Kies waar de elektriciteitsprijzen vandaan komen",
+        "data": {
+          "price_source": "Bron"
+        },
+        "data_description": {}
+      },
+      "nordpool": {
+        "title": "Nordpool-instellingen",
+        "data": {
+          "nordpool_area": "Elektriciteitsgebied",
+          "nordpool_currency": "Valuta",
+          "nordpool_vat": "Inclusief btw"
+        }
+      },
+      "price_sensor": {
+        "title": "Prijssensor",
+        "description": "Selecteer een bestaande Home Assistant-sensor die uurprijzen levert.",
+        "data": {
+          "price_sensor": "Prijssensor"
+        }
+      },
       "pump_settings": {
         "title": "Pompinstellingen",
         "data": {
+          "switch_entity": "Pompschakelaar",
           "hours_per_day": "Uur per dag",
           "min_price": "Altijd draaien onder (ct/kWh)",
           "max_price": "Nooit draaien boven (ct/kWh)"
+        },
+        "data_description": {
+          "min_price": "Optioneel – pomp draait altijd als de prijs onder deze drempel ligt.",
+          "max_price": "Optioneel – pomp draait nooit als de prijs deze drempel overschrijdt."
         }
       },
       "schedule": {
@@ -118,7 +146,54 @@
         "data": {
           "per_weekday": "Verschillende instellingen per weekdag",
           "global_start": "Vroegste start",
-          "global_stop": "Laatste stop"
+          "global_stop": "Laatste stop",
+          "monday_active": "Maandag actief",
+          "monday_start": "Maandag start",
+          "monday_stop": "Maandag stop",
+          "monday_hours": "Maandag uren",
+          "tuesday_active": "Dinsdag actief",
+          "tuesday_start": "Dinsdag start",
+          "tuesday_stop": "Dinsdag stop",
+          "tuesday_hours": "Dinsdag uren",
+          "wednesday_active": "Woensdag actief",
+          "wednesday_start": "Woensdag start",
+          "wednesday_stop": "Woensdag stop",
+          "wednesday_hours": "Woensdag uren",
+          "thursday_active": "Donderdag actief",
+          "thursday_start": "Donderdag start",
+          "thursday_stop": "Donderdag stop",
+          "thursday_hours": "Donderdag uren",
+          "friday_active": "Vrijdag actief",
+          "friday_start": "Vrijdag start",
+          "friday_stop": "Vrijdag stop",
+          "friday_hours": "Vrijdag uren",
+          "saturday_active": "Zaterdag actief",
+          "saturday_start": "Zaterdag start",
+          "saturday_stop": "Zaterdag stop",
+          "saturday_hours": "Zaterdag uren",
+          "sunday_active": "Zondag actief",
+          "sunday_start": "Zondag start",
+          "sunday_stop": "Zondag stop",
+          "sunday_hours": "Zondag uren"
+        }
+      },
+      "pause": {
+        "title": "Pauze-instellingen",
+        "data": {
+          "enable_pause": "Pauze-functie inschakelen",
+          "pause_duration": "Pauze-duur (minuten)",
+          "max_pauses": "Max pauzes per dag"
+        }
+      },
+      "energy": {
+        "title": "Energiemeting",
+        "data": {
+          "energy_source": "Energiebron",
+          "energy_sensor": "Energiesensor",
+          "manual_watt": "Vermogenverbruik (W)"
+        },
+        "data_description": {
+          "manual_watt": "Wordt gebruikt voor kosten- en besparingsberekeningen als er geen sensor is aangesloten."
         }
       }
     }
