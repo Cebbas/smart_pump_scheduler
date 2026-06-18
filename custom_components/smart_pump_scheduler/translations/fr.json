@@ -101,9 +101,6 @@
       "invalid_sensor": "Le capteur sélectionné n'est pas disponible dans Home Assistant.",
       "invalid_watt": "La consommation doit être d'au moins 1 W.",
       "window_too_small": "La fenêtre horaire est trop petite pour le nombre d'heures demandé."
-    },
-    "abort": {
-      "already_configured": "Smart Pump Scheduler est déjà configuré."
     }
   },
   "options": {

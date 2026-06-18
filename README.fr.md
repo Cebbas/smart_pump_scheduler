@@ -70,6 +70,7 @@ Vous donnez aussi d'abord un nom à la pompe (utile si vous en configurez plusie
 | `sensor.pump_aktuellt_pris` | Prix électricité actuel |
 | `sensor.pump_nasta_start` | Prochain démarrage planifié |
 | `sensor.pump_timmar_kvar_idag` | Heures planifiées restantes aujourd'hui |
+| `sensor.pump_scheduled_hours_today` | Les heures programmées du jour, sous forme de plages horaires |
 | `sensor.pump_energi_idag` | Énergie consommée aujourd'hui (kWh) |
 | `sensor.pump_kostnad_idag` | Coût aujourd'hui |
 | `sensor.pump_sparade_kronor` | Économies vs fonctionnement aux heures chères |

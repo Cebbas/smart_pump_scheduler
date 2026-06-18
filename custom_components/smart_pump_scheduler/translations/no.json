@@ -101,9 +101,6 @@
       "invalid_sensor": "Den valgte sensoren er ikke tilgjengelig i Home Assistant.",
       "invalid_watt": "Effektforbruk må være minst 1 W.",
       "window_too_small": "Tidsvinduet er for lite til å romme det ønskede antallet timer."
-    },
-    "abort": {
-      "already_configured": "Smart Pump Scheduler er allerede konfigurert."
     }
   },
   "options": {

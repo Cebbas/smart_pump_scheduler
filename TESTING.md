@@ -126,19 +126,19 @@ done
 
 Gå igenom dessa punkter efter installation:
 
-- [ ] Integrationen syns i "Lägg till integration"
-- [ ] Config flow startar (steg 1 – priskälla visas)
-- [ ] Kan välja Nordpool + område + valuta
-- [ ] Kan välja pump-switch från dropdown
-- [ ] Schema-inställningar visas korrekt (tider per dag)
-- [ ] Pausinställningar visas
-- [ ] Energiinställningar visas
-- [ ] Integrationen sparas utan fel
-- [ ] Entiteter skapas (`binary_sensor`, sensorer, knapp, switch, number)
+- [X] Integrationen syns i "Lägg till integration"
+- [X] Config flow startar (steg 1 – priskälla visas)
+- [X] Kan välja Nordpool + område + valuta
+- [X] Kan välja pump-switch från dropdown
+- [X] Schema-inställningar visas korrekt (tider per dag)
+- [X] Pausinställningar visas
+- [X] Energiinställningar visas
+- [X] Integrationen sparas utan fel
+- [X] Entiteter skapas (`binary_sensor`, sensorer, knapp, switch, number)
 - [ ] `binary_sensor.pump_schema` uppdateras varje timme
 - [ ] Pausknappen stänger av pumpen
 - [ ] Pumpen startar igen efter paustidens slut
-- [ ] Rätt språk visas (testa genom att byta HA-språk)
+- [X] Rätt språk visas (testa genom att byta HA-språk)
 
 ---
 

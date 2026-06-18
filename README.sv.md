@@ -70,6 +70,7 @@ Du namnger även pumpen först (praktiskt om du sätter upp fler än en).
 | `sensor.pump_aktuellt_pris` | Aktuellt elpris |
 | `sensor.pump_nasta_start` | Nästa schemalagda start |
 | `sensor.pump_timmar_kvar_idag` | Schemalagda timmar kvar idag |
+| `sensor.pump_scheduled_hours_today` | Dagens schemalagda timmar, som tidsintervall |
 | `sensor.pump_energi_idag` | Förbrukad energi idag (kWh) |
 | `sensor.pump_kostnad_idag` | Kostnad idag |
 | `sensor.pump_sparade_kronor` | Besparing vs körning på dyra timmar |

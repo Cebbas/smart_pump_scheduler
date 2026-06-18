@@ -101,9 +101,6 @@
       "invalid_sensor": "Valittu anturi ei ole käytettävissä Home Assistantissa.",
       "invalid_watt": "Tehonkulutuksen on oltava vähintään 1 W.",
       "window_too_small": "Aikaikkuna on liian pieni pyydetylle tuntimäärälle."
-    },
-    "abort": {
-      "already_configured": "Smart Pump Scheduler on jo määritetty."
     }
   },
   "options": {

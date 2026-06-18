@@ -70,6 +70,7 @@ You'll also give the pump a name first (handy if you set up more than one).
 | `sensor.pump_current_price` | Current electricity price |
 | `sensor.pump_next_start` | Next scheduled start time |
 | `sensor.pump_hours_remaining` | Scheduled hours remaining today |
+| `sensor.pump_scheduled_hours_today` | Today's scheduled hours, as time ranges |
 | `sensor.pump_energy_today` | Energy consumed today (kWh) |
 | `sensor.pump_cost_today` | Cost today (in your currency) |
 | `sensor.pump_saved_today` | Savings vs running at peak hours |

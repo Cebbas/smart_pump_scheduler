@@ -101,9 +101,6 @@
       "invalid_sensor": "De geselecteerde sensor is niet beschikbaar in Home Assistant.",
       "invalid_watt": "Vermogenverbruik moet minimaal 1 W zijn.",
       "window_too_small": "Het tijdvenster is te klein voor het gevraagde aantal uren."
-    },
-    "abort": {
-      "already_configured": "Smart Pump Scheduler is al geconfigureerd."
     }
   },
   "options": {

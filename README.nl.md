@@ -70,6 +70,7 @@ Je geeft de pomp ook eerst een naam (handig als je er meerdere instelt).
 | `sensor.pump_aktuellt_pris` | Huidige elektriciteitsprijs |
 | `sensor.pump_nasta_start` | Volgende geplande start |
 | `sensor.pump_timmar_kvar_idag` | Geplande uren resterend vandaag |
+| `sensor.pump_scheduled_hours_today` | De geplande uren van vandaag, als tijdsbereiken |
 | `sensor.pump_energi_idag` | Verbruikte energie vandaag (kWh) |
 | `sensor.pump_kostnad_idag` | Kosten vandaag |
 | `sensor.pump_sparade_kronor` | Besparing vs. draaien op dure uren |

@@ -70,6 +70,7 @@ Annat pumpulle myös nimen ensin (hyödyllistä, jos asetat useamman kuin yhden)
 | `sensor.pump_aktuellt_pris` | Nykyinen sähköhinta |
 | `sensor.pump_nasta_start` | Seuraava aikataulutettu käynnistys |
 | `sensor.pump_timmar_kvar_idag` | Aikataulutettuja tunteja jäljellä tänään |
+| `sensor.pump_scheduled_hours_today` | Tämän päivän ajastetut tunnit aikaväleinä |
 | `sensor.pump_energi_idag` | Kulutettu energia tänään (kWh) |
 | `sensor.pump_kostnad_idag` | Kustannus tänään |
 | `sensor.pump_sparade_kronor` | Säästö vs. kalleimpina tunteina ajo |
