@@ -1,0 +1,82 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "🏷️ Bump patch version (1.0.0 → 1.0.1)",
+      "type": "shell",
+      "command": "python3 scripts/bump_version.py --patch",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🏷️ Bump minor version (1.0.0 → 1.1.0)",
+      "type": "shell",
+      "command": "python3 scripts/bump_version.py --minor",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🏷️ Bump major version (1.0.0 → 2.0.0)",
+      "type": "shell",
+      "command": "python3 scripts/bump_version.py --major",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "✅ Validate JSON translations",
+      "type": "shell",
+      "command": "python3 -c \"import json; [json.load(open(f)) or print(f'✅ {f}') for f in __import__('glob').glob('custom_components/pollen_pump/translations/*.json')]\" && echo 'All JSON valid!'",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "✅ Validate Python syntax",
+      "type": "shell",
+      "command": "for f in custom_components/pollen_pump/*.py; do python3 -m py_compile \"$f\" && echo \"✅ $f\"; done && echo 'All Python valid!'",
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "📦 Show current version",
+      "type": "shell",
+      "command": "python3 -c \"import json; m=json.load(open('custom_components/pollen_pump/manifest.json')); print(f'Current version: {m[\\\"version\\\"]}')\"",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "🚀 Push tags to GitHub",
+      "type": "shell",
+      "command": "git push origin main && git push origin --tags && echo '✅ Pushed to GitHub!'",
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}

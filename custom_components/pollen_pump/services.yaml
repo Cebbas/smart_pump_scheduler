@@ -1,0 +1,43 @@
+pausa:
+  name: Pause pump
+  description: Pause the pump for a specified number of minutes.
+  fields:
+    minuter:
+      name: Minutes
+      description: Number of minutes to pause (default from config).
+      required: false
+      example: 60
+      selector:
+        number:
+          min: 1
+          max: 480
+          step: 1
+          mode: box
+    entry_id:
+      name: Entry ID
+      description: Target a specific Pollen Pump instance (optional, targets all if omitted).
+      required: false
+      selector:
+        text:
+
+aterstall:
+  name: Resume pump
+  description: Cancel an active pause and return to the schedule.
+  fields:
+    entry_id:
+      name: Entry ID
+      description: Target a specific Pollen Pump instance (optional).
+      required: false
+      selector:
+        text:
+
+uppdatera_schema:
+  name: Update schedule
+  description: Force a full recalculation of today's schedule.
+  fields:
+    entry_id:
+      name: Entry ID
+      description: Target a specific Pollen Pump instance (optional).
+      required: false
+      selector:
+        text:

@@ -1,0 +1,14 @@
+{
+  "domain": "pollen_pump",
+  "name": "Pollen Pump",
+  "version": "1.0.0",
+  "documentation": "https://github.com/your-username/pollen_pump",
+  "issue_tracker": "https://github.com/your-username/pollen_pump/issues",
+  "codeowners": ["@your-username"],
+  "requirements": ["aiohttp>=3.8.0"],
+  "dependencies": [],
+  "after_dependencies": [],
+  "iot_class": "local_push",
+  "config_flow": true,
+  "integration_type": "device"
+}

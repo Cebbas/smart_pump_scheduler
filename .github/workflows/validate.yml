@@ -1,0 +1,348 @@
+name: Validate Pollen Pump
+
+on:
+  push:
+    branches: [main, master, dev]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  # ──────────────────────────────────────────
+  # JOB 1: Validate JSON translation files
+  # ──────────────────────────────────────────
+  validate-json:
+    name: 🌍 Validate translations (JSON)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate all JSON files
+        run: |
+          echo "Checking JSON files..."
+          FAILED=0
+          for file in custom_components/pollen_pump/translations/*.json; do
+            python3 -c "
+          import json, sys
+          try:
+              json.load(open('$file'))
+              print('  ✅  $file')
+          except json.JSONDecodeError as e:
+              print('  ❌  $file')
+              print(f'      Error: {e}')
+              sys.exit(1)
+          " || FAILED=1
+          done
+          if [ $FAILED -eq 1 ]; then
+            echo ""
+            echo "❌ One or more JSON files are invalid!"
+            exit 1
+          fi
+          echo ""
+          echo "✅ All JSON files are valid!"
+
+      - name: Check all expected languages exist
+        run: |
+          echo "Checking required language files..."
+          REQUIRED="en sv no fi da de fr nl"
+          FAILED=0
+          for lang in $REQUIRED; do
+            FILE="custom_components/pollen_pump/translations/${lang}.json"
+            if [ -f "$FILE" ]; then
+              echo "  ✅  ${lang}.json"
+            else
+              echo "  ❌  ${lang}.json — MISSING"
+              FAILED=1
+            fi
+          done
+          if [ $FAILED -eq 1 ]; then
+            echo ""
+            echo "❌ One or more required language files are missing!"
+            exit 1
+          fi
+          echo ""
+          echo "✅ All required language files present!"
+
+      - name: Check translation key consistency
+        run: |
+          echo "Checking translation key consistency..."
+          python3 << 'EOF'
+          import json
+          import sys
+          from pathlib import Path
+
+          def get_all_keys(d, prefix=""):
+              keys = set()
+              for k, v in d.items():
+                  full_key = f"{prefix}.{k}" if prefix else k
+                  if isinstance(v, dict):
+                      keys |= get_all_keys(v, full_key)
+                  else:
+                      keys.add(full_key)
+              return keys
+
+          translations_dir = Path("custom_components/pollen_pump/translations")
+          en_data = json.loads((translations_dir / "en.json").read_text())
+          en_keys = get_all_keys(en_data)
+
+          failed = False
+          for lang_file in sorted(translations_dir.glob("*.json")):
+              if lang_file.stem == "en":
+                  continue
+              data = json.loads(lang_file.read_text())
+              lang_keys = get_all_keys(data)
+              missing = en_keys - lang_keys
+              extra = lang_keys - en_keys
+              if missing or extra:
+                  print(f"  ⚠️  {lang_file.name}:")
+                  for key in sorted(missing):
+                      print(f"      Missing key: {key}")
+                  for key in sorted(extra):
+                      print(f"      Extra key:   {key}")
+                  failed = True
+              else:
+                  print(f"  ✅  {lang_file.name} — all keys match")
+
+          if failed:
+              print("\n⚠️  Some translation files have inconsistent keys.")
+              print("   This is a warning only – the integration will still work (falls back to en.json).")
+          else:
+              print("\n✅ All translation files have consistent keys!")
+          EOF
+
+  # ──────────────────────────────────────────
+  # JOB 2: Validate Python syntax
+  # ──────────────────────────────────────────
+  validate-python:
+    name: 🐍 Validate Python syntax
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check Python syntax on all files
+        run: |
+          echo "Checking Python syntax..."
+          FAILED=0
+          for file in custom_components/pollen_pump/*.py; do
+            python3 -m py_compile "$file" && echo "  ✅  $file" || { echo "  ❌  $file"; FAILED=1; }
+          done
+          if [ $FAILED -eq 1 ]; then
+            echo ""
+            echo "❌ One or more Python files have syntax errors!"
+            exit 1
+          fi
+          echo ""
+          echo "✅ All Python files have valid syntax!"
+
+      - name: Install dependencies
+        run: |
+          pip install homeassistant --quiet 2>/dev/null || true
+          pip install aiohttp voluptuous --quiet
+
+      - name: Check imports resolve
+        run: |
+          echo "Checking const.py imports..."
+          python3 -c "
+          import sys
+          sys.path.insert(0, 'custom_components')
+          from pollen_pump.const import (
+              DOMAIN, PLATFORMS, WEEKDAYS, NORDPOOL_AREAS,
+              NORDPOOL_CURRENCIES, DEFAULT_HOURS_PER_DAY
+          )
+          print('  ✅  const.py imports OK')
+          print(f'      Domain: {DOMAIN}')
+          print(f'      Platforms: {PLATFORMS}')
+          print(f'      Nordpool areas: {len(NORDPOOL_AREAS)} areas')
+          "
+
+  # ──────────────────────────────────────────
+  # JOB 3: Validate manifest.json
+  # ──────────────────────────────────────────
+  validate-manifest:
+    name: 📋 Validate manifest.json
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate manifest structure
+        run: |
+          python3 << 'EOF'
+          import json
+          import sys
+
+          manifest_path = "custom_components/pollen_pump/manifest.json"
+          manifest = json.load(open(manifest_path))
+
+          required_keys = ["domain", "name", "version", "documentation",
+                           "codeowners", "requirements", "iot_class", "config_flow"]
+          failed = False
+
+          print("Checking manifest.json required fields...")
+          for key in required_keys:
+              if key in manifest:
+                  print(f"  ✅  {key}: {manifest[key]}")
+              else:
+                  print(f"  ❌  {key}: MISSING")
+                  failed = True
+
+          # Validate version format (semver x.y.z)
+          import re
+          version = manifest.get("version", "")
+          if re.match(r"^\d+\.\d+\.\d+$", version):
+              print(f"\n  ✅  Version format OK: {version}")
+          else:
+              print(f"\n  ❌  Version format invalid: '{version}' (expected x.y.z)")
+              failed = True
+
+          # Validate domain matches folder name
+          if manifest.get("domain") == "pollen_pump":
+              print(f"  ✅  Domain matches folder: {manifest['domain']}")
+          else:
+              print(f"  ❌  Domain '{manifest.get('domain')}' doesn't match folder 'pollen_pump'")
+              failed = True
+
+          # Validate config_flow is true
+          if manifest.get("config_flow") is True:
+              print(f"  ✅  config_flow: true")
+          else:
+              print(f"  ❌  config_flow must be true for UI configuration")
+              failed = True
+
+          if failed:
+              print("\n❌ manifest.json validation failed!")
+              sys.exit(1)
+          else:
+              print("\n✅ manifest.json is valid!")
+          EOF
+
+  # ──────────────────────────────────────────
+  # JOB 4: Validate hacs.json
+  # ──────────────────────────────────────────
+  validate-hacs:
+    name: 🏠 Validate hacs.json
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Validate hacs.json
+        run: |
+          python3 << 'EOF'
+          import json
+          import sys
+
+          hacs = json.load(open("hacs.json"))
+          failed = False
+
+          print("Checking hacs.json...")
+
+          if "name" in hacs:
+              print(f"  ✅  name: {hacs['name']}")
+          else:
+              print("  ❌  name: MISSING")
+              failed = True
+
+          if "domains" in hacs:
+              print(f"  ✅  domains: {hacs['domains']}")
+          else:
+              print("  ⚠️  domains: not set (optional but recommended)")
+
+          if "homeassistant" in hacs:
+              print(f"  ✅  homeassistant min version: {hacs['homeassistant']}")
+          else:
+              print("  ⚠️  homeassistant: minimum version not specified")
+
+          if failed:
+              print("\n❌ hacs.json validation failed!")
+              sys.exit(1)
+          else:
+              print("\n✅ hacs.json is valid!")
+          EOF
+
+      - name: Check README files exist
+        run: |
+          echo "Checking README files..."
+          REQUIRED="README.md README.sv.md README.no.md README.fi.md README.da.md README.de.md README.fr.md README.nl.md"
+          FAILED=0
+          for file in $REQUIRED; do
+            if [ -f "$file" ]; then
+              echo "  ✅  $file"
+            else
+              echo "  ❌  $file — MISSING"
+              FAILED=1
+            fi
+          done
+          if [ $FAILED -eq 1 ]; then
+            echo ""
+            echo "❌ One or more README files are missing!"
+            exit 1
+          fi
+          echo ""
+          echo "✅ All README files present!"
+
+  # ──────────────────────────────────────────
+  # JOB 5: Version tag check (only on push to main)
+  # ──────────────────────────────────────────
+  validate-version:
+    name: 🏷️ Validate version consistency
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check version consistency across files
+        run: |
+          python3 << 'EOF'
+          import json
+
+          manifest = json.load(open("custom_components/pollen_pump/manifest.json"))
+          hacs = json.load(open("hacs.json"))
+
+          manifest_version = manifest.get("version", "unknown")
+
+          print(f"  manifest.json version : {manifest_version}")
+
+          # Check __init__.py version constant
+          init_content = open("custom_components/pollen_pump/__init__.py").read()
+          const_content = open("custom_components/pollen_pump/const.py").read()
+
+          import re
+          const_match = re.search(r'VERSION\s*=\s*["\']([^"\']+)["\']', const_content)
+          if const_match:
+              const_version = const_match.group(1)
+              print(f"  const.py VERSION      : {const_version}")
+              if const_version != manifest_version:
+                  print(f"\n  ⚠️  Version mismatch between manifest.json and const.py!")
+                  print(f"     Remember to update both when releasing.")
+              else:
+                  print(f"\n  ✅  Versions are consistent!")
+          else:
+              print("  ⚠️  Could not find VERSION in const.py")
+          EOF
+
+  # ──────────────────────────────────────────
+  # Final summary
+  # ──────────────────────────────────────────
+  summary:
+    name: ✅ All checks passed
+    runs-on: ubuntu-latest
+    needs:
+      - validate-json
+      - validate-python
+      - validate-manifest
+      - validate-hacs
+    steps:
+      - name: Success
+        run: |
+          echo "================================================"
+          echo "  ✅  Pollen Pump validation complete!"
+          echo "  All checks passed – ready to release."
+          echo "================================================"

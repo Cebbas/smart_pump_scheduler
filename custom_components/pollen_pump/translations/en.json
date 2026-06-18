@@ -1,0 +1,194 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Price source",
+        "description": "Choose where to fetch electricity prices from",
+        "data": {
+          "price_source": "Source"
+        }
+      },
+      "nordpool": {
+        "title": "Nordpool settings",
+        "data": {
+          "nordpool_area": "Electricity area",
+          "nordpool_currency": "Currency",
+          "nordpool_vat": "Include VAT"
+        }
+      },
+      "price_sensor": {
+        "title": "Price sensor",
+        "description": "Select an existing Home Assistant sensor that provides hourly electricity prices.",
+        "data": {
+          "price_sensor": "Price sensor"
+        }
+      },
+      "pump_settings": {
+        "title": "Pump settings",
+        "data": {
+          "switch_entity": "Pump switch",
+          "hours_per_day": "Hours per day",
+          "min_price": "Always run below (öre/kWh)",
+          "max_price": "Never run above (öre/kWh)"
+        },
+        "data_description": {
+          "min_price": "Optional – pump always runs when price is below this threshold.",
+          "max_price": "Optional – pump never runs when price exceeds this threshold."
+        }
+      },
+      "schedule": {
+        "title": "Schedule",
+        "data": {
+          "per_weekday": "Different settings per weekday",
+          "global_start": "Earliest start",
+          "global_stop": "Latest stop",
+          "monday_active": "Monday active",
+          "monday_start": "Monday start",
+          "monday_stop": "Monday stop",
+          "monday_hours": "Monday hours",
+          "tuesday_active": "Tuesday active",
+          "tuesday_start": "Tuesday start",
+          "tuesday_stop": "Tuesday stop",
+          "tuesday_hours": "Tuesday hours",
+          "wednesday_active": "Wednesday active",
+          "wednesday_start": "Wednesday start",
+          "wednesday_stop": "Wednesday stop",
+          "wednesday_hours": "Wednesday hours",
+          "thursday_active": "Thursday active",
+          "thursday_start": "Thursday start",
+          "thursday_stop": "Thursday stop",
+          "thursday_hours": "Thursday hours",
+          "friday_active": "Friday active",
+          "friday_start": "Friday start",
+          "friday_stop": "Friday stop",
+          "friday_hours": "Friday hours",
+          "saturday_active": "Saturday active",
+          "saturday_start": "Saturday start",
+          "saturday_stop": "Saturday stop",
+          "saturday_hours": "Saturday hours",
+          "sunday_active": "Sunday active",
+          "sunday_start": "Sunday start",
+          "sunday_stop": "Sunday stop",
+          "sunday_hours": "Sunday hours"
+        }
+      },
+      "pause": {
+        "title": "Pause settings",
+        "data": {
+          "enable_pause": "Enable pause function",
+          "pause_duration": "Pause duration (minutes)",
+          "max_pauses": "Max pauses per day"
+        }
+      },
+      "energy": {
+        "title": "Energy monitoring",
+        "data": {
+          "energy_source": "Energy source",
+          "energy_sensor": "Energy sensor",
+          "manual_watt": "Power consumption (W)"
+        },
+        "data_description": {
+          "manual_watt": "Used for cost and savings calculations when no sensor is connected."
+        }
+      }
+    },
+    "error": {
+      "nordpool_unavailable": "Could not reach Nordpool API. Check your internet connection.",
+      "invalid_sensor": "The selected sensor is not available in Home Assistant.",
+      "invalid_watt": "Power consumption must be at least 1 W.",
+      "window_too_small": "The time window is too small to fit the requested number of hours."
+    },
+    "abort": {
+      "already_configured": "Pollen Pump is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "pump_settings": {
+        "title": "Pump settings",
+        "data": {
+          "hours_per_day": "Hours per day",
+          "min_price": "Always run below (öre/kWh)",
+          "max_price": "Never run above (öre/kWh)"
+        }
+      },
+      "schedule": {
+        "title": "Schedule",
+        "data": {
+          "per_weekday": "Different settings per weekday",
+          "global_start": "Earliest start",
+          "global_stop": "Latest stop"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "pump_schema": {
+        "name": "Pump schedule",
+        "state": {
+          "on": "Active",
+          "off": "Inactive"
+        }
+      }
+    },
+    "sensor": {
+      "pump_aktuellt_pris": {
+        "name": "Current electricity price"
+      },
+      "pump_nasta_start": {
+        "name": "Next scheduled start"
+      },
+      "pump_timmar_kvar_idag": {
+        "name": "Scheduled hours remaining"
+      },
+      "pump_energi_idag": {
+        "name": "Energy today"
+      },
+      "pump_kostnad_idag": {
+        "name": "Cost today"
+      },
+      "pump_sparade_kronor": {
+        "name": "Saved today"
+      },
+      "pump_effekt": {
+        "name": "Current power"
+      }
+    },
+    "switch": {
+      "pump_paus": {
+        "name": "Pause pump"
+      }
+    },
+    "button": {
+      "pump_pausa": {
+        "name": "Pause pump"
+      }
+    },
+    "number": {
+      "pump_timmar_per_dygn": {
+        "name": "Hours per day"
+      }
+    }
+  },
+  "services": {
+    "pausa": {
+      "name": "Pause pump",
+      "description": "Pause the pump for a specified number of minutes and reschedule to compensate.",
+      "fields": {
+        "minuter": {
+          "name": "Minutes",
+          "description": "Number of minutes to pause (default from configuration)."
+        }
+      }
+    },
+    "aterstall": {
+      "name": "Resume pump",
+      "description": "Cancel an active pause and return to the scheduled state."
+    },
+    "uppdatera_schema": {
+      "name": "Update schedule",
+      "description": "Force a full recalculation of today's schedule based on current prices."
+    }
+  }
+}

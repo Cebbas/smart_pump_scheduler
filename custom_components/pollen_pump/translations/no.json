@@ -1,0 +1,174 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Priskilde",
+        "description": "Velg hvor strømprisene skal hentes fra",
+        "data": {
+          "price_source": "Kilde"
+        }
+      },
+      "nordpool": {
+        "title": "Nordpool-innstillinger",
+        "data": {
+          "nordpool_area": "Strømområde",
+          "nordpool_currency": "Valuta",
+          "nordpool_vat": "Inkluder moms"
+        }
+      },
+      "price_sensor": {
+        "title": "Prissensor",
+        "description": "Velg en eksisterende sensor i Home Assistant som gir timespriser.",
+        "data": {
+          "price_sensor": "Prissensor"
+        }
+      },
+      "pump_settings": {
+        "title": "Pumpeinnstillinger",
+        "data": {
+          "switch_entity": "Pumpebryter",
+          "hours_per_day": "Timer per døgn",
+          "min_price": "Kjør alltid under (øre/kWh)",
+          "max_price": "Kjør aldri over (øre/kWh)"
+        },
+        "data_description": {
+          "min_price": "Valgfritt – pumpen kjører alltid når prisen er under denne grensen.",
+          "max_price": "Valgfritt – pumpen kjører aldri når prisen overstiger denne grensen."
+        }
+      },
+      "schedule": {
+        "title": "Tidsplan",
+        "data": {
+          "per_weekday": "Forskjellige innstillinger per ukedag",
+          "global_start": "Tidligste start",
+          "global_stop": "Seneste stopp",
+          "monday_active": "Mandag aktiv",
+          "monday_start": "Mandag start",
+          "monday_stop": "Mandag stopp",
+          "monday_hours": "Mandag timer",
+          "tuesday_active": "Tirsdag aktiv",
+          "tuesday_start": "Tirsdag start",
+          "tuesday_stop": "Tirsdag stopp",
+          "tuesday_hours": "Tirsdag timer",
+          "wednesday_active": "Onsdag aktiv",
+          "wednesday_start": "Onsdag start",
+          "wednesday_stop": "Onsdag stopp",
+          "wednesday_hours": "Onsdag timer",
+          "thursday_active": "Torsdag aktiv",
+          "thursday_start": "Torsdag start",
+          "thursday_stop": "Torsdag stopp",
+          "thursday_hours": "Torsdag timer",
+          "friday_active": "Fredag aktiv",
+          "friday_start": "Fredag start",
+          "friday_stop": "Fredag stopp",
+          "friday_hours": "Fredag timer",
+          "saturday_active": "Lørdag aktiv",
+          "saturday_start": "Lørdag start",
+          "saturday_stop": "Lørdag stopp",
+          "saturday_hours": "Lørdag timer",
+          "sunday_active": "Søndag aktiv",
+          "sunday_start": "Søndag start",
+          "sunday_stop": "Søndag stopp",
+          "sunday_hours": "Søndag timer"
+        }
+      },
+      "pause": {
+        "title": "Pauseinnstillinger",
+        "data": {
+          "enable_pause": "Aktiver pausefunksjon",
+          "pause_duration": "Pauselengde (minutter)",
+          "max_pauses": "Maks pauser per døgn"
+        }
+      },
+      "energy": {
+        "title": "Energimåling",
+        "data": {
+          "energy_source": "Energikilde",
+          "energy_sensor": "Energisensor",
+          "manual_watt": "Effektforbruk (W)"
+        },
+        "data_description": {
+          "manual_watt": "Brukes til kostnads- og besparingsberegninger når ingen sensor er tilkoblet."
+        }
+      }
+    },
+    "error": {
+      "nordpool_unavailable": "Kunne ikke nå Nordpool API. Sjekk internettforbindelsen.",
+      "invalid_sensor": "Den valgte sensoren er ikke tilgjengelig i Home Assistant.",
+      "invalid_watt": "Effektforbruk må være minst 1 W.",
+      "window_too_small": "Tidsvinduet er for lite til å romme det ønskede antallet timer."
+    },
+    "abort": {
+      "already_configured": "Pollen Pump er allerede konfigurert."
+    }
+  },
+  "options": {
+    "step": {
+      "pump_settings": {
+        "title": "Pumpeinnstillinger",
+        "data": {
+          "hours_per_day": "Timer per døgn",
+          "min_price": "Kjør alltid under (øre/kWh)",
+          "max_price": "Kjør aldri over (øre/kWh)"
+        }
+      },
+      "schedule": {
+        "title": "Tidsplan",
+        "data": {
+          "per_weekday": "Forskjellige innstillinger per ukedag",
+          "global_start": "Tidligste start",
+          "global_stop": "Seneste stopp"
+        }
+      }
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "pump_schema": {
+        "name": "Pumpeplan",
+        "state": {
+          "on": "Aktiv",
+          "off": "Inaktiv"
+        }
+      }
+    },
+    "sensor": {
+      "pump_aktuellt_pris": { "name": "Gjeldende strømpris" },
+      "pump_nasta_start": { "name": "Neste planlagte start" },
+      "pump_timmar_kvar_idag": { "name": "Planlagte timer igjen" },
+      "pump_energi_idag": { "name": "Energi i dag" },
+      "pump_kostnad_idag": { "name": "Kostnad i dag" },
+      "pump_sparade_kronor": { "name": "Spart i dag" },
+      "pump_effekt": { "name": "Gjeldende effekt" }
+    },
+    "switch": {
+      "pump_paus": { "name": "Sett pumpen på pause" }
+    },
+    "button": {
+      "pump_pausa": { "name": "Pause pumpe" }
+    },
+    "number": {
+      "pump_timmar_per_dygn": { "name": "Timer per døgn" }
+    }
+  },
+  "services": {
+    "pausa": {
+      "name": "Pause pumpe",
+      "description": "Sett pumpen på pause i et bestemt antall minutter og planlegg om for å kompensere.",
+      "fields": {
+        "minuter": {
+          "name": "Minutter",
+          "description": "Antall minutter å pause (standard fra konfigurasjon)."
+        }
+      }
+    },
+    "aterstall": {
+      "name": "Gjenoppta pumpe",
+      "description": "Avbryt en aktiv pause og returner til planlagt tilstand."
+    },
+    "uppdatera_schema": {
+      "name": "Oppdater tidsplan",
+      "description": "Tving en fullstendig omberegning av dagens tidsplan basert på gjeldende priser."
+    }
+  }
+}

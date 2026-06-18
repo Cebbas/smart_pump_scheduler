@@ -1,0 +1,112 @@
+[🇬🇧 English](README.md) | [🇸🇪 Svenska](README.sv.md) | [🇳🇴 Norsk](README.no.md) | [🇫🇮 Suomi](README.fi.md) | **🇩🇰 Dansk** | [🇩🇪 Deutsch](README.de.md) | [🇫🇷 Français](README.fr.md) | [🇳🇱 Nederlands](README.nl.md)
+
+---
+
+# Pollen Pump 🌿
+
+En Home Assistant-integration (HACS), der optimerer pumpens driftstimer baseret på elpriser.
+
+## Funktioner
+
+- 🔌 **Fleksibel priskilde** – Nordpool (automatisk), valgfri HA-sensor (Tibber m.fl.) eller fast tidsplan
+- ⏰ **Smart planlægning** – kører i de N billigste timer pr. døgn
+- 📅 **Styring pr. ugedag** – forskellige timer, tidsvinduer eller deaktiver helt pr. dag
+- 🛁 **Pausefunktion** – sæt på pause til bad og planlæg automatisk en erstatningstime
+- ⚡ **Energisporing** – rigtig sensor eller manuel watt-indstilling, beregner omkostninger og besparelser
+- 🌍 **Flersproget** – følger Home Assistants sprogindstilling (DA, EN, SV, NO, FI, DE, FR, NL)
+- 💰 **Prisgrænser** – kør altid under X øre, kør aldrig over Y øre
+
+## Installation via HACS
+
+1. Åbn HACS i Home Assistant
+2. Gå til **Integrationer** → tre-punktsmenuen → **Brugerdefinerede arkiver**
+3. Tilføj `https://github.com/your-username/pollen_pump` som en **Integration**
+4. Installer **Pollen Pump**
+5. Genstart Home Assistant
+6. Gå til **Indstillinger → Enheder & tjenester → Tilføj integration → Pollen Pump**
+
+## Konfiguration
+
+Integrationen konfigureres helt via grænsefladen – ingen YAML-redigering kræves.
+
+### Trin 1 – Priskilde
+| Mulighed | Beskrivelse |
+|---|---|
+| Nordpool | Henter priser automatisk. Vælg område (DK1–DK2, SE, NO, FI...) og valuta. |
+| HA-sensor | Brug en eksisterende sensor fra Nordpool, Tibber eller en anden integration. |
+| Fast tidsplan | Ingen prisoptimering – kører i et fast tidsvindue. |
+
+### Trin 2 – Pumpeindstillinger
+- Vælg den switch-entitet, der styrer pumpen
+- Angiv antal timer pr. døgn (1–24)
+- Valgfrit: kør altid under X øre/kWh
+- Valgfrit: kør aldrig over Y øre/kWh
+
+### Trin 3 – Tidsplan
+- Globalt tidsvindue (f.eks. 06:00–22:00)
+- Eller aktiver pr.-ugedag med individuelle start/stop-tider og timer
+- Deaktiver specifikke dage helt
+
+### Trin 4 – Pauseindstillinger
+- Aktiver/deaktiver pausefunktionen
+- Angiv pausevarighed (standard 60 min)
+- Angiv maks. antal pauser pr. døgn
+
+### Trin 5 – Energimåling
+- Tilslut en energi/effektsensor fra din smarte stikkontakt
+- Eller angiv pumpens effektforbrug manuelt i watt
+- Bruges til omkostnings- og besparelsesberegninger
+
+## Oprettede entiteter
+
+| Entitet | Beskrivelse |
+|---|---|
+| `binary_sensor.pump_schema` | TIL når pumpen skal køre |
+| `sensor.pump_aktuellt_pris` | Aktuel elpris |
+| `sensor.pump_nasta_start` | Næste planlagte start |
+| `sensor.pump_timmar_kvar_idag` | Planlagte timer tilbage i dag |
+| `sensor.pump_energi_idag` | Forbrugt energi i dag (kWh) |
+| `sensor.pump_kostnad_idag` | Omkostninger i dag |
+| `sensor.pump_sparade_kronor` | Besparelse vs. kørsel på dyre timer |
+| `sensor.pump_effekt` | Aktuel effekt |
+| `switch.pump_paus` | Skift pause til/fra |
+| `button.pump_pausa` | Pause i konfigureret tid |
+| `number.pump_timmar_per_dygn` | Juster daglige timer fra dashboard |
+
+## Tjenester
+
+| Tjeneste | Beskrivelse |
+|---|---|
+| `pollen_pump.pausa` | Sæt pumpen på pause i N minutter |
+| `pollen_pump.aterstall` | Annullér pause, returner til tidsplan |
+| `pollen_pump.uppdatera_schema` | Gennemtving omberegning af dagens tidsplan |
+
+## Dashboard-kort eksempel
+
+```yaml
+type: entities
+title: Pollenpumpe
+entities:
+  - entity: binary_sensor.pump_schema
+    name: Kører nu
+  - entity: number.pump_timmar_per_dygn
+    name: Timer pr. døgn
+  - entity: sensor.pump_aktuellt_pris
+    name: Aktuel pris
+  - entity: sensor.pump_nasta_start
+    name: Næste start
+  - entity: button.pump_pausa
+    name: 🛁 Pause til bad
+  - entity: sensor.pump_sparade_kronor
+    name: Sparet i dag
+  - entity: sensor.pump_kostnad_idag
+    name: Omkostninger i dag
+```
+
+## Understøttede sprog
+
+English (en), Svenska (sv), Norsk (no), Suomi (fi), Dansk (da), Deutsch (de), Français (fr), Nederlands (nl)
+
+## Licens
+
+MIT
