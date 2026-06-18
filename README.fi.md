@@ -2,7 +2,7 @@
 
 ---
 
-# Pollen Pump 🌿
+# Smart Pump Scheduler 🌿
 
 Home Assistant -integraatio (HACS), joka optimoi pumpun käyntiajat sähköhintojen perusteella.
 
@@ -20,10 +20,10 @@ Home Assistant -integraatio (HACS), joka optimoi pumpun käyntiajat sähköhinto
 
 1. Avaa HACS Home Assistantissa
 2. Siirry kohtaan **Integraatiot** → kolmen pisteen valikko → **Mukautetut arkistot**
-3. Lisää `https://github.com/your-username/pollen_pump` **Integraationa**
-4. Asenna **Pollen Pump**
+3. Lisää `https://github.com/Cebbas/smart_pump_scheduler` **Integraationa**
+4. Asenna **Smart Pump Scheduler**
 5. Käynnistä Home Assistant uudelleen
-6. Siirry kohtaan **Asetukset → Laitteet ja palvelut → Lisää integraatio → Pollen Pump**
+6. Siirry kohtaan **Asetukset → Laitteet ja palvelut → Lisää integraatio → Smart Pump Scheduler**
 
 ## Konfigurointi
 
@@ -77,15 +77,15 @@ Integraatio konfiguroidaan kokonaan käyttöliittymän kautta – YAML-muokkaust
 
 | Palvelu | Kuvaus |
 |---|---|
-| `pollen_pump.pausa` | Keskeytä pumppu N minuutiksi |
-| `pollen_pump.aterstall` | Peruuta tauko, palaa aikatauluun |
-| `pollen_pump.uppdatera_schema` | Pakota tämän päivän aikataulun uudelleenlaskenta |
+| `smart_pump_scheduler.pausa` | Keskeytä pumppu N minuutiksi |
+| `smart_pump_scheduler.aterstall` | Peruuta tauko, palaa aikatauluun |
+| `smart_pump_scheduler.uppdatera_schema` | Pakota tämän päivän aikataulun uudelleenlaskenta |
 
 ## Kojelauta-korttiesimerkki
 
 ```yaml
 type: entities
-title: Siitepölypumppu
+title: Älykäs pumppuajastin
 entities:
   - entity: binary_sensor.pump_schema
     name: Käynnissä nyt

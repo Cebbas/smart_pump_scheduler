@@ -99,7 +99,7 @@
       "window_too_small": "La fenêtre horaire est trop petite pour le nombre d'heures demandé."
     },
     "abort": {
-      "already_configured": "Pollen Pump est déjà configuré."
+      "already_configured": "Smart Pump Scheduler est déjà configuré."
     }
   },
   "options": {

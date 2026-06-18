@@ -2,7 +2,7 @@
 
 ---
 
-# Pollen Pump 🌿
+# Smart Pump Scheduler 🌿
 
 A Home Assistant custom integration (HACS) that optimizes your pump's running hours based on electricity prices.
 
@@ -20,10 +20,10 @@ A Home Assistant custom integration (HACS) that optimizes your pump's running ho
 
 1. Open HACS in Home Assistant
 2. Go to **Integrations** → three-dot menu → **Custom repositories**
-3. Add `https://github.com/your-username/pollen_pump` as an **Integration**
-4. Install **Pollen Pump**
+3. Add `https://github.com/Cebbas/smart_pump_scheduler` as an **Integration**
+4. Install **Smart Pump Scheduler**
 5. Restart Home Assistant
-6. Go to **Settings → Devices & Services → Add Integration → Pollen Pump**
+6. Go to **Settings → Devices & Services → Add Integration → Smart Pump Scheduler**
 
 ## Configuration
 
@@ -77,15 +77,15 @@ The integration is configured entirely through the UI – no YAML editing requir
 
 | Service | Description |
 |---|---|
-| `pollen_pump.pausa` | Pause pump for N minutes |
-| `pollen_pump.aterstall` | Cancel pause, return to schedule |
-| `pollen_pump.uppdatera_schema` | Force recalculate today's schedule |
+| `smart_pump_scheduler.pausa` | Pause pump for N minutes |
+| `smart_pump_scheduler.aterstall` | Cancel pause, return to schedule |
+| `smart_pump_scheduler.uppdatera_schema` | Force recalculate today's schedule |
 
 ## Dashboard card example
 
 ```yaml
 type: entities
-title: Pollen Pump
+title: Smart Pump Scheduler
 entities:
   - entity: binary_sensor.pump_schedule
     name: Running now

@@ -1,4 +1,4 @@
-"""Sensor entities for Pollen Pump."""
+"""Sensor entities for Smart Pump Scheduler."""
 from __future__ import annotations
 
 from homeassistant.components.sensor import (
@@ -23,25 +23,25 @@ from .const import (
     SUFFIX_POWER,
     CONF_NORDPOOL_CURRENCY,
 )
-from .coordinator import PollenPumpCoordinator
+from .coordinator import SmartPumpSchedulerCoordinator
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
-    coordinator: PollenPumpCoordinator = hass.data[DOMAIN][entry.entry_id]
+    coordinator: SmartPumpSchedulerCoordinator = hass.data[DOMAIN][entry.entry_id]
     currency = entry.data.get(CONF_NORDPOOL_CURRENCY, "SEK")
 
     async_add_entities([
-        PollenPumpPriceSensor(coordinator, entry, currency),
-        PollenPumpNextStartSensor(coordinator, entry),
-        PollenPumpHoursRemainingSensor(coordinator, entry),
-        PollenPumpEnergyTodaySensor(coordinator, entry),
-        PollenPumpCostTodaySensor(coordinator, entry, currency),
-        PollenPumpSavedTodaySensor(coordinator, entry, currency),
-        PollenPumpPowerSensor(coordinator, entry),
+        SmartPumpSchedulerPriceSensor(coordinator, entry, currency),
+        SmartPumpSchedulerNextStartSensor(coordinator, entry),
+        SmartPumpSchedulerHoursRemainingSensor(coordinator, entry),
+        SmartPumpSchedulerEnergyTodaySensor(coordinator, entry),
+        SmartPumpSchedulerCostTodaySensor(coordinator, entry, currency),
+        SmartPumpSchedulerSavedTodaySensor(coordinator, entry, currency),
+        SmartPumpSchedulerPowerSensor(coordinator, entry),
     ])
 
 
-class PollenPumpPriceSensor(CoordinatorEntity, SensorEntity):
+class SmartPumpSchedulerPriceSensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
     _attr_translation_key = "pump_aktuellt_pris"
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -56,7 +56,7 @@ class PollenPumpPriceSensor(CoordinatorEntity, SensorEntity):
         return self.coordinator.data.get("current_price")
 
 
-class PollenPumpNextStartSensor(CoordinatorEntity, SensorEntity):
+class SmartPumpSchedulerNextStartSensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
     _attr_translation_key = "pump_nasta_start"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
@@ -70,7 +70,7 @@ class PollenPumpNextStartSensor(CoordinatorEntity, SensorEntity):
         return self.coordinator.data.get("next_start")
 
 
-class PollenPumpHoursRemainingSensor(CoordinatorEntity, SensorEntity):
+class SmartPumpSchedulerHoursRemainingSensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
     _attr_translation_key = "pump_timmar_kvar_idag"
     _attr_native_unit_of_measurement = "h"
@@ -85,7 +85,7 @@ class PollenPumpHoursRemainingSensor(CoordinatorEntity, SensorEntity):
         return self.coordinator.data.get("hours_remaining", 0)
 
 
-class PollenPumpEnergyTodaySensor(CoordinatorEntity, SensorEntity):
+class SmartPumpSchedulerEnergyTodaySensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
     _attr_translation_key = "pump_energi_idag"
     _attr_device_class = SensorDeviceClass.ENERGY
@@ -101,7 +101,7 @@ class PollenPumpEnergyTodaySensor(CoordinatorEntity, SensorEntity):
         return self.coordinator.data.get("energy_today_kwh", 0.0)
 
 
-class PollenPumpCostTodaySensor(CoordinatorEntity, SensorEntity):
+class SmartPumpSchedulerCostTodaySensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
     _attr_translation_key = "pump_kostnad_idag"
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
@@ -116,7 +116,7 @@ class PollenPumpCostTodaySensor(CoordinatorEntity, SensorEntity):
         return self.coordinator.data.get("cost_today", 0.0)
 
 
-class PollenPumpSavedTodaySensor(CoordinatorEntity, SensorEntity):
+class SmartPumpSchedulerSavedTodaySensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
     _attr_translation_key = "pump_sparade_kronor"
     _attr_state_class = SensorStateClass.MEASUREMENT
@@ -131,7 +131,7 @@ class PollenPumpSavedTodaySensor(CoordinatorEntity, SensorEntity):
         return self.coordinator.data.get("savings_today", 0.0)
 
 
-class PollenPumpPowerSensor(CoordinatorEntity, SensorEntity):
+class SmartPumpSchedulerPowerSensor(CoordinatorEntity, SensorEntity):
     _attr_has_entity_name = True
     _attr_translation_key = "pump_effekt"
     _attr_device_class = SensorDeviceClass.POWER

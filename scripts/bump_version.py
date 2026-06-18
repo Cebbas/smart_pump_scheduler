@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-bump_version.py – Update version number across all files in Pollen Pump.
+bump_version.py – Update version number across all files in Smart Pump Scheduler.
 
 Usage:
     python3 scripts/bump_version.py 1.1.0
@@ -17,8 +17,8 @@ from pathlib import Path
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 ROOT = Path(__file__).parent.parent
-MANIFEST = ROOT / "custom_components" / "pollen_pump" / "manifest.json"
-CONST_PY  = ROOT / "custom_components" / "pollen_pump" / "const.py"
+MANIFEST = ROOT / "custom_components" / "smart_pump_scheduler" / "manifest.json"
+CONST_PY  = ROOT / "custom_components" / "smart_pump_scheduler" / "const.py"
 HACS_JSON = ROOT / "hacs.json"
 
 
@@ -91,7 +91,7 @@ def git_tag_and_commit(new_version: str, auto_commit: bool):
     except subprocess.CalledProcessError as e:
         print(f"\n  ⚠️   Git operation failed: {e}")
         print(f"      Run manually:")
-        print(f"      git add custom_components/pollen_pump/manifest.json custom_components/pollen_pump/const.py")
+        print(f"      git add custom_components/smart_pump_scheduler/manifest.json custom_components/smart_pump_scheduler/const.py")
         print(f"      git commit -m 'Release v{new_version}'")
         print(f"      git tag v{new_version}")
         print(f"      git push origin main && git push origin v{new_version}")

@@ -37,7 +37,7 @@
     {
       "label": "✅ Validate JSON translations",
       "type": "shell",
-      "command": "python3 -c \"import json; [json.load(open(f)) or print(f'✅ {f}') for f in __import__('glob').glob('custom_components/pollen_pump/translations/*.json')]\" && echo 'All JSON valid!'",
+      "command": "python3 -c \"import json; [json.load(open(f)) or print(f'✅ {f}') for f in __import__('glob').glob('custom_components/smart_pump_scheduler/translations/*.json')]\" && echo 'All JSON valid!'",
       "group": "test",
       "presentation": {
         "reveal": "always",
@@ -48,7 +48,7 @@
     {
       "label": "✅ Validate Python syntax",
       "type": "shell",
-      "command": "for f in custom_components/pollen_pump/*.py; do python3 -m py_compile \"$f\" && echo \"✅ $f\"; done && echo 'All Python valid!'",
+      "command": "for f in custom_components/smart_pump_scheduler/*.py; do python3 -m py_compile \"$f\" && echo \"✅ $f\"; done && echo 'All Python valid!'",
       "group": "test",
       "presentation": {
         "reveal": "always",
@@ -59,7 +59,7 @@
     {
       "label": "📦 Show current version",
       "type": "shell",
-      "command": "python3 -c \"import json; m=json.load(open('custom_components/pollen_pump/manifest.json')); print(f'Current version: {m[\\\"version\\\"]}')\"",
+      "command": "python3 -c \"import json; m=json.load(open('custom_components/smart_pump_scheduler/manifest.json')); print(f'Current version: {m[\\\"version\\\"]}')\"",
       "group": "build",
       "presentation": {
         "reveal": "always",

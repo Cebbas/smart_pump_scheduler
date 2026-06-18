@@ -99,7 +99,7 @@
       "window_too_small": "Het tijdvenster is te klein voor het gevraagde aantal uren."
     },
     "abort": {
-      "already_configured": "Pollen Pump is al geconfigureerd."
+      "already_configured": "Smart Pump Scheduler is al geconfigureerd."
     }
   },
   "options": {

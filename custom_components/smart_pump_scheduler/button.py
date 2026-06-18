@@ -8,20 +8,20 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, SUFFIX_PAUSE_BUTTON, CONF_PAUSE_DURATION
-from .coordinator import PollenPumpCoordinator
+from .coordinator import SmartPumpSchedulerCoordinator
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
-    coordinator: PollenPumpCoordinator = hass.data[DOMAIN][entry.entry_id]
-    async_add_entities([PollenPumpPauseButton(coordinator, entry)])
+    coordinator: SmartPumpSchedulerCoordinator = hass.data[DOMAIN][entry.entry_id]
+    async_add_entities([SmartPumpSchedulerPauseButton(coordinator, entry)])
 
 
-class PollenPumpPauseButton(CoordinatorEntity, ButtonEntity):
+class SmartPumpSchedulerPauseButton(CoordinatorEntity, ButtonEntity):
     _attr_has_entity_name = True
     _attr_translation_key = "pump_pausa"
     _attr_icon = "mdi:shower"
 
-    def __init__(self, coordinator: PollenPumpCoordinator, entry: ConfigEntry):
+    def __init__(self, coordinator: SmartPumpSchedulerCoordinator, entry: ConfigEntry):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_PAUSE_BUTTON}"
         self._minutes = int(entry.data.get(CONF_PAUSE_DURATION, 60))

@@ -1,4 +1,4 @@
-"""Scheduling algorithm for Pollen Pump."""
+"""Scheduling algorithm for Smart Pump Scheduler."""
 from __future__ import annotations
 
 import logging

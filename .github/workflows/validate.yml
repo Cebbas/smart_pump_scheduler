@@ -1,4 +1,4 @@
-name: Validate Pollen Pump
+name: Validate Smart Pump Scheduler
 
 on:
   push:
@@ -21,7 +21,7 @@ jobs:
         run: |
           echo "Checking JSON files..."
           FAILED=0
-          for file in custom_components/pollen_pump/translations/*.json; do
+          for file in custom_components/smart_pump_scheduler/translations/*.json; do
             python3 -c "
           import json, sys
           try:
@@ -47,7 +47,7 @@ jobs:
           REQUIRED="en sv no fi da de fr nl"
           FAILED=0
           for lang in $REQUIRED; do
-            FILE="custom_components/pollen_pump/translations/${lang}.json"
+            FILE="custom_components/smart_pump_scheduler/translations/${lang}.json"
             if [ -f "$FILE" ]; then
               echo "  ✅  ${lang}.json"
             else
@@ -81,7 +81,7 @@ jobs:
                       keys.add(full_key)
               return keys
 
-          translations_dir = Path("custom_components/pollen_pump/translations")
+          translations_dir = Path("custom_components/smart_pump_scheduler/translations")
           en_data = json.loads((translations_dir / "en.json").read_text())
           en_keys = get_all_keys(en_data)
 
@@ -129,7 +129,7 @@ jobs:
         run: |
           echo "Checking Python syntax..."
           FAILED=0
-          for file in custom_components/pollen_pump/*.py; do
+          for file in custom_components/smart_pump_scheduler/*.py; do
             python3 -m py_compile "$file" && echo "  ✅  $file" || { echo "  ❌  $file"; FAILED=1; }
           done
           if [ $FAILED -eq 1 ]; then
@@ -151,7 +151,7 @@ jobs:
           python3 -c "
           import sys
           sys.path.insert(0, 'custom_components')
-          from pollen_pump.const import (
+          from smart_pump_scheduler.const import (
               DOMAIN, PLATFORMS, WEEKDAYS, NORDPOOL_AREAS,
               NORDPOOL_CURRENCIES, DEFAULT_HOURS_PER_DAY
           )
@@ -177,7 +177,7 @@ jobs:
           import json
           import sys
 
-          manifest_path = "custom_components/pollen_pump/manifest.json"
+          manifest_path = "custom_components/smart_pump_scheduler/manifest.json"
           manifest = json.load(open(manifest_path))
 
           required_keys = ["domain", "name", "version", "documentation",
@@ -202,10 +202,10 @@ jobs:
               failed = True
 
           # Validate domain matches folder name
-          if manifest.get("domain") == "pollen_pump":
+          if manifest.get("domain") == "smart_pump_scheduler":
               print(f"  ✅  Domain matches folder: {manifest['domain']}")
           else:
-              print(f"  ❌  Domain '{manifest.get('domain')}' doesn't match folder 'pollen_pump'")
+              print(f"  ❌  Domain '{manifest.get('domain')}' doesn't match folder 'smart_pump_scheduler'")
               failed = True
 
           # Validate config_flow is true
@@ -303,7 +303,7 @@ jobs:
           python3 << 'EOF'
           import json
 
-          manifest = json.load(open("custom_components/pollen_pump/manifest.json"))
+          manifest = json.load(open("custom_components/smart_pump_scheduler/manifest.json"))
           hacs = json.load(open("hacs.json"))
 
           manifest_version = manifest.get("version", "unknown")
@@ -311,8 +311,8 @@ jobs:
           print(f"  manifest.json version : {manifest_version}")
 
           # Check __init__.py version constant
-          init_content = open("custom_components/pollen_pump/__init__.py").read()
-          const_content = open("custom_components/pollen_pump/const.py").read()
+          init_content = open("custom_components/smart_pump_scheduler/__init__.py").read()
+          const_content = open("custom_components/smart_pump_scheduler/const.py").read()
 
           import re
           const_match = re.search(r'VERSION\s*=\s*["\']([^"\']+)["\']', const_content)
@@ -343,6 +343,6 @@ jobs:
       - name: Success
         run: |
           echo "================================================"
-          echo "  ✅  Pollen Pump validation complete!"
+          echo "  ✅  Smart Pump Scheduler validation complete!"
           echo "  All checks passed – ready to release."
           echo "================================================"

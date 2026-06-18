@@ -1,5 +1,5 @@
 #!/bin/bash
-# release.sh – Full release helper for Pollen Pump
+# release.sh – Full release helper for Smart Pump Scheduler
 # Usage: ./scripts/release.sh [patch|minor|major|1.2.3]
 
 set -e
@@ -7,7 +7,7 @@ set -e
 BUMP=${1:-patch}
 
 echo "================================================"
-echo "  Pollen Pump – Release Helper"
+echo "  Smart Pump Scheduler – Release Helper"
 echo "================================================"
 echo ""
 

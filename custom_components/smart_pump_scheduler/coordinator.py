@@ -1,4 +1,4 @@
-"""Coordinator for Pollen Pump – manages prices, schedule and pause state."""
+"""Coordinator for Smart Pump Scheduler – manages prices, schedule and pause state."""
 from __future__ import annotations
 
 import logging
@@ -38,8 +38,8 @@ from .scheduler import build_schedule, find_next_available_hour, get_savings
 _LOGGER = logging.getLogger(__name__)
 
 
-class PollenPumpCoordinator(DataUpdateCoordinator):
-    """Manages all state for one Pollen Pump instance."""
+class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
+    """Manages all state for one Smart Pump Scheduler instance."""
 
     def __init__(self, hass: HomeAssistant, config: dict):
         super().__init__(

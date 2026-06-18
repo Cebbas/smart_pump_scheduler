@@ -99,7 +99,7 @@
       "window_too_small": "Aikaikkuna on liian pieni pyydetylle tuntimäärälle."
     },
     "abort": {
-      "already_configured": "Pollen Pump on jo määritetty."
+      "already_configured": "Smart Pump Scheduler on jo määritetty."
     }
   },
   "options": {

@@ -2,7 +2,7 @@
 
 ---
 
-# Pollen Pump 🌿
+# Smart Pump Scheduler 🌿
 
 En Home Assistant-integration (HACS), der optimerer pumpens driftstimer baseret på elpriser.
 
@@ -20,10 +20,10 @@ En Home Assistant-integration (HACS), der optimerer pumpens driftstimer baseret 
 
 1. Åbn HACS i Home Assistant
 2. Gå til **Integrationer** → tre-punktsmenuen → **Brugerdefinerede arkiver**
-3. Tilføj `https://github.com/your-username/pollen_pump` som en **Integration**
-4. Installer **Pollen Pump**
+3. Tilføj `https://github.com/Cebbas/smart_pump_scheduler` som en **Integration**
+4. Installer **Smart Pump Scheduler**
 5. Genstart Home Assistant
-6. Gå til **Indstillinger → Enheder & tjenester → Tilføj integration → Pollen Pump**
+6. Gå til **Indstillinger → Enheder & tjenester → Tilføj integration → Smart Pump Scheduler**
 
 ## Konfiguration
 
@@ -77,15 +77,15 @@ Integrationen konfigureres helt via grænsefladen – ingen YAML-redigering kræ
 
 | Tjeneste | Beskrivelse |
 |---|---|
-| `pollen_pump.pausa` | Sæt pumpen på pause i N minutter |
-| `pollen_pump.aterstall` | Annullér pause, returner til tidsplan |
-| `pollen_pump.uppdatera_schema` | Gennemtving omberegning af dagens tidsplan |
+| `smart_pump_scheduler.pausa` | Sæt pumpen på pause i N minutter |
+| `smart_pump_scheduler.aterstall` | Annullér pause, returner til tidsplan |
+| `smart_pump_scheduler.uppdatera_schema` | Gennemtving omberegning af dagens tidsplan |
 
 ## Dashboard-kort eksempel
 
 ```yaml
 type: entities
-title: Pollenpumpe
+title: Smart pumpplanlægger
 entities:
   - entity: binary_sensor.pump_schema
     name: Kører nu

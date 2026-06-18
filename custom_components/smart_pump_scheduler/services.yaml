@@ -15,7 +15,7 @@ pausa:
           mode: box
     entry_id:
       name: Entry ID
-      description: Target a specific Pollen Pump instance (optional, targets all if omitted).
+      description: Target a specific Smart Pump Scheduler instance (optional, targets all if omitted).
       required: false
       selector:
         text:
@@ -26,7 +26,7 @@ aterstall:
   fields:
     entry_id:
       name: Entry ID
-      description: Target a specific Pollen Pump instance (optional).
+      description: Target a specific Smart Pump Scheduler instance (optional).
       required: false
       selector:
         text:
@@ -37,7 +37,7 @@ uppdatera_schema:
   fields:
     entry_id:
       name: Entry ID
-      description: Target a specific Pollen Pump instance (optional).
+      description: Target a specific Smart Pump Scheduler instance (optional).
       required: false
       selector:
         text:

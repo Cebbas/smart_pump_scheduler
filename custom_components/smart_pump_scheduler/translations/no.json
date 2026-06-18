@@ -99,7 +99,7 @@
       "window_too_small": "Tidsvinduet er for lite til å romme det ønskede antallet timer."
     },
     "abort": {
-      "already_configured": "Pollen Pump er allerede konfigurert."
+      "already_configured": "Smart Pump Scheduler er allerede konfigurert."
     }
   },
   "options": {

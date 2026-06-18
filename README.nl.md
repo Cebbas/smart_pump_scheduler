@@ -2,7 +2,7 @@
 
 ---
 
-# Pollen Pump 🌿
+# Smart Pump Scheduler 🌿
 
 Een Home Assistant-integratie (HACS) die de bedrijfstijden van uw pomp optimaliseert op basis van elektriciteitsprijzen.
 
@@ -20,10 +20,10 @@ Een Home Assistant-integratie (HACS) die de bedrijfstijden van uw pomp optimalis
 
 1. Open HACS in Home Assistant
 2. Ga naar **Integraties** → driepuntsmenu → **Aangepaste opslagplaatsen**
-3. Voeg `https://github.com/your-username/pollen_pump` toe als **Integratie**
-4. Installeer **Pollen Pump**
+3. Voeg `https://github.com/Cebbas/smart_pump_scheduler` toe als **Integratie**
+4. Installeer **Smart Pump Scheduler**
 5. Herstart Home Assistant
-6. Ga naar **Instellingen → Apparaten & diensten → Integratie toevoegen → Pollen Pump**
+6. Ga naar **Instellingen → Apparaten & diensten → Integratie toevoegen → Smart Pump Scheduler**
 
 ## Configuratie
 
@@ -77,15 +77,15 @@ De integratie wordt volledig geconfigureerd via de gebruikersinterface – geen 
 
 | Dienst | Beschrijving |
 |---|---|
-| `pollen_pump.pausa` | Pomp N minuten pauzeren |
-| `pollen_pump.aterstall` | Pauze annuleren, terug naar schema |
-| `pollen_pump.uppdatera_schema` | Herberekening van het schema van vandaag forceren |
+| `smart_pump_scheduler.pausa` | Pomp N minuten pauzeren |
+| `smart_pump_scheduler.aterstall` | Pauze annuleren, terug naar schema |
+| `smart_pump_scheduler.uppdatera_schema` | Herberekening van het schema van vandaag forceren |
 
 ## Dashboard-kaart voorbeeld
 
 ```yaml
 type: entities
-title: Pollennpomp
+title: Slimme pompplanner
 entities:
   - entity: binary_sensor.pump_schema
     name: Draait nu

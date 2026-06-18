@@ -1,4 +1,4 @@
-"""Price fetching logic for Pollen Pump."""
+"""Price fetching logic for Smart Pump Scheduler."""
 from __future__ import annotations
 
 import logging

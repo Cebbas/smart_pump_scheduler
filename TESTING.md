@@ -1,4 +1,4 @@
-# Testa Pollen Pump lokalt
+# Testa Smart Pump Scheduler lokalt
 
 Steg-för-steg guide för att testa integrationen i din Home Assistant innan du pushar till GitHub.
 
@@ -26,7 +26,7 @@ mkdir -p /config/custom_components
 
 **3. Kopiera integrationen**
 ```bash
-cp -r custom_components/pollen_pump /config/custom_components/
+cp -r custom_components/smart_pump_scheduler /config/custom_components/
 ```
 
 **4. Starta om Home Assistant**
@@ -35,7 +35,7 @@ Inställningar → System → Starta om
 
 **5. Lägg till integrationen**
 
-Inställningar → Enheter & tjänster → Lägg till integration → sök "Pollen Pump"
+Inställningar → Enheter & tjänster → Lägg till integration → sök "Smart Pump Scheduler"
 
 ---
 
@@ -64,10 +64,10 @@ Med Samba kan VS Code spara direkt till HA utan att kopiera manuellt.
 
 ```bash
 # Ta bort befintlig mapp om den finns
-rm -rf /Volumes/config/custom_components/pollen_pump
+rm -rf /Volumes/config/custom_components/smart_pump_scheduler
 
 # Skapa symlink – ändringar i repot syns direkt i HA
-ln -s $(pwd)/custom_components/pollen_pump /Volumes/config/custom_components/pollen_pump
+ln -s $(pwd)/custom_components/smart_pump_scheduler /Volumes/config/custom_components/smart_pump_scheduler
 ```
 
 Nu räcker det med att starta om HA efter varje ändring.
@@ -82,7 +82,7 @@ Om HA kör på en Raspberry Pi eller annan server kan du jobba direkt på den.
 2. Aktivera SSH i HA: Inställningar → Tillägg → **Advanced SSH & Web Terminal**
 3. Anslut i VS Code: `Ctrl+Shift+P` → **Remote-SSH: Connect to Host**
 4. Skriv: `root@homeassistant.local`
-5. Öppna mappen `/config/custom_components/pollen_pump`
+5. Öppna mappen `/config/custom_components/smart_pump_scheduler`
 
 ---
 
@@ -90,17 +90,17 @@ Om HA kör på en Raspberry Pi eller annan server kan du jobba direkt på den.
 
 ### Integrationen syns inte i HA
 
-- Kontrollera att mappen heter exakt `pollen_pump` (inga stora bokstäver)
+- Kontrollera att mappen heter exakt `smart_pump_scheduler` (inga stora bokstäver)
 - Kontrollera att `manifest.json` finns i mappen
 - Starta om HA igen
 
 ### Fel i loggen
 
-Gå till **Inställningar → System → Loggar** och filtrera på `pollen_pump`.
+Gå till **Inställningar → System → Loggar** och filtrera på `smart_pump_scheduler`.
 
 Eller via SSH:
 ```bash
-grep pollen_pump /config/home-assistant.log
+grep smart_pump_scheduler /config/home-assistant.log
 ```
 
 ### Validera filerna lokalt innan du kopierar
@@ -109,13 +109,13 @@ grep pollen_pump /config/home-assistant.log
 # Kontrollera JSON
 python3 -c "
 import json, glob
-for f in glob.glob('custom_components/pollen_pump/translations/*.json'):
+for f in glob.glob('custom_components/smart_pump_scheduler/translations/*.json'):
     json.load(open(f))
     print(f'✅ {f}')
 "
 
 # Kontrollera Python
-for f in custom_components/pollen_pump/*.py; do
+for f in custom_components/smart_pump_scheduler/*.py; do
     python3 -m py_compile "$f" && echo "✅ $f"
 done
 ```
@@ -148,4 +148,4 @@ Istället för att starta om hela HA efter varje ändring kan du ladda om bara i
 
 **Utvecklarverktyg → Tjänster → `homeassistant.reload_config_entry`**
 
-Välj Pollen Pump-instansen → Anropa. Snabbare än full omstart!
+Välj Smart Pump Scheduler-instansen → Anropa. Snabbare än full omstart!

@@ -1,6 +1,6 @@
-"""Constants for Pollen Pump integration."""
+"""Constants for Smart Pump Scheduler integration."""
 
-DOMAIN = "pollen_pump"
+DOMAIN = "smart_pump_scheduler"
 VERSION = "1.0.0"
 
 # Config flow keys

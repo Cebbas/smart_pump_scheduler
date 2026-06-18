@@ -8,20 +8,20 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, SUFFIX_PAUSE_SWITCH
-from .coordinator import PollenPumpCoordinator
+from .coordinator import SmartPumpSchedulerCoordinator
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
-    coordinator: PollenPumpCoordinator = hass.data[DOMAIN][entry.entry_id]
-    async_add_entities([PollenPumpPauseSwitch(coordinator, entry)])
+    coordinator: SmartPumpSchedulerCoordinator = hass.data[DOMAIN][entry.entry_id]
+    async_add_entities([SmartPumpSchedulerPauseSwitch(coordinator, entry)])
 
 
-class PollenPumpPauseSwitch(CoordinatorEntity, SwitchEntity):
+class SmartPumpSchedulerPauseSwitch(CoordinatorEntity, SwitchEntity):
     _attr_has_entity_name = True
     _attr_translation_key = "pump_paus"
     _attr_icon = "mdi:pause-circle"
 
-    def __init__(self, coordinator: PollenPumpCoordinator, entry: ConfigEntry):
+    def __init__(self, coordinator: SmartPumpSchedulerCoordinator, entry: ConfigEntry):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_PAUSE_SWITCH}"
 

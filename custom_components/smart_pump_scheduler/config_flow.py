@@ -1,4 +1,4 @@
-"""Config flow for Pollen Pump integration."""
+"""Config flow for Smart Pump Scheduler integration."""
 from __future__ import annotations
 
 import voluptuous as vol
@@ -46,8 +46,8 @@ from .const import (
 )
 
 
-class PollenPumpConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
-    """Handle the config flow for Pollen Pump."""
+class SmartPumpSchedulerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
+    """Handle the config flow for Smart Pump Scheduler."""
 
     VERSION = 1
 
@@ -220,7 +220,7 @@ class PollenPumpConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             if not errors:
                 self._data.update(user_input)
                 return self.async_create_entry(
-                    title="Pollen Pump",
+                    title="Smart Pump Scheduler",
                     data=self._data,
                 )
 
@@ -251,10 +251,10 @@ class PollenPumpConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     @staticmethod
     @callback
     def async_get_options_flow(config_entry):
-        return PollenPumpOptionsFlow(config_entry)
+        return SmartPumpSchedulerOptionsFlow(config_entry)
 
 
-class PollenPumpOptionsFlow(config_entries.OptionsFlow):
+class SmartPumpSchedulerOptionsFlow(config_entries.OptionsFlow):
     """Handle options (reconfigure after setup)."""
 
     def __init__(self, config_entry):

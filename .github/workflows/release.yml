@@ -28,7 +28,7 @@ jobs:
           python3 << 'EOF'
           import json, sys, os
 
-          manifest = json.load(open("custom_components/pollen_pump/manifest.json"))
+          manifest = json.load(open("custom_components/smart_pump_scheduler/manifest.json"))
           manifest_version = manifest.get("version", "")
           tag_version = os.environ.get("VERSION", "")
 
@@ -49,29 +49,29 @@ jobs:
       - name: Create release zip (HACS format)
         run: |
           cd custom_components
-          zip -r ../pollen_pump.zip pollen_pump/
+          zip -r ../smart_pump_scheduler.zip smart_pump_scheduler/
           echo "✅ Release zip created"
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.version.outputs.tag }}
-          name: "Pollen Pump ${{ steps.version.outputs.tag }}"
+          name: "Smart Pump Scheduler ${{ steps.version.outputs.tag }}"
           body: |
-            ## Pollen Pump ${{ steps.version.outputs.tag }}
+            ## Smart Pump Scheduler ${{ steps.version.outputs.tag }}
 
             ### Installation via HACS
             1. Open HACS → Integrations → Custom repositories
             2. Add this repo as Integration
-            3. Search for **Pollen Pump** and install
+            3. Search for **Smart Pump Scheduler** and install
             4. Restart Home Assistant
 
             ### Manual installation
-            Download `pollen_pump.zip` below and extract to your `custom_components/` folder.
+            Download `smart_pump_scheduler.zip` below and extract to your `custom_components/` folder.
 
             ---
             🇸🇪 [Svenska](README.sv.md) | 🇳🇴 [Norsk](README.no.md) | 🇫🇮 [Suomi](README.fi.md) | 🇩🇰 [Dansk](README.da.md) | 🇩🇪 [Deutsch](README.de.md) | 🇫🇷 [Français](README.fr.md) | 🇳🇱 [Nederlands](README.nl.md)
-          files: pollen_pump.zip
+          files: smart_pump_scheduler.zip
           draft: false
           prerelease: false
         env:
