@@ -27,7 +27,7 @@ from .const import (
 )
 from .coordinator import SmartPumpSchedulerCoordinator
 from .device import build_device_info
-from .scheduler import format_hour_ranges
+from .scheduler import format_hour_ranges, format_duration_hm
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
@@ -138,7 +138,7 @@ class SmartPumpSchedulerRuntimeTodaySensor(CoordinatorEntity, SensorEntity):
     _attr_translation_key = "pump_drifttid_idag"
     _attr_device_class = SensorDeviceClass.DURATION
     _attr_state_class = SensorStateClass.TOTAL_INCREASING
-    _attr_native_unit_of_measurement = UnitOfTime.HOURS
+    _attr_native_unit_of_measurement = UnitOfTime.MINUTES
 
     def __init__(self, coordinator, entry):
         super().__init__(coordinator)
@@ -147,7 +147,11 @@ class SmartPumpSchedulerRuntimeTodaySensor(CoordinatorEntity, SensorEntity):
 
     @property
     def native_value(self):
-        return self.coordinator.data.get("runtime_today_hours", 0.0)
+        return self.coordinator.data.get("runtime_today_minutes", 0.0)
+
+    @property
+    def extra_state_attributes(self):
+        return {"formatted": format_duration_hm(self.coordinator.data.get("runtime_today_minutes", 0.0))}
 
 
 class SmartPumpSchedulerCostTodaySensor(CoordinatorEntity, SensorEntity):

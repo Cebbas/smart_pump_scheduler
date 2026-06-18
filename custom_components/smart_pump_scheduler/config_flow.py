@@ -29,6 +29,7 @@ from .const import (
     CONF_ENERGY_SOURCE,
     CONF_ENERGY_SENSOR,
     CONF_MANUAL_WATT,
+    CONF_RUN_NOW_DURATION,
     PRICE_SOURCE_NORDPOOL,
     PRICE_SOURCE_SENSOR,
     PRICE_SOURCE_FIXED,
@@ -44,6 +45,7 @@ from .const import (
     DEFAULT_GLOBAL_START,
     DEFAULT_GLOBAL_STOP,
     DEFAULT_MANUAL_WATT,
+    DEFAULT_RUN_NOW_DURATION,
 )
 
 
@@ -228,6 +230,9 @@ class SmartPumpSchedulerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 ),
                 vol.Required(CONF_MAX_PAUSES, default=DEFAULT_MAX_PAUSES): selector.NumberSelector(
                     selector.NumberSelectorConfig(min=1, max=20, step=1, mode=selector.NumberSelectorMode.BOX)
+                ),
+                vol.Required(CONF_RUN_NOW_DURATION, default=DEFAULT_RUN_NOW_DURATION): selector.NumberSelector(
+                    selector.NumberSelectorConfig(min=5, max=240, step=5, mode=selector.NumberSelectorMode.BOX)
                 ),
             }),
         )
@@ -416,6 +421,9 @@ class SmartPumpSchedulerOptionsFlow(config_entries.OptionsFlow):
                 ),
                 vol.Required(CONF_MAX_PAUSES, default=current.get(CONF_MAX_PAUSES, DEFAULT_MAX_PAUSES)): selector.NumberSelector(
                     selector.NumberSelectorConfig(min=1, max=20, step=1, mode=selector.NumberSelectorMode.BOX)
+                ),
+                vol.Required(CONF_RUN_NOW_DURATION, default=current.get(CONF_RUN_NOW_DURATION, DEFAULT_RUN_NOW_DURATION)): selector.NumberSelector(
+                    selector.NumberSelectorConfig(min=5, max=240, step=5, mode=selector.NumberSelectorMode.BOX)
                 ),
             }),
         )

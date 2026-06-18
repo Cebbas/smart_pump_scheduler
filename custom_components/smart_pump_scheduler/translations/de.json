@@ -81,7 +81,8 @@
         "data": {
           "enable_pause": "Pausenfunktion aktivieren",
           "pause_duration": "Pausendauer (Minuten)",
-          "max_pauses": "Max. Pausen pro Tag"
+          "max_pauses": "Max. Pausen pro Tag",
+          "run_now_duration": "Dauer für \"Jetzt laufen lassen\" (Minuten)"
         }
       },
       "energy": {
@@ -182,7 +183,8 @@
         "data": {
           "enable_pause": "Pausenfunktion aktivieren",
           "pause_duration": "Pausendauer (Minuten)",
-          "max_pauses": "Max. Pausen pro Tag"
+          "max_pauses": "Max. Pausen pro Tag",
+          "run_now_duration": "Dauer für \"Jetzt laufen lassen\" (Minuten)"
         }
       },
       "energy": {
@@ -245,11 +247,17 @@
     "button": {
       "pump_pausa": {
         "name": "Pumpe pausieren"
+      },
+      "pump_kor_nu": {
+        "name": "Jetzt laufen lassen"
       }
     },
     "number": {
       "pump_timmar_per_dygn": {
         "name": "Stunden pro Tag"
+      },
+      "pump_kor_nu_minuter": {
+        "name": "Dauer für \"Jetzt laufen lassen\""
       }
     }
   },
@@ -271,12 +279,26 @@
     "uppdatera_schema": {
       "name": "Zeitplan aktualisieren",
       "description": "Vollständige Neuberechnung des heutigen Zeitplans basierend auf aktuellen Preisen erzwingen."
+    },
+    "kor_nu": {
+      "name": "Jetzt laufen lassen",
+      "description": "Die Pumpe jetzt für eine bestimmte Anzahl Minuten laufen lassen, wartet automatisch, falls der Preis über dem Höchstpreis liegt.",
+      "fields": {
+        "minuter": {
+          "name": "Minutes",
+          "description": "Anzahl der Minuten zum Laufen (Standard aus der Konfiguration)."
+        }
+      }
     }
   },
   "issues": {
     "schedule_shortfall": {
       "title": "Nicht alle Stunden konnten geplant werden",
       "description": "Nur {scheduled} von {needed} angeforderten Stunden konnten heute innerhalb des konfigurierten Zeitfensters und der Preisgrenzen geplant werden. Überprüfen Sie die Einstellung für Stunden pro Tag, das Zeitfenster und die Min/Max-Preisfilter in den Integrationseinstellungen."
+    },
+    "run_now_waiting": {
+      "title": "Wartet auf einen günstigeren Preis für den Sofortlauf",
+      "description": "Eine \"Jetzt laufen lassen\"-Anfrage wartet, da der aktuelle Preis ({current_price}) über dem konfigurierten Höchstpreis ({max_price}) liegt. Die Pumpe läuft automatisch, sobald heute eine Stunde mit akzeptablem Preis verfügbar ist."
     }
   }
 }

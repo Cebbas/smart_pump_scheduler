@@ -14,6 +14,7 @@ A Home Assistant custom integration (HACS) that optimizes your pump's running ho
 - ⏰ **Smart scheduling** – runs during the cheapest N hours per day
 - 📅 **Per-weekday control** – different hours, time windows, or disable entirely per day
 - 🛁 **Pause function** – pause for bathing and automatically reschedule a compensating hour
+- ▶️ **Run now** – run for a configurable duration on demand (e.g. after bathing), deferred automatically until the price drops below your max threshold
 - ⚡ **Energy tracking** – real sensor or manual watt setting, calculates cost and savings
 - 🌍 **Multilingual** – follows Home Assistant's language setting (EN, SV, NO, FI, DA, DE, FR, NL)
 - 💰 **Price guards** – always run below X öre, never run above Y öre
@@ -61,10 +62,11 @@ You'll also give the pump a name first (handy if you set up more than one).
 - Or enable per-weekday settings with individual start/stop times and hours
 - Deactivate specific days entirely
 
-### Step 4 – Pause settings
+### Step 4 – Pause & run now settings
 - Enable/disable the pause function
 - Set pause duration (default 60 min)
 - Set max pauses per day
+- Set run now duration (default 30 min) – used by the "Run now" button/service
 
 ### Step 5 – Energy monitoring
 - Connect an energy/power sensor from your smart plug
@@ -81,13 +83,15 @@ You'll also give the pump a name first (handy if you set up more than one).
 | `sensor.pump_hours_remaining` | Scheduled hours remaining today |
 | `sensor.pump_scheduled_hours_today` | Today's scheduled hours, as time ranges |
 | `sensor.pump_energy_today` | Energy consumed today (kWh) |
-| `sensor.pump_runtime_today` | Actual time the pump has run today |
+| `sensor.pump_runtime_today` | Actual time the pump has run today (minutes, with an "h min" formatted attribute) |
 | `sensor.pump_cost_today` | Cost today (in your currency) |
 | `sensor.pump_saved_today` | Savings vs running at peak hours |
 | `sensor.pump_power` | Current power draw |
 | `switch.pump_pause` | Toggle pause on/off |
 | `button.pump_pause` | Pause for configured duration |
+| `button.pump_run_now` | Run now for the configured duration (deferred if price is above max) |
 | `number.pump_hours_per_day` | Adjust daily hours from dashboard |
+| `number.pump_run_now_minutes` | Adjust the "Run now" duration from dashboard |
 
 ## Services
 
@@ -96,6 +100,7 @@ You'll also give the pump a name first (handy if you set up more than one).
 | `smart_pump_scheduler.pausa` | Pause pump for N minutes |
 | `smart_pump_scheduler.aterstall` | Cancel pause, return to schedule |
 | `smart_pump_scheduler.uppdatera_schema` | Force recalculate today's schedule |
+| `smart_pump_scheduler.kor_nu` | Run now for N minutes (deferred if price is above max) |
 
 ## Dashboard card example
 
@@ -113,6 +118,8 @@ entities:
     name: Next start
   - entity: button.pump_pause
     name: 🛁 Pause for bathing
+  - entity: button.pump_run_now
+    name: ▶️ Run now
   - entity: sensor.pump_saved_today
     name: Saved today
   - entity: sensor.pump_cost_today

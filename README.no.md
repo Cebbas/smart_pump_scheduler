@@ -14,6 +14,7 @@ En Home Assistant-integrasjon (HACS) som optimaliserer pumpens kjøretider baser
 - ⏰ **Smart planlegging** – kjører i løpet av de N billigste timene per døgn
 - 📅 **Styring per ukedag** – ulike timer, tidsvinduer eller deaktiver helt per dag
 - 🛁 **Pausefunksjon** – sett på pause for bading og planlegg automatisk en erstatningsttime
+- ▶️ **Kjør nå** – kjør i en valgbar lengde på forespørsel (f.eks. etter bading), venter automatisk til prisen går under maksgrensen din
 - ⚡ **Energisporing** – ekte sensor eller manuell watt-innstilling, beregner kostnad og besparelse
 - 🌍 **Flerspråklig** – følger Home Assistants språkinnstilling (NO, EN, SV, FI, DA, DE, FR, NL)
 - 💰 **Prisgrenser** – kjør alltid under X øre, kjør aldri over Y øre
@@ -61,10 +62,11 @@ Du gir også pumpen et navn først (nyttig hvis du setter opp flere enn en).
 - Eller aktiver per-ukedag med individuelle start/stopp-tider og timer
 - Deaktiver spesifikke dager helt
 
-### Trinn 4 – Pauseinnstillinger
+### Trinn 4 – Pause- og kjør nå-innstillinger
 - Aktiver/deaktiver pausefunksjonen
 - Angi pauselengde (standard 60 min)
 - Angi maks antall pauser per døgn
+- Angi kjør nå-lengde (standard 30 min) – brukes av knappen/tjenesten "Kjør nå"
 
 ### Trinn 5 – Energimåling
 - Koble til en energi/effektsensor fra din smarte stikkontakt
@@ -81,13 +83,15 @@ Du gir også pumpen et navn først (nyttig hvis du setter opp flere enn en).
 | `sensor.pump_timmar_kvar_idag` | Planlagte timer igjen i dag |
 | `sensor.pump_scheduled_hours_today` | Dagens planlagte timer, som tidsintervaller |
 | `sensor.pump_energi_idag` | Forbrukt energi i dag (kWh) |
-| `sensor.pump_drifttid_idag` | Faktisk tid pumpen har kjørt i dag |
+| `sensor.pump_drifttid_idag` | Faktisk tid pumpen har kjørt i dag (minutter, med formatert "h min"-attributt) |
 | `sensor.pump_kostnad_idag` | Kostnad i dag |
 | `sensor.pump_sparade_kronor` | Besparelse vs kjøring på dyre timer |
 | `sensor.pump_effekt` | Gjeldende effekt |
 | `switch.pump_paus` | Veksle pause på/av |
 | `button.pump_pausa` | Pause i konfigurert tid |
+| `button.pump_kor_nu` | Kjør nå i konfigurert tid (venter hvis prisen er over maks) |
 | `number.pump_timmar_per_dygn` | Juster daglige timer fra dashbord |
+| `number.pump_kor_nu_minuter` | Juster kjør nå-lengden fra dashbord |
 
 ## Tjenester
 
@@ -96,6 +100,7 @@ Du gir også pumpen et navn først (nyttig hvis du setter opp flere enn en).
 | `smart_pump_scheduler.pausa` | Sett pumpen på pause N minutter |
 | `smart_pump_scheduler.aterstall` | Avbryt pause, returner til tidsplan |
 | `smart_pump_scheduler.uppdatera_schema` | Tving omberegning av dagens tidsplan |
+| `smart_pump_scheduler.kor_nu` | Kjør nå i N minutter (venter hvis prisen er over maks) |
 
 ## Dashboard-kort eksempel
 
@@ -113,6 +118,8 @@ entities:
     name: Neste start
   - entity: button.pump_pausa
     name: 🛁 Pause for bading
+  - entity: button.pump_kor_nu
+    name: ▶️ Kjør nå
   - entity: sensor.pump_sparade_kronor
     name: Spart i dag
   - entity: sensor.pump_kostnad_idag

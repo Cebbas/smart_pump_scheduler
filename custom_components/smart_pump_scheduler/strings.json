@@ -81,7 +81,8 @@
         "data": {
           "enable_pause": "Enable pause function",
           "pause_duration": "Pause duration (minutes)",
-          "max_pauses": "Max pauses per day"
+          "max_pauses": "Max pauses per day",
+          "run_now_duration": "Run now duration (minutes)"
         }
       },
       "energy": {
@@ -182,7 +183,8 @@
         "data": {
           "enable_pause": "Enable pause function",
           "pause_duration": "Pause duration (minutes)",
-          "max_pauses": "Max pauses per day"
+          "max_pauses": "Max pauses per day",
+          "run_now_duration": "Run now duration (minutes)"
         }
       },
       "energy": {
@@ -245,11 +247,17 @@
     "button": {
       "pump_pausa": {
         "name": "Pause pump"
+      },
+      "pump_kor_nu": {
+        "name": "Run now"
       }
     },
     "number": {
       "pump_timmar_per_dygn": {
         "name": "Hours per day"
+      },
+      "pump_kor_nu_minuter": {
+        "name": "Run now duration"
       }
     }
   },
@@ -271,12 +279,26 @@
     "uppdatera_schema": {
       "name": "Update schedule",
       "description": "Force a full recalculation of today's schedule based on current prices."
+    },
+    "kor_nu": {
+      "name": "Run now",
+      "description": "Run the pump now for a number of minutes, deferring automatically if the price is above the max threshold.",
+      "fields": {
+        "minuter": {
+          "name": "Minutes",
+          "description": "Number of minutes to run (default from configuration)."
+        }
+      }
     }
   },
   "issues": {
     "schedule_shortfall": {
       "title": "Couldn't schedule all hours",
       "description": "Only {scheduled} of {needed} requested hours could be scheduled today within the configured time window and price limits. Check the hours-per-day setting, time window, and min/max price filters in the integration's settings."
+    },
+    "run_now_waiting": {
+      "title": "Waiting for a cheaper price to run on demand",
+      "description": "A \"Run now\" request is queued because the current price ({current_price}) is above the configured max price ({max_price}). The pump will run automatically as soon as an hour with an acceptable price comes up today."
     }
   }
 }

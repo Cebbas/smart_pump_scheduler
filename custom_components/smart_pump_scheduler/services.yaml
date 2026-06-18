@@ -41,3 +41,28 @@ uppdatera_schema:
       required: false
       selector:
         text:
+
+kor_nu:
+  name: Run now
+  description: >-
+    Run the pump now for a number of minutes. If the current price is above
+    the configured max price, the request is queued and runs automatically
+    once an hour with an acceptable price comes up today.
+  fields:
+    minuter:
+      name: Minutes
+      description: Number of minutes to run (default from config).
+      required: false
+      example: 30
+      selector:
+        number:
+          min: 1
+          max: 480
+          step: 1
+          mode: box
+    entry_id:
+      name: Entry ID
+      description: Target a specific Smart Pump Scheduler instance (optional, targets all if omitted).
+      required: false
+      selector:
+        text:

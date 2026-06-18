@@ -14,6 +14,7 @@ Home Assistant -integraatio (HACS), joka optimoi pumpun käyntiajat sähköhinto
 - ⏰ **Älykäs aikataulutus** – käynnistyy N halvimman tunnin aikana vuorokaudessa
 - 📅 **Viikonpäiväkohtainen ohjaus** – eri tunnit, aikaikkuna tai poista käytöstä kokonaan päiväkohtaisesti
 - 🛁 **Taukotoiminto** – tauko kylpemistä varten ja automaattinen korvausajan aikataulutus
+- ▶️ **Käynnistä nyt** – käy pyynnöstä valittavan ajan (esim. kylvyn jälkeen), odottaa automaattisesti, kunnes hinta laskee enimmäisrajan alle
 - ⚡ **Energian seuranta** – oikea anturi tai manuaalinen watti-asetus, laskee kustannukset ja säästöt
 - 🌍 **Monikielinen** – seuraa Home Assistantin kieliasetusta (FI, EN, SV, NO, DA, DE, FR, NL)
 - 💰 **Hintarajat** – käy aina alle X snt, ei koskaan yli Y snt
@@ -61,10 +62,11 @@ Annat pumpulle myös nimen ensin (hyödyllistä, jos asetat useamman kuin yhden)
 - Tai ota käyttöön viikonpäiväkohtaiset asetukset yksilöllisillä alku/loppu-ajoilla ja tunneilla
 - Poista tietyt päivät kokonaan käytöstä
 
-### Vaihe 4 – Taukoasetukset
+### Vaihe 4 – Tauko- ja käynnistä nyt -asetukset
 - Ota taukotoiminto käyttöön / poista käytöstä
 - Aseta tauon kesto (oletus 60 min)
 - Aseta enimmäistaukojen määrä vuorokaudessa
+- Aseta käynnistä nyt -kesto (oletus 30 min) – käytetään "Käynnistä nyt" -painikkeessa/palvelussa
 
 ### Vaihe 5 – Energiamittaus
 - Kytke energia/tehoanturi älypistorasiasta
@@ -81,13 +83,15 @@ Annat pumpulle myös nimen ensin (hyödyllistä, jos asetat useamman kuin yhden)
 | `sensor.pump_timmar_kvar_idag` | Aikataulutettuja tunteja jäljellä tänään |
 | `sensor.pump_scheduled_hours_today` | Tämän päivän ajastetut tunnit aikaväleinä |
 | `sensor.pump_energi_idag` | Kulutettu energia tänään (kWh) |
-| `sensor.pump_drifttid_idag` | Pumpun todellinen käyntiaika tänään |
+| `sensor.pump_drifttid_idag` | Pumpun todellinen käyntiaika tänään (minuutteina, sisältää muotoillun "h min"-attribuutin) |
 | `sensor.pump_kostnad_idag` | Kustannus tänään |
 | `sensor.pump_sparade_kronor` | Säästö vs. kalleimpina tunteina ajo |
 | `sensor.pump_effekt` | Nykyinen teho |
 | `switch.pump_paus` | Vaihda tauko päälle/pois |
 | `button.pump_pausa` | Tauko konfiguroituun aikaan |
+| `button.pump_kor_nu` | Käynnistä nyt konfiguroiduksi ajaksi (odottaa, jos hinta on yli enimmäisrajan) |
 | `number.pump_timmar_per_dygn` | Säädä päivittäisiä tunteja kojelaudasta |
+| `number.pump_kor_nu_minuter` | Säädä käynnistä nyt -kestoa kojelaudasta |
 
 ## Palvelut
 
@@ -96,6 +100,7 @@ Annat pumpulle myös nimen ensin (hyödyllistä, jos asetat useamman kuin yhden)
 | `smart_pump_scheduler.pausa` | Keskeytä pumppu N minuutiksi |
 | `smart_pump_scheduler.aterstall` | Peruuta tauko, palaa aikatauluun |
 | `smart_pump_scheduler.uppdatera_schema` | Pakota tämän päivän aikataulun uudelleenlaskenta |
+| `smart_pump_scheduler.kor_nu` | Käynnistä nyt N minuutiksi (odottaa, jos hinta on yli enimmäisrajan) |
 
 ## Kojelauta-korttiesimerkki
 
@@ -113,6 +118,8 @@ entities:
     name: Seuraava käynnistys
   - entity: button.pump_pausa
     name: 🛁 Tauko kylpemistä varten
+  - entity: button.pump_kor_nu
+    name: ▶️ Käynnistä nyt
   - entity: sensor.pump_sparade_kronor
     name: Säästetty tänään
   - entity: sensor.pump_kostnad_idag

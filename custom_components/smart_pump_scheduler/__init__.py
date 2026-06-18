@@ -79,9 +79,19 @@ def _register_services(hass: HomeAssistant):
         for coordinator in targets:
             await coordinator.async_force_reschedule()
 
+    async def handle_run_now(call):
+        minutes = call.data.get("minuter", None)
+        entry_id = call.data.get("entry_id")
+        coordinators = hass.data.get(DOMAIN, {})
+        targets = [coordinators[entry_id]] if entry_id and entry_id in coordinators else list(coordinators.values())
+        for coordinator in targets:
+            await coordinator.async_request_run_now(minutes)
+
     if not hass.services.has_service(DOMAIN, "pausa"):
         hass.services.async_register(DOMAIN, "pausa", handle_pause)
     if not hass.services.has_service(DOMAIN, "aterstall"):
         hass.services.async_register(DOMAIN, "aterstall", handle_resume)
     if not hass.services.has_service(DOMAIN, "uppdatera_schema"):
         hass.services.async_register(DOMAIN, "uppdatera_schema", handle_reschedule)
+    if not hass.services.has_service(DOMAIN, "kor_nu"):
+        hass.services.async_register(DOMAIN, "kor_nu", handle_run_now)

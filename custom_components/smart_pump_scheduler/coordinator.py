@@ -27,6 +27,8 @@ from .const import (
     CONF_ENERGY_SOURCE,
     CONF_ENERGY_SENSOR,
     CONF_MANUAL_WATT,
+    CONF_MAX_PRICE,
+    CONF_RUN_NOW_DURATION,
     CONF_NORDPOOL_AREA,
     CONF_NORDPOOL_CURRENCY,
     CONF_NORDPOOL_VAT,
@@ -36,6 +38,7 @@ from .const import (
     ENERGY_SOURCE_MANUAL,
     COORDINATOR_UPDATE_INTERVAL,
     PRICE_RETRY_INTERVAL,
+    DEFAULT_RUN_NOW_DURATION,
 )
 from .price_fetcher import fetch_nordpool_prices, get_hourly_prices_from_sensor
 from .scheduler import build_schedule, find_next_available_hour, get_savings
@@ -66,6 +69,8 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
         self._last_energy_reading: float | None = None
         self._runtime_today_seconds: float = 0.0
         self._runtime_segment_start: datetime | None = None
+        self._run_now_until: datetime | None = None
+        self._run_now_pending_minutes: int | None = None
         self._session: aiohttp.ClientSession | None = None
         self._unsub_midnight = None
         self._unsub_hourly = None
@@ -104,6 +109,7 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
         if self._session and not self._session.closed:
             await self._session.close()
         ir.async_delete_issue(self.hass, DOMAIN, f"schedule_shortfall_{self.entry_id}")
+        ir.async_delete_issue(self.hass, DOMAIN, f"run_now_waiting_{self.entry_id}")
 
     # ------------------------------------------------------------------
     # Actual runtime tracking
@@ -127,12 +133,12 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
 
         self.hass.async_create_task(self.async_refresh())
 
-    def _runtime_today_hours(self, now: datetime) -> float:
-        """Today's accumulated runtime in hours, including any open segment."""
+    def _runtime_today_minutes(self, now: datetime) -> float:
+        """Today's accumulated runtime in minutes, including any open segment."""
         seconds = self._runtime_today_seconds
         if self._runtime_segment_start is not None:
             seconds += (now - self._runtime_segment_start).total_seconds()
-        return round(seconds / 3600, 3)
+        return round(seconds / 60, 1)
 
     # ------------------------------------------------------------------
     # Core schedule logic
@@ -216,10 +222,11 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
         if not switch_entity:
             return
 
+        run_now_active = self._run_now_until is not None and now < self._run_now_until
         should_run = (
             current_hour in self._scheduled_hours
             and not self._is_paused
-        )
+        ) or run_now_active
 
         service = "turn_on" if should_run else "turn_off"
         await self.hass.services.async_call(
@@ -249,6 +256,12 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
         if self._runtime_segment_start is not None:
             self._runtime_segment_start = now
 
+        # A "run now" request is a same-day ask; don't carry it into a new day.
+        if self._run_now_pending_minutes is not None:
+            _LOGGER.info("Clearing unfulfilled run-now request at day rollover")
+            self._run_now_pending_minutes = None
+            self._update_run_now_issue()
+
         self.hass.async_create_task(self._fetch_prices_and_build_schedule())
 
     @callback
@@ -256,6 +269,7 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
         """Called every hour – apply schedule and track energy."""
         self.hass.async_create_task(self._apply_schedule())
         self.hass.async_create_task(self._update_energy())
+        self.hass.async_create_task(self._check_pending_run_now())
         self.hass.async_create_task(self.async_refresh())
 
     # ------------------------------------------------------------------
@@ -278,6 +292,12 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
 
         now = dt_util.now()
         current_hour = now.hour
+
+        # Pausing always wins over an active or queued run-now request.
+        self._run_now_until = None
+        if self._run_now_pending_minutes is not None:
+            self._run_now_pending_minutes = None
+            self._update_run_now_issue()
 
         # Mark current hour as paused
         self._paused_hours.add(current_hour)
@@ -337,6 +357,88 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
         """Force a full schedule recalculation."""
         await self._fetch_prices_and_build_schedule()
 
+    # ------------------------------------------------------------------
+    # Run now (manual on-demand run, e.g. after bathing)
+    # ------------------------------------------------------------------
+
+    async def async_request_run_now(self, minutes: int | None = None) -> bool:
+        """
+        Request running the pump for `minutes` right away.
+
+        If the current price is above the configured max price, the
+        request is queued instead and fulfilled as soon as an hour with
+        an acceptable price comes up (checked hourly).
+
+        Returns True if the pump started running immediately, False if
+        the request was queued.
+        """
+        if minutes is None:
+            minutes = int(self.config.get(CONF_RUN_NOW_DURATION, DEFAULT_RUN_NOW_DURATION))
+
+        if self._price_ok_for_run_now():
+            await self._start_run_now(minutes)
+            return True
+
+        self._run_now_pending_minutes = minutes
+        self._update_run_now_issue()
+        _LOGGER.info("Run-now requested but price is above the max threshold; waiting")
+        await self.async_refresh()
+        return False
+
+    def _price_ok_for_run_now(self) -> bool:
+        max_price = self.config.get(CONF_MAX_PRICE)
+        if max_price is None:
+            return True
+        current_price = self._prices.get(dt_util.now().hour)
+        return current_price is None or current_price <= max_price
+
+    async def _start_run_now(self, minutes: int):
+        """Turn the pump on now for `minutes`, overriding the schedule."""
+        now = dt_util.now()
+        self._run_now_until = now + timedelta(minutes=minutes)
+        self._run_now_pending_minutes = None
+        self._update_run_now_issue()
+        await self._apply_schedule()
+        async_call_later(
+            self.hass,
+            minutes * 60,
+            lambda _: self.hass.async_create_task(self._end_run_now()),
+        )
+        await self.async_refresh()
+
+    async def _end_run_now(self):
+        """Hand control back to the normal schedule after a run-now session."""
+        self._run_now_until = None
+        await self._apply_schedule()
+        await self.async_refresh()
+
+    async def _check_pending_run_now(self):
+        """Called hourly: start a queued run-now request once the price allows it."""
+        if self._run_now_pending_minutes is not None and self._price_ok_for_run_now():
+            minutes = self._run_now_pending_minutes
+            await self._start_run_now(minutes)
+
+    def _update_run_now_issue(self) -> None:
+        """Raise or clear a Repairs issue while a run-now request is queued."""
+        issue_id = f"run_now_waiting_{self.entry_id}"
+        if self._run_now_pending_minutes is not None:
+            max_price = self.config.get(CONF_MAX_PRICE)
+            current_price = self._prices.get(dt_util.now().hour)
+            ir.async_create_issue(
+                self.hass,
+                DOMAIN,
+                issue_id,
+                is_fixable=False,
+                severity=ir.IssueSeverity.WARNING,
+                translation_key="run_now_waiting",
+                translation_placeholders={
+                    "current_price": str(current_price) if current_price is not None else "?",
+                    "max_price": str(max_price),
+                },
+            )
+        else:
+            ir.async_delete_issue(self.hass, DOMAIN, issue_id)
+
     def as_diagnostics(self) -> dict[str, Any]:
         """Return internal state for the diagnostics platform."""
         return {
@@ -346,8 +448,11 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
             "pause_count_today": self._pause_count_today,
             "is_paused": self._is_paused,
             "pause_end_time": str(self._pause_end_time) if self._pause_end_time else None,
+            "run_now_active": self._run_now_until is not None,
+            "run_now_until": str(self._run_now_until) if self._run_now_until else None,
+            "run_now_pending_minutes": self._run_now_pending_minutes,
             "energy_today_kwh": self._energy_today_kwh,
-            "runtime_today_hours": self._runtime_today_hours(dt_util.now()),
+            "runtime_today_minutes": self._runtime_today_minutes(dt_util.now()),
             "cost_today": self._cost_today,
         }
 
@@ -429,17 +534,21 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
             if current_hour in self._scheduled_hours and not self._is_paused:
                 current_power = float(self.config.get(CONF_MANUAL_WATT, 350))
 
+        run_now_active = self._run_now_until is not None and now < self._run_now_until
         return {
-            "is_active": current_hour in self._scheduled_hours and not self._is_paused,
+            "is_active": (current_hour in self._scheduled_hours and not self._is_paused) or run_now_active,
             "is_paused": self._is_paused,
             "pause_end_time": self._pause_end_time,
+            "run_now_active": run_now_active,
+            "run_now_until": self._run_now_until,
+            "run_now_pending": self._run_now_pending_minutes is not None,
             "current_price": current_price,
             "next_start": next_start,
             "hours_remaining": hours_remaining,
             "scheduled_hours": self._scheduled_hours,
             "prices": self._prices,
             "energy_today_kwh": round(self._energy_today_kwh, 3),
-            "runtime_today_hours": self._runtime_today_hours(now),
+            "runtime_today_minutes": self._runtime_today_minutes(now),
             "cost_today": round(self._cost_today, 2),
             "savings_today": savings,
             "current_power": current_power,

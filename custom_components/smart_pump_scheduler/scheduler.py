@@ -223,6 +223,17 @@ def format_hour_ranges(hours: list[int]) -> str:
     return ", ".join(f"{s:02d}:00–{e + 1:02d}:00" for s, e in ranges)
 
 
+def format_duration_hm(total_minutes: float) -> str:
+    """Format a duration in minutes as "Hh Mmin", e.g. 135 -> "2h 15min"."""
+    total = round(total_minutes)
+    hours, minutes = divmod(total, 60)
+    if hours and minutes:
+        return f"{hours}h {minutes}min"
+    if hours:
+        return f"{hours}h"
+    return f"{minutes}min"
+
+
 def _get_time_window(config: dict, weekday_name: str) -> tuple[time, time]:
     """Get start/stop time for a given weekday."""
     per_weekday = config.get(CONF_PER_WEEKDAY, False)

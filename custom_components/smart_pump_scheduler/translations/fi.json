@@ -81,7 +81,8 @@
         "data": {
           "enable_pause": "Ota taukotoiminto käyttöön",
           "pause_duration": "Tauon kesto (minuuttia)",
-          "max_pauses": "Enimmäistauot vuorokaudessa"
+          "max_pauses": "Enimmäistauot vuorokaudessa",
+          "run_now_duration": "Käynnistä nyt -kesto (minuuttia)"
         }
       },
       "energy": {
@@ -182,7 +183,8 @@
         "data": {
           "enable_pause": "Ota taukotoiminto käyttöön",
           "pause_duration": "Tauon kesto (minuuttia)",
-          "max_pauses": "Enimmäistauot vuorokaudessa"
+          "max_pauses": "Enimmäistauot vuorokaudessa",
+          "run_now_duration": "Käynnistä nyt -kesto (minuuttia)"
         }
       },
       "energy": {
@@ -245,11 +247,17 @@
     "button": {
       "pump_pausa": {
         "name": "Taukoa pumpulle"
+      },
+      "pump_kor_nu": {
+        "name": "Käynnistä nyt"
       }
     },
     "number": {
       "pump_timmar_per_dygn": {
         "name": "Tuntia vuorokaudessa"
+      },
+      "pump_kor_nu_minuter": {
+        "name": "Käynnistä nyt -kesto"
       }
     }
   },
@@ -271,12 +279,26 @@
     "uppdatera_schema": {
       "name": "Päivitä aikataulu",
       "description": "Pakota täydellinen uudelleenlaskenta tämän päivän aikataulusta nykyisten hintojen perusteella."
+    },
+    "kor_nu": {
+      "name": "Käynnistä nyt",
+      "description": "Käynnistä pumppu nyt määrätyksi ajaksi minuuteissa, odottaa automaattisesti, jos hinta on yli enimmäisrajan.",
+      "fields": {
+        "minuter": {
+          "name": "Minutes",
+          "description": "Käyntiaika minuutteina (oletus asetuksista)."
+        }
+      }
     }
   },
   "issues": {
     "schedule_shortfall": {
       "title": "Kaikkia tunteja ei voitu ajastaa",
       "description": "Tänään voitiin ajastaa vain {scheduled}/{needed} pyydetystä tunnista määritetyn aikaikkunan ja hintarajojen puitteissa. Tarkista tuntia per päivä -asetus, aikaikkuna sekä min/max-hintasuodattimet integraation asetuksista."
+    },
+    "run_now_waiting": {
+      "title": "Odottaa halvempaa hintaa käynnistyäkseen pyynnöstä",
+      "description": "\"Käynnistä nyt\" -pyyntö on jonossa, koska nykyinen hinta ({current_price}) on yli asetetun enimmäishinnan ({max_price}). Pumppu käynnistyy automaattisesti, kun hyväksyttävän hinnan tunti löytyy tänään."
     }
   }
 }

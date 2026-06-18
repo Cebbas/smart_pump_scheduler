@@ -14,6 +14,7 @@ Een Home Assistant-integratie (HACS) die de bedrijfstijden van uw pomp optimalis
 - ⏰ **Slimme planning** – draait tijdens de N goedkoopste uren per dag
 - 📅 **Bediening per weekdag** – verschillende uren, tijdvensters of volledig uitschakelen per dag
 - 🛁 **Pauze-functie** – pauzeer voor het bad en herplan automatisch een vervangend uur
+- ▶️ **Nu starten** – draait op aanvraag voor een instelbare duur (bv. na het bad), wacht automatisch tot de prijs onder je maximumdrempel komt
 - ⚡ **Energiebewaking** – echte sensor of handmatige watt-instelling, berekent kosten en besparingen
 - 🌍 **Meertalig** – volgt de taalinstelling van Home Assistant (NL, EN, SV, NO, FI, DA, DE, FR)
 - 💰 **Prijsgrenzen** – altijd draaien onder X ct, nooit draaien boven Y ct
@@ -61,10 +62,11 @@ Je geeft de pomp ook eerst een naam (handig als je er meerdere instelt).
 - Of schakel per-weekdag-instellingen in met individuele start/stop-tijden en uren
 - Schakel specifieke dagen volledig uit
 
-### Stap 4 – Pauze-instellingen
+### Stap 4 – Pauze- en nu starten-instellingen
 - Pauze-functie in-/uitschakelen
 - Pauze-duur instellen (standaard 60 min)
 - Max. pauzes per dag instellen
+- Duur voor "Nu starten" instellen (standaard 30 min) – gebruikt door de gelijknamige knop/dienst
 
 ### Stap 5 – Energiemeting
 - Verbind een energie/vermogensensor van uw slimme stekker
@@ -81,13 +83,15 @@ Je geeft de pomp ook eerst een naam (handig als je er meerdere instelt).
 | `sensor.pump_timmar_kvar_idag` | Geplande uren resterend vandaag |
 | `sensor.pump_scheduled_hours_today` | De geplande uren van vandaag, als tijdsbereiken |
 | `sensor.pump_energi_idag` | Verbruikte energie vandaag (kWh) |
-| `sensor.pump_drifttid_idag` | Werkelijke looptijd van de pomp vandaag |
+| `sensor.pump_drifttid_idag` | Werkelijke looptijd van de pomp vandaag (minuten, met een geformatteerd "h min"-attribuut) |
 | `sensor.pump_kostnad_idag` | Kosten vandaag |
 | `sensor.pump_sparade_kronor` | Besparing vs. draaien op dure uren |
 | `sensor.pump_effekt` | Huidig vermogen |
 | `switch.pump_paus` | Pauze aan/uit schakelen |
 | `button.pump_pausa` | Pauzeer voor geconfigureerde duur |
+| `button.pump_kor_nu` | Nu starten voor geconfigureerde duur (wacht als prijs boven maximum is) |
 | `number.pump_timmar_per_dygn` | Dagelijkse uren aanpassen via dashboard |
+| `number.pump_kor_nu_minuter` | Duur voor "Nu starten" aanpassen via dashboard |
 
 ## Diensten
 
@@ -96,6 +100,7 @@ Je geeft de pomp ook eerst een naam (handig als je er meerdere instelt).
 | `smart_pump_scheduler.pausa` | Pomp N minuten pauzeren |
 | `smart_pump_scheduler.aterstall` | Pauze annuleren, terug naar schema |
 | `smart_pump_scheduler.uppdatera_schema` | Herberekening van het schema van vandaag forceren |
+| `smart_pump_scheduler.kor_nu` | Nu starten voor N minuten (wacht als prijs boven maximum is) |
 
 ## Dashboard-kaart voorbeeld
 
@@ -113,6 +118,8 @@ entities:
     name: Volgende start
   - entity: button.pump_pausa
     name: 🛁 Pauze voor het bad
+  - entity: button.pump_kor_nu
+    name: ▶️ Nu starten
   - entity: sensor.pump_sparade_kronor
     name: Bespaard vandaag
   - entity: sensor.pump_kostnad_idag

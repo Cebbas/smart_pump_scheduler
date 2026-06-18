@@ -81,7 +81,8 @@
         "data": {
           "enable_pause": "Aktivér pausefunktion",
           "pause_duration": "Pausevarighed (minutter)",
-          "max_pauses": "Maks. pauser pr. døgn"
+          "max_pauses": "Maks. pauser pr. døgn",
+          "run_now_duration": "Kør nu-varighed (minutter)"
         }
       },
       "energy": {
@@ -182,7 +183,8 @@
         "data": {
           "enable_pause": "Aktivér pausefunktion",
           "pause_duration": "Pausevarighed (minutter)",
-          "max_pauses": "Maks. pauser pr. døgn"
+          "max_pauses": "Maks. pauser pr. døgn",
+          "run_now_duration": "Kør nu-varighed (minutter)"
         }
       },
       "energy": {
@@ -245,11 +247,17 @@
     "button": {
       "pump_pausa": {
         "name": "Pause pumpe"
+      },
+      "pump_kor_nu": {
+        "name": "Kør nu"
       }
     },
     "number": {
       "pump_timmar_per_dygn": {
         "name": "Timer pr. døgn"
+      },
+      "pump_kor_nu_minuter": {
+        "name": "Kør nu-varighed"
       }
     }
   },
@@ -271,12 +279,26 @@
     "uppdatera_schema": {
       "name": "Opdater tidsplan",
       "description": "Gennemtving en fuld genberegning af dagens tidsplan baseret på aktuelle priser."
+    },
+    "kor_nu": {
+      "name": "Kør nu",
+      "description": "Kør pumpen nu i et antal minutter, venter automatisk hvis prisen er over maksgrænsen.",
+      "fields": {
+        "minuter": {
+          "name": "Minutes",
+          "description": "Antal minutter at køre (standard fra konfigurationen)."
+        }
+      }
     }
   },
   "issues": {
     "schedule_shortfall": {
       "title": "Kunne ikke planlægge alle timer",
       "description": "Kun {scheduled} af {needed} ønskede timer kunne planlægges i dag inden for det konfigurerede tidsvindue og prisgrænser. Kontroller indstillingen for timer pr. dag, tidsvinduet og min/max-prisfiltrene i integrationens indstillinger."
+    },
+    "run_now_waiting": {
+      "title": "Venter på lavere pris for at køre på forespørsel",
+      "description": "En \"Kør nu\"-anmodning venter, fordi den aktuelle pris ({current_price}) er højere end den konfigurerede maksimumpris ({max_price}). Pumpen kører automatisk, så snart en time med acceptabel pris dukker op i dag."
     }
   }
 }

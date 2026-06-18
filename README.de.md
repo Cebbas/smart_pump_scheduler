@@ -14,6 +14,7 @@ Eine Home Assistant-Integration (HACS), die die Laufzeiten Ihrer Pumpe basierend
 - ⏰ **Intelligente Planung** – läuft in den N günstigsten Stunden pro Tag
 - 📅 **Wochentagssteuerung** – verschiedene Stunden, Zeitfenster oder vollständige Deaktivierung pro Tag
 - 🛁 **Pausenfunktion** – Pause zum Baden und automatische Neuplanung einer Ersatzstunde
+- ▶️ **Jetzt laufen lassen** – läuft auf Abruf für eine einstellbare Dauer (z. B. nach dem Baden), wartet automatisch, bis der Preis unter Ihren Höchstpreis fällt
 - ⚡ **Energieverfolgung** – echter Sensor oder manuelle Watt-Einstellung, berechnet Kosten und Einsparungen
 - 🌍 **Mehrsprachig** – folgt der Spracheinstellung von Home Assistant (DE, EN, SV, NO, FI, DA, FR, NL)
 - 💰 **Preisgrenzen** – immer laufen unter X Ct, nie laufen über Y Ct
@@ -61,10 +62,11 @@ Zuerst vergeben Sie auch einen Namen für die Pumpe (nützlich bei mehreren Inst
 - Oder Wochentagseinstellungen mit individuellen Start/Stopp-Zeiten und Stunden aktivieren
 - Bestimmte Tage vollständig deaktivieren
 
-### Schritt 4 – Pauseneinstellungen
+### Schritt 4 – Pausen- und Sofortlauf-Einstellungen
 - Pausenfunktion aktivieren/deaktivieren
 - Pausendauer festlegen (Standard 60 Min.)
 - Max. Pausen pro Tag festlegen
+- Dauer für "Jetzt laufen lassen" festlegen (Standard 30 Min.) – wird von der gleichnamigen Schaltfläche/dem Dienst verwendet
 
 ### Schritt 5 – Energiemessung
 - Energie/Leistungssensor von Ihrer Smart-Steckdose verbinden
@@ -81,13 +83,15 @@ Zuerst vergeben Sie auch einen Namen für die Pumpe (nützlich bei mehreren Inst
 | `sensor.pump_timmar_kvar_idag` | Geplante Stunden verbleibend heute |
 | `sensor.pump_scheduled_hours_today` | Die heutigen geplanten Stunden als Zeitspannen |
 | `sensor.pump_energi_idag` | Verbrauchte Energie heute (kWh) |
-| `sensor.pump_drifttid_idag` | Tatsächliche Laufzeit der Pumpe heute |
+| `sensor.pump_drifttid_idag` | Tatsächliche Laufzeit der Pumpe heute (Minuten, mit formatiertem "h min"-Attribut) |
 | `sensor.pump_kostnad_idag` | Kosten heute |
 | `sensor.pump_sparade_kronor` | Einsparung vs. Betrieb zu teuren Stunden |
 | `sensor.pump_effekt` | Aktuelle Leistung |
 | `switch.pump_paus` | Pause ein/aus schalten |
 | `button.pump_pausa` | Pause für konfigurierte Dauer |
+| `button.pump_kor_nu` | Jetzt für konfigurierte Dauer laufen lassen (wartet, falls Preis über Höchstpreis) |
 | `number.pump_timmar_per_dygn` | Tägliche Stunden vom Dashboard anpassen |
+| `number.pump_kor_nu_minuter` | Dauer für "Jetzt laufen lassen" vom Dashboard anpassen |
 
 ## Dienste
 
@@ -96,6 +100,7 @@ Zuerst vergeben Sie auch einen Namen für die Pumpe (nützlich bei mehreren Inst
 | `smart_pump_scheduler.pausa` | Pumpe für N Minuten pausieren |
 | `smart_pump_scheduler.aterstall` | Pause abbrechen, zum Zeitplan zurückkehren |
 | `smart_pump_scheduler.uppdatera_schema` | Neuberechnung des heutigen Zeitplans erzwingen |
+| `smart_pump_scheduler.kor_nu` | Jetzt für N Minuten laufen lassen (wartet, falls Preis über Höchstpreis) |
 
 ## Dashboard-Karten-Beispiel
 
@@ -113,6 +118,8 @@ entities:
     name: Nächster Start
   - entity: button.pump_pausa
     name: 🛁 Pause zum Baden
+  - entity: button.pump_kor_nu
+    name: ▶️ Jetzt laufen lassen
   - entity: sensor.pump_sparade_kronor
     name: Heute gespart
   - entity: sensor.pump_kostnad_idag

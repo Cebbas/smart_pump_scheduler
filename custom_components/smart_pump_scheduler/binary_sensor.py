@@ -39,4 +39,7 @@ class SmartPumpSchedulerSchemaSensor(CoordinatorEntity, BinarySensorEntity):
             "is_paused": data.get("is_paused", False),
             "pause_end_time": str(data.get("pause_end_time")) if data.get("pause_end_time") else None,
             "pause_count_today": data.get("pause_count_today", 0),
+            "run_now_active": data.get("run_now_active", False),
+            "run_now_until": str(data.get("run_now_until")) if data.get("run_now_until") else None,
+            "run_now_pending": data.get("run_now_pending", False),
         }

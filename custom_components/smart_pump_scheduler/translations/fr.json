@@ -81,7 +81,8 @@
         "data": {
           "enable_pause": "Activer la fonction pause",
           "pause_duration": "Durée de pause (minutes)",
-          "max_pauses": "Pauses max par jour"
+          "max_pauses": "Pauses max par jour",
+          "run_now_duration": "Durée de démarrage immédiat (minutes)"
         }
       },
       "energy": {
@@ -182,7 +183,8 @@
         "data": {
           "enable_pause": "Activer la fonction pause",
           "pause_duration": "Durée de pause (minutes)",
-          "max_pauses": "Pauses max par jour"
+          "max_pauses": "Pauses max par jour",
+          "run_now_duration": "Durée de démarrage immédiat (minutes)"
         }
       },
       "energy": {
@@ -245,11 +247,17 @@
     "button": {
       "pump_pausa": {
         "name": "Pause pompe"
+      },
+      "pump_kor_nu": {
+        "name": "Démarrer maintenant"
       }
     },
     "number": {
       "pump_timmar_per_dygn": {
         "name": "Heures par jour"
+      },
+      "pump_kor_nu_minuter": {
+        "name": "Durée de démarrage immédiat"
       }
     }
   },
@@ -271,12 +279,26 @@
     "uppdatera_schema": {
       "name": "Mettre à jour le planning",
       "description": "Forcer un recalcul complet du planning du jour basé sur les prix actuels."
+    },
+    "kor_nu": {
+      "name": "Démarrer maintenant",
+      "description": "Faire fonctionner la pompe maintenant pendant un certain nombre de minutes, en différant automatiquement si le prix dépasse le seuil maximum.",
+      "fields": {
+        "minuter": {
+          "name": "Minutes",
+          "description": "Nombre de minutes de fonctionnement (par défaut depuis la configuration)."
+        }
+      }
     }
   },
   "issues": {
     "schedule_shortfall": {
       "title": "Impossible de programmer toutes les heures",
       "description": "Seulement {scheduled} des {needed} heures demandées ont pu être programmées aujourd'hui dans la plage horaire et les limites de prix configurées. Vérifiez le réglage des heures par jour, la plage horaire et les filtres de prix min/max dans les paramètres de l'intégration."
+    },
+    "run_now_waiting": {
+      "title": "En attente d'un prix plus bas pour démarrer à la demande",
+      "description": "Une demande de démarrage immédiat est en attente car le prix actuel ({current_price}) dépasse le prix maximum configuré ({max_price}). La pompe démarrera automatiquement dès qu'une heure à prix acceptable se présentera aujourd'hui."
     }
   }
 }

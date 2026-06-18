@@ -81,7 +81,8 @@
         "data": {
           "enable_pause": "Aktivera pausfunktion",
           "pause_duration": "Pauslängd (minuter)",
-          "max_pauses": "Max pauser per dygn"
+          "max_pauses": "Max pauser per dygn",
+          "run_now_duration": "Kör nu-längd (minuter)"
         }
       },
       "energy": {
@@ -182,7 +183,8 @@
         "data": {
           "enable_pause": "Aktivera pausfunktion",
           "pause_duration": "Pauslängd (minuter)",
-          "max_pauses": "Max pauser per dygn"
+          "max_pauses": "Max pauser per dygn",
+          "run_now_duration": "Kör nu-längd (minuter)"
         }
       },
       "energy": {
@@ -245,11 +247,17 @@
     "button": {
       "pump_pausa": {
         "name": "Pausa pump"
+      },
+      "pump_kor_nu": {
+        "name": "Kör nu"
       }
     },
     "number": {
       "pump_timmar_per_dygn": {
         "name": "Timmar per dygn"
+      },
+      "pump_kor_nu_minuter": {
+        "name": "Kör nu-längd"
       }
     }
   },
@@ -271,12 +279,26 @@
     "uppdatera_schema": {
       "name": "Uppdatera schema",
       "description": "Tvinga en fullständig omräkning av dagens schema baserat på aktuella priser."
+    },
+    "kor_nu": {
+      "name": "Kör nu",
+      "description": "Kör pumpen nu under ett antal minuter, väntar automatiskt om priset är över maxgränsen.",
+      "fields": {
+        "minuter": {
+          "name": "Minutes",
+          "description": "Antal minuter att köra (standard från konfigurationen)."
+        }
+      }
     }
   },
   "issues": {
     "schedule_shortfall": {
       "title": "Kunde inte schemalägga alla timmar",
       "description": "Endast {scheduled} av {needed} begärda timmar kunde schemaläggas idag inom det konfigurerade tidsfönstret och prisgränserna. Kontrollera inställningen för timmar per dygn, tidsfönstret och min/max-prisfiltren i integrationens inställningar."
+    },
+    "run_now_waiting": {
+      "title": "Väntar på lägre pris för att köra på begäran",
+      "description": "En \"Kör nu\"-begäran väntar eftersom aktuellt pris ({current_price}) är högre än det konfigurerade maxpriset ({max_price}). Pumpen kör automatiskt så snart en timme med acceptabelt pris dyker upp idag."
     }
   }
 }

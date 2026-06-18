@@ -81,7 +81,8 @@
         "data": {
           "enable_pause": "Pauze-functie inschakelen",
           "pause_duration": "Pauze-duur (minuten)",
-          "max_pauses": "Max pauzes per dag"
+          "max_pauses": "Max pauzes per dag",
+          "run_now_duration": "Duur voor nu starten (minuten)"
         }
       },
       "energy": {
@@ -182,7 +183,8 @@
         "data": {
           "enable_pause": "Pauze-functie inschakelen",
           "pause_duration": "Pauze-duur (minuten)",
-          "max_pauses": "Max pauzes per dag"
+          "max_pauses": "Max pauzes per dag",
+          "run_now_duration": "Duur voor nu starten (minuten)"
         }
       },
       "energy": {
@@ -245,11 +247,17 @@
     "button": {
       "pump_pausa": {
         "name": "Pomp pauzeren"
+      },
+      "pump_kor_nu": {
+        "name": "Nu starten"
       }
     },
     "number": {
       "pump_timmar_per_dygn": {
         "name": "Uur per dag"
+      },
+      "pump_kor_nu_minuter": {
+        "name": "Duur voor nu starten"
       }
     }
   },
@@ -271,12 +279,26 @@
     "uppdatera_schema": {
       "name": "Schema bijwerken",
       "description": "Forceer een volledige herberekening van het schema van vandaag op basis van actuele prijzen."
+    },
+    "kor_nu": {
+      "name": "Nu starten",
+      "description": "Laat de pomp nu een aantal minuten draaien, wacht automatisch als de prijs boven de maximumdrempel ligt.",
+      "fields": {
+        "minuter": {
+          "name": "Minutes",
+          "description": "Aantal minuten om te draaien (standaard uit de configuratie)."
+        }
+      }
     }
   },
   "issues": {
     "schedule_shortfall": {
       "title": "Niet alle uren konden worden ingepland",
       "description": "Slechts {scheduled} van de {needed} gewenste uren konden vandaag worden ingepland binnen het ingestelde tijdvenster en de prijslimieten. Controleer de instelling voor uren per dag, het tijdvenster en de min/max-prijsfilters in de instellingen van de integratie."
+    },
+    "run_now_waiting": {
+      "title": "Wacht op een lagere prijs om op aanvraag te draaien",
+      "description": "Een \"Nu starten\"-verzoek staat in de wachtrij omdat de huidige prijs ({current_price}) hoger is dan de ingestelde maximumprijs ({max_price}). De pomp start automatisch zodra er vandaag een uur met een acceptabele prijs is."
     }
   }
 }

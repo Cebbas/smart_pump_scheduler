@@ -1,7 +1,7 @@
 """Constants for Smart Pump Scheduler integration."""
 
 DOMAIN = "smart_pump_scheduler"
-VERSION = "1.2.0"
+VERSION = "1.3.0"
 
 # Config flow keys
 CONF_PRICE_SOURCE = "price_source"
@@ -23,6 +23,7 @@ CONF_MAX_PAUSES = "max_pauses"
 CONF_ENERGY_SOURCE = "energy_source"
 CONF_ENERGY_SENSOR = "energy_sensor"
 CONF_MANUAL_WATT = "manual_watt"
+CONF_RUN_NOW_DURATION = "run_now_duration"
 
 # Price sources
 PRICE_SOURCE_NORDPOOL = "nordpool"
@@ -74,6 +75,7 @@ DEFAULT_MAX_PAUSES = 3
 DEFAULT_GLOBAL_START = "00:00"
 DEFAULT_GLOBAL_STOP = "00:00"
 DEFAULT_MANUAL_WATT = 350
+DEFAULT_RUN_NOW_DURATION = 30
 
 # Update intervals
 SCHEDULE_UPDATE_HOUR = 0
@@ -99,6 +101,8 @@ SUFFIX_POWER = "power"
 SUFFIX_PAUSE_SWITCH = "pause_switch"
 SUFFIX_PAUSE_BUTTON = "pause_button"
 SUFFIX_HOURS_NUMBER = "hours_number"
+SUFFIX_RUN_NOW_BUTTON = "run_now_button"
+SUFFIX_RUN_NOW_NUMBER = "run_now_number"
 
 # Platforms
 PLATFORMS = ["binary_sensor", "sensor", "switch", "button", "number"]

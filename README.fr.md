@@ -14,6 +14,7 @@ Une intégration Home Assistant (HACS) qui optimise les heures de fonctionnement
 - ⏰ **Planification intelligente** – fonctionne pendant les N heures les moins chères par jour
 - 📅 **Contrôle par jour de semaine** – heures différentes, fenêtres horaires ou désactivation complète par jour
 - 🛁 **Fonction pause** – pause pour le bain et replanification automatique d'une heure de remplacement
+- ▶️ **Démarrer maintenant** – fonctionne à la demande pendant une durée réglable (ex. après le bain), différé automatiquement jusqu'à ce que le prix descende sous votre seuil maximum
 - ⚡ **Suivi énergétique** – vrai capteur ou réglage manuel en watts, calcule le coût et les économies
 - 🌍 **Multilingue** – suit le paramètre de langue de Home Assistant (FR, EN, SV, NO, FI, DA, DE, NL)
 - 💰 **Limites de prix** – toujours actif sous X c, jamais actif au-dessus de Y c
@@ -61,10 +62,11 @@ Vous donnez aussi d'abord un nom à la pompe (utile si vous en configurez plusie
 - Ou activez les paramètres par jour de semaine avec des heures de début/fin individuelles
 - Désactivez des jours spécifiques entièrement
 
-### Étape 4 – Paramètres de pause
+### Étape 4 – Paramètres de pause et démarrage immédiat
 - Activer/désactiver la fonction pause
 - Définir la durée de pause (défaut 60 min)
 - Définir le nombre max de pauses par jour
+- Définir la durée de démarrage immédiat (défaut 30 min) – utilisée par le bouton/service "Démarrer maintenant"
 
 ### Étape 5 – Suivi énergétique
 - Connectez un capteur énergie/puissance de votre prise intelligente
@@ -81,13 +83,15 @@ Vous donnez aussi d'abord un nom à la pompe (utile si vous en configurez plusie
 | `sensor.pump_timmar_kvar_idag` | Heures planifiées restantes aujourd'hui |
 | `sensor.pump_scheduled_hours_today` | Les heures programmées du jour, sous forme de plages horaires |
 | `sensor.pump_energi_idag` | Énergie consommée aujourd'hui (kWh) |
-| `sensor.pump_drifttid_idag` | Temps de fonctionnement réel de la pompe aujourd'hui |
+| `sensor.pump_drifttid_idag` | Temps de fonctionnement réel de la pompe aujourd'hui (minutes, avec un attribut formaté "h min") |
 | `sensor.pump_kostnad_idag` | Coût aujourd'hui |
 | `sensor.pump_sparade_kronor` | Économies vs fonctionnement aux heures chères |
 | `sensor.pump_effekt` | Puissance actuelle |
 | `switch.pump_paus` | Basculer la pause on/off |
 | `button.pump_pausa` | Pause pour la durée configurée |
+| `button.pump_kor_nu` | Démarrer maintenant pour la durée configurée (différé si le prix dépasse le maximum) |
 | `number.pump_timmar_per_dygn` | Ajuster les heures quotidiennes depuis le tableau de bord |
+| `number.pump_kor_nu_minuter` | Ajuster la durée de démarrage immédiat depuis le tableau de bord |
 
 ## Services
 
@@ -96,6 +100,7 @@ Vous donnez aussi d'abord un nom à la pompe (utile si vous en configurez plusie
 | `smart_pump_scheduler.pausa` | Mettre la pompe en pause N minutes |
 | `smart_pump_scheduler.aterstall` | Annuler la pause, retour au planning |
 | `smart_pump_scheduler.uppdatera_schema` | Forcer le recalcul du planning du jour |
+| `smart_pump_scheduler.kor_nu` | Démarrer maintenant pour N minutes (différé si le prix dépasse le maximum) |
 
 ## Exemple de carte tableau de bord
 
@@ -113,6 +118,8 @@ entities:
     name: Prochain démarrage
   - entity: button.pump_pausa
     name: 🛁 Pause pour le bain
+  - entity: button.pump_kor_nu
+    name: ▶️ Démarrer maintenant
   - entity: sensor.pump_sparade_kronor
     name: Économisé aujourd'hui
   - entity: sensor.pump_kostnad_idag
