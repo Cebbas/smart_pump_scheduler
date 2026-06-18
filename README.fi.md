@@ -27,6 +27,15 @@ Home Assistant -integraatio (HACS), joka optimoi pumpun käyntiajat sähköhinto
 5. Käynnistä Home Assistant uudelleen
 6. Siirry kohtaan **Asetukset → Laitteet ja palvelut → Lisää integraatio → Smart Pump Scheduler**
 
+## Manuaalinen asennus (ilman HACS:ia)
+
+1. Lataa tämä repo ZIP-tiedostona (**Code → Download ZIP** GitHubissa, tai julkaisun ZIP [julkaisusivulta](https://github.com/Cebbas/smart_pump_scheduler/releases))
+2. Kopioi `custom_components/smart_pump_scheduler`-kansio Home Assistantin `config/custom_components/`-kansioon, niin että saat `config/custom_components/smart_pump_scheduler/manifest.json`
+3. Käynnistä Home Assistant uudelleen
+4. Siirry kohtaan **Asetukset → Laitteet ja palvelut → Lisää integraatio → Smart Pump Scheduler**
+
+Sinun täytyy toistaa vaiheet 1–3 manuaalisesti tulevia päivityksiä varten, koska HACS hoitaa sen normaalisti automaattisesti.
+
 ## Konfigurointi
 
 Integraatio konfiguroidaan kokonaan käyttöliittymän kautta – YAML-muokkausta ei tarvita.

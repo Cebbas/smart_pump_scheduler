@@ -27,6 +27,15 @@ En Home Assistant-integrasjon (HACS) som optimaliserer pumpens kjøretider baser
 5. Start Home Assistant på nytt
 6. Gå til **Innstillinger → Enheter & tjenester → Legg til integrasjon → Smart Pump Scheduler**
 
+## Manuell installasjon (uten HACS)
+
+1. Last ned dette repoet som en ZIP (**Code → Download ZIP** på GitHub, eller en release-ZIP fra [utgivelsessiden](https://github.com/Cebbas/smart_pump_scheduler/releases))
+2. Kopier mappen `custom_components/smart_pump_scheduler` til Home Assistants `config/custom_components/`-mappe, slik at du får `config/custom_components/smart_pump_scheduler/manifest.json`
+3. Start Home Assistant på nytt
+4. Gå til **Innstillinger → Enheter og tjenester → Legg til integrasjon → Smart Pump Scheduler**
+
+Du må gjenta trinn 1–3 manuelt ved fremtidige oppdateringer, siden HACS normalt gjør dette automatisk.
+
 ## Konfigurasjon
 
 Integrasjonen konfigureres helt via grensesnittet – ingen YAML-redigering kreves.

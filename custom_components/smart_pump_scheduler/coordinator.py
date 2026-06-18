@@ -237,24 +237,29 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
                 "switch", "turn_off", {"entity_id": switch_entity}, blocking=False
             )
 
-        # Find compensation hour
-        extra = find_next_available_hour(
-            prices=self._prices,
-            scheduled_hours=self._scheduled_hours,
-            paused_hour=current_hour,
-            config=self.config,
-            now=now,
-        )
-        if extra is not None:
-            self._scheduled_hours.append(extra)
-            self._scheduled_hours.sort()
-            _LOGGER.info("Added compensation hour %d for paused hour %d", extra, current_hour)
-        else:
-            _LOGGER.info("No compensation hour available for pause")
-
-        # Remove paused hour from schedule
+        # Only add a compensation hour if the pump was actually scheduled
+        # to run during the paused hour – pausing during an "off" hour
+        # shouldn't grant an extra hour elsewhere.
+        was_scheduled = current_hour in self._scheduled_hours
         if current_hour in self._scheduled_hours:
             self._scheduled_hours.remove(current_hour)
+
+        if was_scheduled:
+            extra = find_next_available_hour(
+                prices=self._prices,
+                scheduled_hours=self._scheduled_hours,
+                paused_hour=current_hour,
+                config=self.config,
+                now=now,
+            )
+            if extra is not None:
+                self._scheduled_hours.append(extra)
+                self._scheduled_hours.sort()
+                _LOGGER.info("Added compensation hour %d for paused hour %d", extra, current_hour)
+            else:
+                _LOGGER.info("No compensation hour available for pause")
+        else:
+            _LOGGER.debug("Pump wasn't scheduled during hour %d, no compensation needed", current_hour)
 
         # Schedule resume
         async_call_later(

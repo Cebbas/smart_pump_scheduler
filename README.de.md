@@ -27,6 +27,15 @@ Eine Home Assistant-Integration (HACS), die die Laufzeiten Ihrer Pumpe basierend
 5. Starten Sie Home Assistant neu
 6. Gehen Sie zu **Einstellungen → Geräte & Dienste → Integration hinzufügen → Smart Pump Scheduler**
 
+## Manuelle Installation (ohne HACS)
+
+1. Laden Sie dieses Repository als ZIP herunter (**Code → Download ZIP** auf GitHub, oder eine Release-ZIP von der [Releases-Seite](https://github.com/Cebbas/smart_pump_scheduler/releases))
+2. Kopieren Sie den Ordner `custom_components/smart_pump_scheduler` in den Ordner `config/custom_components/` Ihres Home Assistant, sodass Sie `config/custom_components/smart_pump_scheduler/manifest.json` erhalten
+3. Starten Sie Home Assistant neu
+4. Gehen Sie zu **Einstellungen → Geräte & Dienste → Integration hinzufügen → Smart Pump Scheduler**
+
+Bei zukünftigen Updates müssen Sie die Schritte 1–3 manuell wiederholen, da HACS dies normalerweise automatisch übernimmt.
+
 ## Konfiguration
 
 Die Integration wird vollständig über die Benutzeroberfläche konfiguriert – keine YAML-Bearbeitung erforderlich.
