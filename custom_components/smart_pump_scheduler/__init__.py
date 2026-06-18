@@ -14,7 +14,7 @@ _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Smart Pump Scheduler from a config entry."""
-    coordinator = SmartPumpSchedulerCoordinator(hass, dict(entry.data))
+    coordinator = SmartPumpSchedulerCoordinator(hass, entry.entry_id, dict(entry.data))
 
     try:
         await coordinator.async_setup()

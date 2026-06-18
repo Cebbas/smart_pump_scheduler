@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+from dataclasses import dataclass
 from datetime import datetime, time
 from typing import Optional
 
@@ -22,13 +23,25 @@ from .const import (
 _LOGGER = logging.getLogger(__name__)
 
 
+@dataclass
+class ScheduleResult:
+    """Outcome of build_schedule(): the chosen hours and how many were wanted."""
+
+    hours: list[int]
+    hours_needed: int
+
+    @property
+    def shortfall(self) -> int:
+        return max(0, self.hours_needed - len(self.hours))
+
+
 def build_schedule(
     prices: dict[int, float],
     config: dict,
     paused_hours: set[int] | None = None,
     extra_hours_needed: int = 0,
     now: datetime | None = None,
-) -> list[int]:
+) -> ScheduleResult:
     """
     Calculate which hours the pump should run today.
 
@@ -40,7 +53,7 @@ def build_schedule(
         now: current datetime (used to skip past hours on recalculation)
 
     Returns:
-        Sorted list of hours when pump should run.
+        ScheduleResult with the sorted hours and the hours that were requested.
     """
     if now is None:
         now = datetime.now()
@@ -51,7 +64,7 @@ def build_schedule(
     # Check if this day is active
     if not config.get(f"{weekday_name}_active", True):
         _LOGGER.debug("Pump disabled for %s", weekday_name)
-        return []
+        return ScheduleResult([], 0)
 
     # Get time window for today
     start_time, stop_time = _get_time_window(config, weekday_name)
@@ -69,7 +82,7 @@ def build_schedule(
 
     if not available_hours:
         _LOGGER.warning("No prices available within time window %s-%s", start_hour, stop_hour)
-        return []
+        return ScheduleResult([], hours_needed)
 
     min_price = config.get(CONF_MIN_PRICE)
     max_price = config.get(CONF_MAX_PRICE)
@@ -122,7 +135,7 @@ def build_schedule(
         hours_needed,
     )
 
-    return final_hours
+    return ScheduleResult(final_hours, hours_needed)
 
 
 def find_next_available_hour(

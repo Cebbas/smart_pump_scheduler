@@ -108,6 +108,59 @@ entities:
     name: Coût aujourd'hui
 ```
 
+## Visualiser le planning du jour
+
+L'intégration ne peut pas ajouter de graphique à sa propre page Appareils & services — cette page est fixée par le cœur de Home Assistant et n'affiche que les entités et les diagnostics. Les graphiques ont plutôt leur place sur un tableau de bord, où vous avez deux options :
+
+### Option A – Aucune dépendance supplémentaire
+
+```yaml
+type: markdown
+title: Today's plan
+content: >
+  {% set sched = state_attr('sensor.pump_scheduled_hours_today', 'hours') or [] %}
+  {% set prices = state_attr('sensor.pump_scheduled_hours_today', 'prices') or {} %}
+  {% set rows = [] %}
+  {% for h, price in prices.items() %}
+    {% set rows = rows + [(h | int, price)] %}
+  {% endfor %}
+  | Hour | Price | Running |
+  |---|---|---|
+  {% for h, price in rows | sort %}
+  | {{ '%02d:00' | format(h) }} | {{ price }} | {{ '🟢' if h in sched else '⚪' }} |
+  {% endfor %}
+```
+
+### Option B – Graphique (nécessite [apexcharts-card](https://github.com/RomRider/apexcharts-card) depuis HACS)
+
+```yaml
+type: custom:apexcharts-card
+header:
+  title: Price vs. scheduled hours
+  show: true
+graph_span: 24h
+span:
+  start: day
+series:
+  - entity: sensor.pump_scheduled_hours_today
+    name: Price
+    type: column
+    data_generator: |
+      const prices = entity.attributes.prices || {};
+      return Object.entries(prices).map(([h, p]) => [
+        new Date().setHours(parseInt(h), 0, 0, 0), p
+      ]);
+  - entity: sensor.pump_scheduled_hours_today
+    name: Running
+    type: column
+    color: '#02B875'
+    data_generator: |
+      const hours = entity.attributes.hours || [];
+      return hours.map(h => [
+        new Date().setHours(h, 0, 0, 0), 1
+      ]);
+```
+
 ## Langues supportées
 
 English (en), Svenska (sv), Norsk (no), Suomi (fi), Dansk (da), Deutsch (de), Français (fr), Nederlands (nl)

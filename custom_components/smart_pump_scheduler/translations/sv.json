@@ -197,5 +197,11 @@
       "name": "Uppdatera schema",
       "description": "Tvinga en fullständig omräkning av dagens schema baserat på aktuella priser."
     }
+  },
+  "issues": {
+    "schedule_shortfall": {
+      "title": "Kunde inte schemalägga alla timmar",
+      "description": "Endast {scheduled} av {needed} begärda timmar kunde schemaläggas idag inom det konfigurerade tidsfönstret och prisgränserna. Kontrollera inställningen för timmar per dygn, tidsfönstret och min/max-prisfiltren i integrationens inställningar."
+    }
   }
 }

@@ -197,5 +197,11 @@
       "name": "Opdater tidsplan",
       "description": "Gennemtving en fuld genberegning af dagens tidsplan baseret på aktuelle priser."
     }
+  },
+  "issues": {
+    "schedule_shortfall": {
+      "title": "Kunne ikke planlægge alle timer",
+      "description": "Kun {scheduled} af {needed} ønskede timer kunne planlægges i dag inden for det konfigurerede tidsvindue og prisgrænser. Kontroller indstillingen for timer pr. dag, tidsvinduet og min/max-prisfiltrene i integrationens indstillinger."
+    }
   }
 }

@@ -197,5 +197,11 @@
       "name": "Päivitä aikataulu",
       "description": "Pakota täydellinen uudelleenlaskenta tämän päivän aikataulusta nykyisten hintojen perusteella."
     }
+  },
+  "issues": {
+    "schedule_shortfall": {
+      "title": "Kaikkia tunteja ei voitu ajastaa",
+      "description": "Tänään voitiin ajastaa vain {scheduled}/{needed} pyydetystä tunnista määritetyn aikaikkunan ja hintarajojen puitteissa. Tarkista tuntia per päivä -asetus, aikaikkuna sekä min/max-hintasuodattimet integraation asetuksista."
+    }
   }
 }

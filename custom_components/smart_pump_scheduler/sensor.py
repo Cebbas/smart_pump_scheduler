@@ -108,7 +108,10 @@ class SmartPumpSchedulerScheduledHoursSensor(CoordinatorEntity, SensorEntity):
 
     @property
     def extra_state_attributes(self):
-        return {"hours": self.coordinator.data.get("scheduled_hours", [])}
+        return {
+            "hours": self.coordinator.data.get("scheduled_hours", []),
+            "prices": self.coordinator.data.get("prices", {}),
+        }
 
 
 class SmartPumpSchedulerEnergyTodaySensor(CoordinatorEntity, SensorEntity):

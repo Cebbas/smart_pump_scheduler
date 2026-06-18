@@ -197,5 +197,11 @@
       "name": "Update schedule",
       "description": "Force a full recalculation of today's schedule based on current prices."
     }
+  },
+  "issues": {
+    "schedule_shortfall": {
+      "title": "Couldn't schedule all hours",
+      "description": "Only {scheduled} of {needed} requested hours could be scheduled today within the configured time window and price limits. Check the hours-per-day setting, time window, and min/max price filters in the integration's settings."
+    }
   }
 }

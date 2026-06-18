@@ -197,5 +197,11 @@
       "name": "Zeitplan aktualisieren",
       "description": "Vollständige Neuberechnung des heutigen Zeitplans basierend auf aktuellen Preisen erzwingen."
     }
+  },
+  "issues": {
+    "schedule_shortfall": {
+      "title": "Nicht alle Stunden konnten geplant werden",
+      "description": "Nur {scheduled} von {needed} angeforderten Stunden konnten heute innerhalb des konfigurierten Zeitfensters und der Preisgrenzen geplant werden. Überprüfen Sie die Einstellung für Stunden pro Tag, das Zeitfenster und die Min/Max-Preisfilter in den Integrationseinstellungen."
+    }
   }
 }

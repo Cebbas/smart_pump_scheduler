@@ -108,6 +108,59 @@ entities:
     name: Kostnad idag
 ```
 
+## Visualisera dagens schema
+
+Integrationen kan inte lägga till en graf på sin egen sida under Enheter & tjänster — den sidan är låst av Home Assistants kärna och visar bara entiteter och diagnostik. Grafer hör istället hemma på en dashboard, där du har två alternativ:
+
+### Alternativ A – Inga extra beroenden
+
+```yaml
+type: markdown
+title: Today's plan
+content: >
+  {% set sched = state_attr('sensor.pump_scheduled_hours_today', 'hours') or [] %}
+  {% set prices = state_attr('sensor.pump_scheduled_hours_today', 'prices') or {} %}
+  {% set rows = [] %}
+  {% for h, price in prices.items() %}
+    {% set rows = rows + [(h | int, price)] %}
+  {% endfor %}
+  | Hour | Price | Running |
+  |---|---|---|
+  {% for h, price in rows | sort %}
+  | {{ '%02d:00' | format(h) }} | {{ price }} | {{ '🟢' if h in sched else '⚪' }} |
+  {% endfor %}
+```
+
+### Alternativ B – Graf (kräver [apexcharts-card](https://github.com/RomRider/apexcharts-card) från HACS)
+
+```yaml
+type: custom:apexcharts-card
+header:
+  title: Price vs. scheduled hours
+  show: true
+graph_span: 24h
+span:
+  start: day
+series:
+  - entity: sensor.pump_scheduled_hours_today
+    name: Price
+    type: column
+    data_generator: |
+      const prices = entity.attributes.prices || {};
+      return Object.entries(prices).map(([h, p]) => [
+        new Date().setHours(parseInt(h), 0, 0, 0), p
+      ]);
+  - entity: sensor.pump_scheduled_hours_today
+    name: Running
+    type: column
+    color: '#02B875'
+    data_generator: |
+      const hours = entity.attributes.hours || [];
+      return hours.map(h => [
+        new Date().setHours(h, 0, 0, 0), 1
+      ]);
+```
+
 ## Stödda språk
 
 English (en), Svenska (sv), Norsk (no), Suomi (fi), Dansk (da), Deutsch (de), Français (fr), Nederlands (nl)

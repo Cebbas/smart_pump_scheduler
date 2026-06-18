@@ -197,5 +197,11 @@
       "name": "Schema bijwerken",
       "description": "Forceer een volledige herberekening van het schema van vandaag op basis van actuele prijzen."
     }
+  },
+  "issues": {
+    "schedule_shortfall": {
+      "title": "Niet alle uren konden worden ingepland",
+      "description": "Slechts {scheduled} van de {needed} gewenste uren konden vandaag worden ingepland binnen het ingestelde tijdvenster en de prijslimieten. Controleer de instelling voor uren per dag, het tijdvenster en de min/max-prijsfilters in de instellingen van de integratie."
+    }
   }
 }

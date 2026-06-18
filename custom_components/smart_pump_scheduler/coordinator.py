@@ -7,6 +7,7 @@ from typing import Any
 
 import aiohttp
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 from homeassistant.helpers.event import async_track_time_change, async_call_later
 from homeassistant.util import dt as dt_util
@@ -41,13 +42,14 @@ _LOGGER = logging.getLogger(__name__)
 class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
     """Manages all state for one Smart Pump Scheduler instance."""
 
-    def __init__(self, hass: HomeAssistant, config: dict):
+    def __init__(self, hass: HomeAssistant, entry_id: str, config: dict):
         super().__init__(
             hass,
             _LOGGER,
             name=DOMAIN,
             update_interval=timedelta(seconds=COORDINATOR_UPDATE_INTERVAL),
         )
+        self.entry_id = entry_id
         self.config = config
         self._prices: dict[int, float] = {}
         self._scheduled_hours: list[int] = []
@@ -83,6 +85,7 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
             self._unsub_hourly()
         if self._session and not self._session.closed:
             await self._session.close()
+        ir.async_delete_issue(self.hass, DOMAIN, f"schedule_shortfall_{self.entry_id}")
 
     # ------------------------------------------------------------------
     # Core schedule logic
@@ -108,13 +111,34 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
                 prices = {}
 
         self._prices = prices
-        self._scheduled_hours = build_schedule(
+        result = build_schedule(
             prices=prices,
             config=self.config,
             paused_hours=self._paused_hours,
         )
+        self._scheduled_hours = result.hours
+        self._update_shortfall_issue(result)
         await self._apply_schedule()
         await self.async_refresh()
+
+    def _update_shortfall_issue(self, result) -> None:
+        """Raise or clear a Repairs issue if not all requested hours fit."""
+        issue_id = f"schedule_shortfall_{self.entry_id}"
+        if result.shortfall > 0:
+            ir.async_create_issue(
+                self.hass,
+                DOMAIN,
+                issue_id,
+                is_fixable=False,
+                severity=ir.IssueSeverity.WARNING,
+                translation_key="schedule_shortfall",
+                translation_placeholders={
+                    "scheduled": str(len(result.hours)),
+                    "needed": str(result.hours_needed),
+                },
+            )
+        else:
+            ir.async_delete_issue(self.hass, DOMAIN, issue_id)
 
     async def _get_prices(self) -> dict[int, float]:
         """Fetch prices from configured source."""
@@ -352,6 +376,7 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
             "next_start": next_start,
             "hours_remaining": hours_remaining,
             "scheduled_hours": self._scheduled_hours,
+            "prices": self._prices,
             "energy_today_kwh": round(self._energy_today_kwh, 3),
             "cost_today": round(self._cost_today, 2),
             "savings_today": savings,

@@ -197,5 +197,11 @@
       "name": "Mettre à jour le planning",
       "description": "Forcer un recalcul complet du planning du jour basé sur les prix actuels."
     }
+  },
+  "issues": {
+    "schedule_shortfall": {
+      "title": "Impossible de programmer toutes les heures",
+      "description": "Seulement {scheduled} des {needed} heures demandées ont pu être programmées aujourd'hui dans la plage horaire et les limites de prix configurées. Vérifiez le réglage des heures par jour, la plage horaire et les filtres de prix min/max dans les paramètres de l'intégration."
+    }
   }
 }
