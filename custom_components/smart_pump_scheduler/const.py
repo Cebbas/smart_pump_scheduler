@@ -1,7 +1,7 @@
 """Constants for Smart Pump Scheduler integration."""
 
 DOMAIN = "smart_pump_scheduler"
-VERSION = "1.1.0"
+VERSION = "1.1.1"
 
 # Config flow keys
 CONF_PRICE_SOURCE = "price_source"
