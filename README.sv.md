@@ -102,6 +102,16 @@ Du namnger även pumpen först (praktiskt om du sätter upp fler än en).
 | `smart_pump_scheduler.uppdatera_schema` | Tvinga omräkning av dagens schema |
 | `smart_pump_scheduler.kor_nu` | Kör nu N minuter (väntar om priset är över max) |
 
+## Varningar & notiser
+
+| Situation | Var du ser det |
+|---|---|
+| Dagens begärda timmar får inte plats inom tidsfönstret/prisgränserna | **Inställningar → System → Reparationer** ("Kunde inte schemalägga alla timmar") |
+| Ett "Kör nu"-anrop köas eftersom priset är över maxgränsen | **Inställningar → System → Reparationer** ("Väntar på lägre pris för att köra på begäran") |
+| Ett köat "Kör nu"-anrop startar faktiskt när priset går ner | En notis (klockikonen / companion-appen) |
+
+Båda Reparations-varningarna försvinner automatiskt när de är lösta.
+
 ## Dashboard-kort exempel
 
 ```yaml

@@ -102,6 +102,16 @@ Du navngiver også pumpen først (nyttigt hvis du opsætter mere end en).
 | `smart_pump_scheduler.uppdatera_schema` | Gennemtving omberegning af dagens tidsplan |
 | `smart_pump_scheduler.kor_nu` | Kør nu i N minutter (venter hvis prisen er over maks) |
 
+## Advarsler & notifikationer
+
+| Situation | Hvor du ser det |
+|---|---|
+| Dagens ønskede timer kan ikke være inden for tidsvinduet/prisgrænserne | **Indstillinger → System → Reparationer** ("Kunne ikke planlægge alle timer") |
+| En "Kør nu"-anmodning venter, fordi prisen er over maksgrænsen | **Indstillinger → System → Reparationer** ("Venter på lavere pris for at køre på forespørsel") |
+| En ventende "Kør nu"-anmodning starter faktisk, når prisen falder | En notifikation (klokkeikon / companion-app) |
+
+Begge reparationsadvarsler forsvinder automatisk, når de er løst.
+
 ## Dashboard-kort eksempel
 
 ```yaml

@@ -102,6 +102,16 @@ Zuerst vergeben Sie auch einen Namen für die Pumpe (nützlich bei mehreren Inst
 | `smart_pump_scheduler.uppdatera_schema` | Neuberechnung des heutigen Zeitplans erzwingen |
 | `smart_pump_scheduler.kor_nu` | Jetzt für N Minuten laufen lassen (wartet, falls Preis über Höchstpreis) |
 
+## Warnungen & Benachrichtigungen
+
+| Situation | Wo Sie es sehen |
+|---|---|
+| Die heute angeforderten Stunden passen nicht in das Zeitfenster/die Preisgrenzen | **Einstellungen → System → Reparaturen** ("Nicht alle Stunden konnten geplant werden") |
+| Eine "Jetzt laufen lassen"-Anfrage wartet, weil der Preis über dem Höchstpreis liegt | **Einstellungen → System → Reparaturen** ("Wartet auf einen günstigeren Preis für den Sofortlauf") |
+| Eine wartende Anfrage startet tatsächlich, wenn der Preis sinkt | Eine Benachrichtigung (Glockensymbol / Companion-App) |
+
+Beide Reparaturhinweise verschwinden automatisch, sobald sie gelöst sind.
+
 ## Dashboard-Karten-Beispiel
 
 ```yaml

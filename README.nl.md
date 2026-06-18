@@ -102,6 +102,16 @@ Je geeft de pomp ook eerst een naam (handig als je er meerdere instelt).
 | `smart_pump_scheduler.uppdatera_schema` | Herberekening van het schema van vandaag forceren |
 | `smart_pump_scheduler.kor_nu` | Nu starten voor N minuten (wacht als prijs boven maximum is) |
 
+## Waarschuwingen & meldingen
+
+| Situatie | Waar je het ziet |
+|---|---|
+| De vandaag gewenste uren passen niet binnen het tijdvenster/de prijslimieten | **Instellingen → Systeem → Reparaties** ("Niet alle uren konden worden ingepland") |
+| Een "Nu starten"-verzoek staat in de wachtrij omdat de prijs boven het maximum is | **Instellingen → Systeem → Reparaties** ("Wacht op een lagere prijs om op aanvraag te draaien") |
+| Een wachtend verzoek start daadwerkelijk zodra de prijs daalt | Een melding (belpictogram / companion-app) |
+
+Beide reparatiewaarschuwingen verdwijnen automatisch zodra ze zijn opgelost.
+
 ## Dashboard-kaart voorbeeld
 
 ```yaml

@@ -102,6 +102,16 @@ You'll also give the pump a name first (handy if you set up more than one).
 | `smart_pump_scheduler.uppdatera_schema` | Force recalculate today's schedule |
 | `smart_pump_scheduler.kor_nu` | Run now for N minutes (deferred if price is above max) |
 
+## Warnings & notifications
+
+| Situation | Where you'll see it |
+|---|---|
+| Today's requested hours don't fully fit the time window/price limits | **Settings → System → Repairs** ("Couldn't schedule all hours") |
+| A "Run now" request is queued because the price is above the max threshold | **Settings → System → Repairs** ("Waiting for a cheaper price to run on demand") |
+| A queued "Run now" request actually starts once the price drops | A persistent notification (bell icon / companion app) |
+
+Both Repairs issues clear themselves automatically once resolved.
+
 ## Dashboard card example
 
 ```yaml

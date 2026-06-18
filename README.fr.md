@@ -102,6 +102,16 @@ Vous donnez aussi d'abord un nom à la pompe (utile si vous en configurez plusie
 | `smart_pump_scheduler.uppdatera_schema` | Forcer le recalcul du planning du jour |
 | `smart_pump_scheduler.kor_nu` | Démarrer maintenant pour N minutes (différé si le prix dépasse le maximum) |
 
+## Avertissements & notifications
+
+| Situation | Où vous le verrez |
+|---|---|
+| Les heures demandées aujourd'hui ne rentrent pas dans la plage horaire/les limites de prix | **Paramètres → Système → Réparations** ("Impossible de programmer toutes les heures") |
+| Une demande "Démarrer maintenant" est en attente car le prix dépasse le maximum | **Paramètres → Système → Réparations** ("En attente d'un prix plus bas pour démarrer à la demande") |
+| Une demande en attente démarre réellement quand le prix baisse | Une notification (icône cloche / application companion) |
+
+Les deux avertissements de réparation disparaissent automatiquement une fois résolus.
+
 ## Exemple de carte tableau de bord
 
 ```yaml

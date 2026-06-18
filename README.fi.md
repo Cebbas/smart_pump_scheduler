@@ -102,6 +102,16 @@ Annat pumpulle myös nimen ensin (hyödyllistä, jos asetat useamman kuin yhden)
 | `smart_pump_scheduler.uppdatera_schema` | Pakota tämän päivän aikataulun uudelleenlaskenta |
 | `smart_pump_scheduler.kor_nu` | Käynnistä nyt N minuutiksi (odottaa, jos hinta on yli enimmäisrajan) |
 
+## Varoitukset ja ilmoitukset
+
+| Tilanne | Mistä näet sen |
+|---|---|
+| Tämän päivän pyydetyt tunnit eivät mahdu aikaikkunaan/hintarajoihin | **Asetukset → Järjestelmä → Korjaukset** ("Kaikkia tunteja ei voitu ajastaa") |
+| "Käynnistä nyt" -pyyntö on jonossa, koska hinta on yli enimmäisrajan | **Asetukset → Järjestelmä → Korjaukset** ("Odottaa halvempaa hintaa käynnistyäkseen pyynnöstä") |
+| Jonossa oleva "Käynnistä nyt" -pyyntö käynnistyy, kun hinta laskee | Ilmoitus (kellokuvake / companion-sovellus) |
+
+Molemmat korjausilmoitukset poistuvat automaattisesti, kun tilanne on ratkaistu.
+
 ## Kojelauta-korttiesimerkki
 
 ```yaml
