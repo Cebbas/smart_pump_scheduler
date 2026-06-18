@@ -224,6 +224,9 @@
       "pump_energi_idag": {
         "name": "Énergie aujourd'hui"
       },
+      "pump_drifttid_idag": {
+        "name": "Temps de fonctionnement aujourd'hui"
+      },
       "pump_kostnad_idag": {
         "name": "Coût aujourd'hui"
       },

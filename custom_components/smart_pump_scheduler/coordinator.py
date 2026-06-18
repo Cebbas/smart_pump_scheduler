@@ -9,7 +9,11 @@ import aiohttp
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import issue_registry as ir
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
-from homeassistant.helpers.event import async_track_time_change, async_call_later
+from homeassistant.helpers.event import (
+    async_track_time_change,
+    async_call_later,
+    async_track_state_change_event,
+)
 from homeassistant.util import dt as dt_util
 
 from .const import (
@@ -60,9 +64,12 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
         self._energy_today_kwh: float = 0.0
         self._cost_today: float = 0.0
         self._last_energy_reading: float | None = None
+        self._runtime_today_seconds: float = 0.0
+        self._runtime_segment_start: datetime | None = None
         self._session: aiohttp.ClientSession | None = None
         self._unsub_midnight = None
         self._unsub_hourly = None
+        self._unsub_switch = None
 
     async def async_setup(self):
         """Set up listeners after HA starts."""
@@ -74,6 +81,15 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
         self._unsub_hourly = async_track_time_change(
             self.hass, self._handle_hourly, minute=0, second=0
         )
+        # Track the pump switch's actual on/off state to measure real runtime
+        switch_entity = self.config.get(CONF_SWITCH_ENTITY)
+        if switch_entity:
+            self._unsub_switch = async_track_state_change_event(
+                self.hass, [switch_entity], self._handle_switch_state_change
+            )
+            state = self.hass.states.get(switch_entity)
+            if state and state.state == "on":
+                self._runtime_segment_start = dt_util.now()
         # Initial fetch
         await self._fetch_prices_and_build_schedule()
 
@@ -83,9 +99,40 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
             self._unsub_midnight()
         if self._unsub_hourly:
             self._unsub_hourly()
+        if self._unsub_switch:
+            self._unsub_switch()
         if self._session and not self._session.closed:
             await self._session.close()
         ir.async_delete_issue(self.hass, DOMAIN, f"schedule_shortfall_{self.entry_id}")
+
+    # ------------------------------------------------------------------
+    # Actual runtime tracking
+    # ------------------------------------------------------------------
+
+    @callback
+    def _handle_switch_state_change(self, event):
+        """Track real on/off transitions of the pump switch to measure runtime."""
+        new_state = event.data.get("new_state")
+        old_state = event.data.get("old_state")
+        now = dt_util.now()
+
+        was_on = old_state is not None and old_state.state == "on"
+        is_on = new_state is not None and new_state.state == "on"
+
+        if is_on and not was_on:
+            self._runtime_segment_start = now
+        elif was_on and not is_on and self._runtime_segment_start is not None:
+            self._runtime_today_seconds += (now - self._runtime_segment_start).total_seconds()
+            self._runtime_segment_start = None
+
+        self.hass.async_create_task(self.async_refresh())
+
+    def _runtime_today_hours(self, now: datetime) -> float:
+        """Today's accumulated runtime in hours, including any open segment."""
+        seconds = self._runtime_today_seconds
+        if self._runtime_segment_start is not None:
+            seconds += (now - self._runtime_segment_start).total_seconds()
+        return round(seconds / 3600, 3)
 
     # ------------------------------------------------------------------
     # Core schedule logic
@@ -194,6 +241,14 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
         self._energy_today_kwh = 0.0
         self._cost_today = 0.0
         self._last_energy_reading = None
+
+        # Start today's count fresh; if the pump is still running across
+        # midnight, keep the segment open from this moment rather than
+        # carrying yesterday's elapsed time into today's total.
+        self._runtime_today_seconds = 0.0
+        if self._runtime_segment_start is not None:
+            self._runtime_segment_start = now
+
         self.hass.async_create_task(self._fetch_prices_and_build_schedule())
 
     @callback
@@ -292,6 +347,7 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
             "is_paused": self._is_paused,
             "pause_end_time": str(self._pause_end_time) if self._pause_end_time else None,
             "energy_today_kwh": self._energy_today_kwh,
+            "runtime_today_hours": self._runtime_today_hours(dt_util.now()),
             "cost_today": self._cost_today,
         }
 
@@ -383,6 +439,7 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
             "scheduled_hours": self._scheduled_hours,
             "prices": self._prices,
             "energy_today_kwh": round(self._energy_today_kwh, 3),
+            "runtime_today_hours": self._runtime_today_hours(now),
             "cost_today": round(self._cost_today, 2),
             "savings_today": savings,
             "current_power": current_power,

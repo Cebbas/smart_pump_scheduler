@@ -81,6 +81,7 @@ Zuerst vergeben Sie auch einen Namen für die Pumpe (nützlich bei mehreren Inst
 | `sensor.pump_timmar_kvar_idag` | Geplante Stunden verbleibend heute |
 | `sensor.pump_scheduled_hours_today` | Die heutigen geplanten Stunden als Zeitspannen |
 | `sensor.pump_energi_idag` | Verbrauchte Energie heute (kWh) |
+| `sensor.pump_drifttid_idag` | Tatsächliche Laufzeit der Pumpe heute |
 | `sensor.pump_kostnad_idag` | Kosten heute |
 | `sensor.pump_sparade_kronor` | Einsparung vs. Betrieb zu teuren Stunden |
 | `sensor.pump_effekt` | Aktuelle Leistung |

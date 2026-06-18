@@ -81,6 +81,7 @@ You'll also give the pump a name first (handy if you set up more than one).
 | `sensor.pump_hours_remaining` | Scheduled hours remaining today |
 | `sensor.pump_scheduled_hours_today` | Today's scheduled hours, as time ranges |
 | `sensor.pump_energy_today` | Energy consumed today (kWh) |
+| `sensor.pump_runtime_today` | Actual time the pump has run today |
 | `sensor.pump_cost_today` | Cost today (in your currency) |
 | `sensor.pump_saved_today` | Savings vs running at peak hours |
 | `sensor.pump_power` | Current power draw |

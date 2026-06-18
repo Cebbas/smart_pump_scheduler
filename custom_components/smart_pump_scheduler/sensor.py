@@ -10,7 +10,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-from homeassistant.const import UnitOfEnergy, UnitOfPower, CURRENCY_EURO
+from homeassistant.const import UnitOfEnergy, UnitOfPower, UnitOfTime, CURRENCY_EURO
 
 from .const import (
     DOMAIN,
@@ -19,6 +19,7 @@ from .const import (
     SUFFIX_HOURS_REMAINING,
     SUFFIX_SCHEDULED_HOURS,
     SUFFIX_ENERGY_TODAY,
+    SUFFIX_RUNTIME_TODAY,
     SUFFIX_COST_TODAY,
     SUFFIX_SAVED_TODAY,
     SUFFIX_POWER,
@@ -39,6 +40,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
         SmartPumpSchedulerHoursRemainingSensor(coordinator, entry),
         SmartPumpSchedulerScheduledHoursSensor(coordinator, entry),
         SmartPumpSchedulerEnergyTodaySensor(coordinator, entry),
+        SmartPumpSchedulerRuntimeTodaySensor(coordinator, entry),
         SmartPumpSchedulerCostTodaySensor(coordinator, entry, currency),
         SmartPumpSchedulerSavedTodaySensor(coordinator, entry, currency),
         SmartPumpSchedulerPowerSensor(coordinator, entry),
@@ -129,6 +131,23 @@ class SmartPumpSchedulerEnergyTodaySensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self):
         return self.coordinator.data.get("energy_today_kwh", 0.0)
+
+
+class SmartPumpSchedulerRuntimeTodaySensor(CoordinatorEntity, SensorEntity):
+    _attr_has_entity_name = True
+    _attr_translation_key = "pump_drifttid_idag"
+    _attr_device_class = SensorDeviceClass.DURATION
+    _attr_state_class = SensorStateClass.TOTAL_INCREASING
+    _attr_native_unit_of_measurement = UnitOfTime.HOURS
+
+    def __init__(self, coordinator, entry):
+        super().__init__(coordinator)
+        self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_RUNTIME_TODAY}"
+        self._attr_device_info = build_device_info(entry)
+
+    @property
+    def native_value(self):
+        return self.coordinator.data.get("runtime_today_hours", 0.0)
 
 
 class SmartPumpSchedulerCostTodaySensor(CoordinatorEntity, SensorEntity):

@@ -81,6 +81,7 @@ Du navngiver også pumpen først (nyttigt hvis du opsætter mere end en).
 | `sensor.pump_timmar_kvar_idag` | Planlagte timer tilbage i dag |
 | `sensor.pump_scheduled_hours_today` | Dagens planlagte timer, som tidsintervaller |
 | `sensor.pump_energi_idag` | Forbrugt energi i dag (kWh) |
+| `sensor.pump_drifttid_idag` | Faktisk tid pumpen har kørt i dag |
 | `sensor.pump_kostnad_idag` | Omkostninger i dag |
 | `sensor.pump_sparade_kronor` | Besparelse vs. kørsel på dyre timer |
 | `sensor.pump_effekt` | Aktuel effekt |

@@ -1,7 +1,7 @@
 """Constants for Smart Pump Scheduler integration."""
 
 DOMAIN = "smart_pump_scheduler"
-VERSION = "1.1.1"
+VERSION = "1.2.0"
 
 # Config flow keys
 CONF_PRICE_SOURCE = "price_source"
@@ -92,6 +92,7 @@ SUFFIX_NEXT_START = "next_start"
 SUFFIX_HOURS_REMAINING = "hours_remaining"
 SUFFIX_SCHEDULED_HOURS = "scheduled_hours"
 SUFFIX_ENERGY_TODAY = "energy_today"
+SUFFIX_RUNTIME_TODAY = "runtime_today"
 SUFFIX_COST_TODAY = "cost_today"
 SUFFIX_SAVED_TODAY = "saved_today"
 SUFFIX_POWER = "power"

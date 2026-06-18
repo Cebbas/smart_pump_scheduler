@@ -81,6 +81,7 @@ Vous donnez aussi d'abord un nom à la pompe (utile si vous en configurez plusie
 | `sensor.pump_timmar_kvar_idag` | Heures planifiées restantes aujourd'hui |
 | `sensor.pump_scheduled_hours_today` | Les heures programmées du jour, sous forme de plages horaires |
 | `sensor.pump_energi_idag` | Énergie consommée aujourd'hui (kWh) |
+| `sensor.pump_drifttid_idag` | Temps de fonctionnement réel de la pompe aujourd'hui |
 | `sensor.pump_kostnad_idag` | Coût aujourd'hui |
 | `sensor.pump_sparade_kronor` | Économies vs fonctionnement aux heures chères |
 | `sensor.pump_effekt` | Puissance actuelle |

@@ -224,6 +224,9 @@
       "pump_energi_idag": {
         "name": "Energie vandaag"
       },
+      "pump_drifttid_idag": {
+        "name": "Looptijd vandaag"
+      },
       "pump_kostnad_idag": {
         "name": "Kosten vandaag"
       },
