@@ -24,6 +24,7 @@ from .const import (
     CONF_NORDPOOL_CURRENCY,
 )
 from .coordinator import SmartPumpSchedulerCoordinator
+from .device import build_device_info
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
@@ -49,6 +50,7 @@ class SmartPumpSchedulerPriceSensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator, entry, currency):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_CURRENT_PRICE}"
+        self._attr_device_info = build_device_info(entry)
         self._attr_native_unit_of_measurement = "öre/kWh" if currency in ("SEK", "NOK") else "c/kWh"
 
     @property
@@ -64,6 +66,7 @@ class SmartPumpSchedulerNextStartSensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator, entry):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_NEXT_START}"
+        self._attr_device_info = build_device_info(entry)
 
     @property
     def native_value(self):
@@ -79,6 +82,7 @@ class SmartPumpSchedulerHoursRemainingSensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator, entry):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_HOURS_REMAINING}"
+        self._attr_device_info = build_device_info(entry)
 
     @property
     def native_value(self):
@@ -95,6 +99,7 @@ class SmartPumpSchedulerEnergyTodaySensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator, entry):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_ENERGY_TODAY}"
+        self._attr_device_info = build_device_info(entry)
 
     @property
     def native_value(self):
@@ -109,6 +114,7 @@ class SmartPumpSchedulerCostTodaySensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator, entry, currency):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_COST_TODAY}"
+        self._attr_device_info = build_device_info(entry)
         self._attr_native_unit_of_measurement = currency
 
     @property
@@ -124,6 +130,7 @@ class SmartPumpSchedulerSavedTodaySensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator, entry, currency):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_SAVED_TODAY}"
+        self._attr_device_info = build_device_info(entry)
         self._attr_native_unit_of_measurement = currency
 
     @property
@@ -141,6 +148,7 @@ class SmartPumpSchedulerPowerSensor(CoordinatorEntity, SensorEntity):
     def __init__(self, coordinator, entry):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_POWER}"
+        self._attr_device_info = build_device_info(entry)
 
     @property
     def native_value(self):

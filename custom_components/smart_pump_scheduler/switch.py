@@ -9,6 +9,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, SUFFIX_PAUSE_SWITCH
 from .coordinator import SmartPumpSchedulerCoordinator
+from .device import build_device_info
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
@@ -24,6 +25,7 @@ class SmartPumpSchedulerPauseSwitch(CoordinatorEntity, SwitchEntity):
     def __init__(self, coordinator: SmartPumpSchedulerCoordinator, entry: ConfigEntry):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_PAUSE_SWITCH}"
+        self._attr_device_info = build_device_info(entry)
 
     @property
     def is_on(self) -> bool:

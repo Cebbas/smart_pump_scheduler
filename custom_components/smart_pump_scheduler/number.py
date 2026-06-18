@@ -9,6 +9,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, SUFFIX_HOURS_NUMBER, CONF_HOURS_PER_DAY, DEFAULT_HOURS_PER_DAY
 from .coordinator import SmartPumpSchedulerCoordinator
+from .device import build_device_info
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback):
@@ -28,6 +29,7 @@ class SmartPumpSchedulerHoursNumber(CoordinatorEntity, NumberEntity):
     def __init__(self, coordinator: SmartPumpSchedulerCoordinator, entry: ConfigEntry):
         super().__init__(coordinator)
         self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_HOURS_NUMBER}"
+        self._attr_device_info = build_device_info(entry)
         self._current_value = float(entry.data.get(CONF_HOURS_PER_DAY, DEFAULT_HOURS_PER_DAY))
 
     @property
