@@ -1,8 +1,10 @@
+<p align="center"><img src="logo.png" alt="Smart Pump Scheduler" width="420"></p>
+
 [🇬🇧 English](README.md) | [🇸🇪 Svenska](README.sv.md) | [🇳🇴 Norsk](README.no.md) | [🇫🇮 Suomi](README.fi.md) | [🇩🇰 Dansk](README.da.md) | **🇩🇪 Deutsch** | [🇫🇷 Français](README.fr.md) | [🇳🇱 Nederlands](README.nl.md)
 
 ---
 
-# Smart Pump Scheduler 🌿
+# Smart Pump Scheduler
 
 Eine Home Assistant-Integration (HACS), die die Laufzeiten Ihrer Pumpe basierend auf Strompreisen optimiert.
 
