@@ -47,6 +47,29 @@ from .const import (
 )
 
 
+def _optional_price_selector():
+    """NumberSelector for an optional price threshold.
+
+    Left blank, HA's frontend submits "" rather than omitting the key, which
+    a plain NumberSelector rejects with "expected float". Accepting "" here
+    too lets the field stay genuinely optional.
+    """
+    return vol.Any(
+        vol.Equal(""),
+        selector.NumberSelector(
+            selector.NumberSelectorConfig(min=0, max=500, step=1, mode=selector.NumberSelectorMode.BOX)
+        ),
+    )
+
+
+def _blank_to_none(data: dict, *keys: str) -> dict:
+    """Convert "" submitted for an optional NumberSelector back to None."""
+    for key in keys:
+        if data.get(key) == "":
+            data[key] = None
+    return data
+
+
 def _weekday_schema_dict(current: dict | None = None) -> dict:
     """Build the per-weekday schedule fields, pre-filled from `current` if given."""
     current = current or {}
@@ -152,7 +175,7 @@ class SmartPumpSchedulerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Step 3: Pump settings."""
         errors = {}
         if user_input is not None:
-            self._data.update(user_input)
+            self._data.update(_blank_to_none(dict(user_input), CONF_MIN_PRICE, CONF_MAX_PRICE))
             return await self.async_step_schedule()
 
         return self.async_show_form(
@@ -164,12 +187,8 @@ class SmartPumpSchedulerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 vol.Required(CONF_HOURS_PER_DAY, default=DEFAULT_HOURS_PER_DAY): selector.NumberSelector(
                     selector.NumberSelectorConfig(min=1, max=24, step=1, mode=selector.NumberSelectorMode.BOX)
                 ),
-                vol.Optional(CONF_MIN_PRICE): selector.NumberSelector(
-                    selector.NumberSelectorConfig(min=0, max=500, step=1, mode=selector.NumberSelectorMode.BOX)
-                ),
-                vol.Optional(CONF_MAX_PRICE): selector.NumberSelector(
-                    selector.NumberSelectorConfig(min=0, max=500, step=1, mode=selector.NumberSelectorMode.BOX)
-                ),
+                vol.Optional(CONF_MIN_PRICE): _optional_price_selector(),
+                vol.Optional(CONF_MAX_PRICE): _optional_price_selector(),
             }),
             errors=errors,
         )
@@ -346,7 +365,7 @@ class SmartPumpSchedulerOptionsFlow(config_entries.OptionsFlow):
 
     async def async_step_pump_settings(self, user_input=None):
         if user_input is not None:
-            self._data.update(user_input)
+            self._data.update(_blank_to_none(dict(user_input), CONF_MIN_PRICE, CONF_MAX_PRICE))
             return await self.async_step_schedule()
 
         current = self._data
@@ -359,12 +378,8 @@ class SmartPumpSchedulerOptionsFlow(config_entries.OptionsFlow):
                 vol.Required(CONF_HOURS_PER_DAY, default=current.get(CONF_HOURS_PER_DAY, DEFAULT_HOURS_PER_DAY)): selector.NumberSelector(
                     selector.NumberSelectorConfig(min=1, max=24, step=1, mode=selector.NumberSelectorMode.BOX)
                 ),
-                vol.Optional(CONF_MIN_PRICE, default=current.get(CONF_MIN_PRICE)): selector.NumberSelector(
-                    selector.NumberSelectorConfig(min=0, max=500, step=1, mode=selector.NumberSelectorMode.BOX)
-                ),
-                vol.Optional(CONF_MAX_PRICE, default=current.get(CONF_MAX_PRICE)): selector.NumberSelector(
-                    selector.NumberSelectorConfig(min=0, max=500, step=1, mode=selector.NumberSelectorMode.BOX)
-                ),
+                vol.Optional(CONF_MIN_PRICE, default=current.get(CONF_MIN_PRICE)): _optional_price_selector(),
+                vol.Optional(CONF_MAX_PRICE, default=current.get(CONF_MAX_PRICE)): _optional_price_selector(),
             }),
         )
 
