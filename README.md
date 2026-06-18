@@ -32,6 +32,9 @@ A Home Assistant custom integration (HACS) that optimizes your pump's running ho
 The integration is configured entirely through the UI – no YAML editing required.
 
 ### Step 1 – Price source
+
+You'll also give the pump a name first (handy if you set up more than one).
+
 | Option | Description |
 |---|---|
 | Nordpool | Fetches prices automatically. Choose area (SE1–SE4, NO, DK, FI...) and currency. |

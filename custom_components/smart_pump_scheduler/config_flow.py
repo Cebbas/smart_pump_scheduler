@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import voluptuous as vol
 from homeassistant import config_entries
+from homeassistant.const import CONF_NAME
 from homeassistant.core import callback
 from homeassistant.helpers import selector
 import homeassistant.helpers.config_validation as cv
@@ -69,6 +70,7 @@ class SmartPumpSchedulerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema({
+                vol.Required(CONF_NAME, default="Pump"): selector.TextSelector(),
                 vol.Required(CONF_PRICE_SOURCE, default=PRICE_SOURCE_NORDPOOL): selector.SelectSelector(
                     selector.SelectSelectorConfig(
                         options=[
@@ -220,7 +222,7 @@ class SmartPumpSchedulerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             if not errors:
                 self._data.update(user_input)
                 return self.async_create_entry(
-                    title="Smart Pump Scheduler",
+                    title=self._data.get(CONF_NAME, "Smart Pump Scheduler"),
                     data=self._data,
                 )
 

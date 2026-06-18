@@ -32,6 +32,9 @@ Une intégration Home Assistant (HACS) qui optimise les heures de fonctionnement
 L'intégration est entièrement configurée via l'interface – aucune modification YAML requise.
 
 ### Étape 1 – Source de prix
+
+Vous donnez aussi d'abord un nom à la pompe (utile si vous en configurez plusieurs).
+
 | Option | Description |
 |---|---|
 | Nordpool | Récupère les prix automatiquement. Choisissez la zone (FR, SE1–SE4, NO, DK, FI...) et la devise. |

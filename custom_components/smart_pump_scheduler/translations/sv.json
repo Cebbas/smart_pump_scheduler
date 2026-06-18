@@ -5,7 +5,11 @@
         "title": "Priskälla",
         "description": "Välj varifrån elpriser ska hämtas",
         "data": {
+          "name": "Namn",
           "price_source": "Källa"
+        },
+        "data_description": {
+          "name": "Ett namn för att identifiera pumpen, praktiskt om du sätter upp fler än en."
         }
       },
       "nordpool": {

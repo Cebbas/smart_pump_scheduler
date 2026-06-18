@@ -5,7 +5,11 @@
         "title": "Preisquelle",
         "description": "Wählen Sie, woher die Strompreise abgerufen werden sollen",
         "data": {
+          "name": "Name",
           "price_source": "Quelle"
+        },
+        "data_description": {
+          "name": "Ein Name zur Identifizierung dieser Pumpe, nützlich bei mehreren Instanzen."
         }
       },
       "nordpool": {
@@ -133,22 +137,42 @@
       }
     },
     "sensor": {
-      "pump_aktuellt_pris": { "name": "Aktueller Strompreis" },
-      "pump_nasta_start": { "name": "Nächster geplanter Start" },
-      "pump_timmar_kvar_idag": { "name": "Geplante Stunden verbleibend" },
-      "pump_energi_idag": { "name": "Energie heute" },
-      "pump_kostnad_idag": { "name": "Kosten heute" },
-      "pump_sparade_kronor": { "name": "Heute gespart" },
-      "pump_effekt": { "name": "Aktuelle Leistung" }
+      "pump_aktuellt_pris": {
+        "name": "Aktueller Strompreis"
+      },
+      "pump_nasta_start": {
+        "name": "Nächster geplanter Start"
+      },
+      "pump_timmar_kvar_idag": {
+        "name": "Geplante Stunden verbleibend"
+      },
+      "pump_energi_idag": {
+        "name": "Energie heute"
+      },
+      "pump_kostnad_idag": {
+        "name": "Kosten heute"
+      },
+      "pump_sparade_kronor": {
+        "name": "Heute gespart"
+      },
+      "pump_effekt": {
+        "name": "Aktuelle Leistung"
+      }
     },
     "switch": {
-      "pump_paus": { "name": "Pumpe pausieren" }
+      "pump_paus": {
+        "name": "Pumpe pausieren"
+      }
     },
     "button": {
-      "pump_pausa": { "name": "Pumpe pausieren" }
+      "pump_pausa": {
+        "name": "Pumpe pausieren"
+      }
     },
     "number": {
-      "pump_timmar_per_dygn": { "name": "Stunden pro Tag" }
+      "pump_timmar_per_dygn": {
+        "name": "Stunden pro Tag"
+      }
     }
   },
   "services": {

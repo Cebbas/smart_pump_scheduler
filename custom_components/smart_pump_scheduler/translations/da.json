@@ -5,7 +5,11 @@
         "title": "Priskilde",
         "description": "Vælg hvorfra elpriser skal hentes",
         "data": {
+          "name": "Navn",
           "price_source": "Kilde"
+        },
+        "data_description": {
+          "name": "Et navn til at identificere denne pumpe, nyttigt hvis du opsætter mere end en."
         }
       },
       "nordpool": {
@@ -133,22 +137,42 @@
       }
     },
     "sensor": {
-      "pump_aktuellt_pris": { "name": "Aktuel elpris" },
-      "pump_nasta_start": { "name": "Næste planlagte start" },
-      "pump_timmar_kvar_idag": { "name": "Planlagte timer tilbage" },
-      "pump_energi_idag": { "name": "Energi i dag" },
-      "pump_kostnad_idag": { "name": "Omkostninger i dag" },
-      "pump_sparade_kronor": { "name": "Sparet i dag" },
-      "pump_effekt": { "name": "Aktuel effekt" }
+      "pump_aktuellt_pris": {
+        "name": "Aktuel elpris"
+      },
+      "pump_nasta_start": {
+        "name": "Næste planlagte start"
+      },
+      "pump_timmar_kvar_idag": {
+        "name": "Planlagte timer tilbage"
+      },
+      "pump_energi_idag": {
+        "name": "Energi i dag"
+      },
+      "pump_kostnad_idag": {
+        "name": "Omkostninger i dag"
+      },
+      "pump_sparade_kronor": {
+        "name": "Sparet i dag"
+      },
+      "pump_effekt": {
+        "name": "Aktuel effekt"
+      }
     },
     "switch": {
-      "pump_paus": { "name": "Sæt pumpen på pause" }
+      "pump_paus": {
+        "name": "Sæt pumpen på pause"
+      }
     },
     "button": {
-      "pump_pausa": { "name": "Pause pumpe" }
+      "pump_pausa": {
+        "name": "Pause pumpe"
+      }
     },
     "number": {
-      "pump_timmar_per_dygn": { "name": "Timer pr. døgn" }
+      "pump_timmar_per_dygn": {
+        "name": "Timer pr. døgn"
+      }
     }
   },
   "services": {

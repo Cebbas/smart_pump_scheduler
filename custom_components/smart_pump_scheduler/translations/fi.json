@@ -5,7 +5,11 @@
         "title": "Hintalähde",
         "description": "Valitse mistä sähköhinnat haetaan",
         "data": {
+          "name": "Nimi",
           "price_source": "Lähde"
+        },
+        "data_description": {
+          "name": "Nimi, jolla tunnistat tämän pumpun. Hyödyllinen, jos asetat useamman kuin yhden."
         }
       },
       "nordpool": {
@@ -133,22 +137,42 @@
       }
     },
     "sensor": {
-      "pump_aktuellt_pris": { "name": "Nykyinen sähköhinta" },
-      "pump_nasta_start": { "name": "Seuraava aikataulutettu käynnistys" },
-      "pump_timmar_kvar_idag": { "name": "Aikataulutettuja tunteja jäljellä" },
-      "pump_energi_idag": { "name": "Energia tänään" },
-      "pump_kostnad_idag": { "name": "Kustannus tänään" },
-      "pump_sparade_kronor": { "name": "Säästetty tänään" },
-      "pump_effekt": { "name": "Nykyinen teho" }
+      "pump_aktuellt_pris": {
+        "name": "Nykyinen sähköhinta"
+      },
+      "pump_nasta_start": {
+        "name": "Seuraava aikataulutettu käynnistys"
+      },
+      "pump_timmar_kvar_idag": {
+        "name": "Aikataulutettuja tunteja jäljellä"
+      },
+      "pump_energi_idag": {
+        "name": "Energia tänään"
+      },
+      "pump_kostnad_idag": {
+        "name": "Kustannus tänään"
+      },
+      "pump_sparade_kronor": {
+        "name": "Säästetty tänään"
+      },
+      "pump_effekt": {
+        "name": "Nykyinen teho"
+      }
     },
     "switch": {
-      "pump_paus": { "name": "Keskeytä pumppu" }
+      "pump_paus": {
+        "name": "Keskeytä pumppu"
+      }
     },
     "button": {
-      "pump_pausa": { "name": "Taukoa pumpulle" }
+      "pump_pausa": {
+        "name": "Taukoa pumpulle"
+      }
     },
     "number": {
-      "pump_timmar_per_dygn": { "name": "Tuntia vuorokaudessa" }
+      "pump_timmar_per_dygn": {
+        "name": "Tuntia vuorokaudessa"
+      }
     }
   },
   "services": {

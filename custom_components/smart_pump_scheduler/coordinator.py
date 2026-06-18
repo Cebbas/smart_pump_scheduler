@@ -253,6 +253,19 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
         """Force a full schedule recalculation."""
         await self._fetch_prices_and_build_schedule()
 
+    def as_diagnostics(self) -> dict[str, Any]:
+        """Return internal state for the diagnostics platform."""
+        return {
+            "prices": self._prices,
+            "scheduled_hours": self._scheduled_hours,
+            "paused_hours": sorted(self._paused_hours),
+            "pause_count_today": self._pause_count_today,
+            "is_paused": self._is_paused,
+            "pause_end_time": str(self._pause_end_time) if self._pause_end_time else None,
+            "energy_today_kwh": self._energy_today_kwh,
+            "cost_today": self._cost_today,
+        }
+
     # ------------------------------------------------------------------
     # Energy tracking
     # ------------------------------------------------------------------

@@ -5,7 +5,11 @@
         "title": "Price source",
         "description": "Choose where to fetch electricity prices from",
         "data": {
+          "name": "Name",
           "price_source": "Source"
+        },
+        "data_description": {
+          "name": "A name to identify this pump, useful if you set up more than one."
         }
       },
       "nordpool": {

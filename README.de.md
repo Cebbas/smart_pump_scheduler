@@ -32,6 +32,9 @@ Eine Home Assistant-Integration (HACS), die die Laufzeiten Ihrer Pumpe basierend
 Die Integration wird vollständig über die Benutzeroberfläche konfiguriert – keine YAML-Bearbeitung erforderlich.
 
 ### Schritt 1 – Preisquelle
+
+Zuerst vergeben Sie auch einen Namen für die Pumpe (nützlich bei mehreren Instanzen).
+
 | Option | Beschreibung |
 |---|---|
 | Nordpool | Ruft Preise automatisch ab. Wählen Sie Gebiet (DE, SE1–SE4, NO, DK, FI...) und Währung. |

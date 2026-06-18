@@ -32,6 +32,9 @@ Home Assistant -integraatio (HACS), joka optimoi pumpun käyntiajat sähköhinto
 Integraatio konfiguroidaan kokonaan käyttöliittymän kautta – YAML-muokkausta ei tarvita.
 
 ### Vaihe 1 – Hintalähde
+
+Annat pumpulle myös nimen ensin (hyödyllistä, jos asetat useamman kuin yhden).
+
 | Vaihtoehto | Kuvaus |
 |---|---|
 | Nordpool | Hakee hinnat automaattisesti. Valitse alue (FI, SE1–SE4, NO, DK...) ja valuutta. |

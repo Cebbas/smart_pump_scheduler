@@ -32,6 +32,9 @@ Een Home Assistant-integratie (HACS) die de bedrijfstijden van uw pomp optimalis
 De integratie wordt volledig geconfigureerd via de gebruikersinterface – geen YAML-bewerking vereist.
 
 ### Stap 1 – Prijsbron
+
+Je geeft de pomp ook eerst een naam (handig als je er meerdere instelt).
+
 | Optie | Beschrijving |
 |---|---|
 | Nordpool | Haalt prijzen automatisch op. Kies gebied (NL, SE1–SE4, NO, DK, FI...) en valuta. |

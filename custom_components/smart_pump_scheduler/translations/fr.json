@@ -5,7 +5,11 @@
         "title": "Source de prix",
         "description": "Choisissez d'où récupérer les prix de l'électricité",
         "data": {
+          "name": "Nom",
           "price_source": "Source"
+        },
+        "data_description": {
+          "name": "Un nom pour identifier cette pompe, utile si vous en configurez plusieurs."
         }
       },
       "nordpool": {
@@ -133,22 +137,42 @@
       }
     },
     "sensor": {
-      "pump_aktuellt_pris": { "name": "Prix électricité actuel" },
-      "pump_nasta_start": { "name": "Prochain démarrage planifié" },
-      "pump_timmar_kvar_idag": { "name": "Heures planifiées restantes" },
-      "pump_energi_idag": { "name": "Énergie aujourd'hui" },
-      "pump_kostnad_idag": { "name": "Coût aujourd'hui" },
-      "pump_sparade_kronor": { "name": "Économisé aujourd'hui" },
-      "pump_effekt": { "name": "Puissance actuelle" }
+      "pump_aktuellt_pris": {
+        "name": "Prix électricité actuel"
+      },
+      "pump_nasta_start": {
+        "name": "Prochain démarrage planifié"
+      },
+      "pump_timmar_kvar_idag": {
+        "name": "Heures planifiées restantes"
+      },
+      "pump_energi_idag": {
+        "name": "Énergie aujourd'hui"
+      },
+      "pump_kostnad_idag": {
+        "name": "Coût aujourd'hui"
+      },
+      "pump_sparade_kronor": {
+        "name": "Économisé aujourd'hui"
+      },
+      "pump_effekt": {
+        "name": "Puissance actuelle"
+      }
     },
     "switch": {
-      "pump_paus": { "name": "Mettre la pompe en pause" }
+      "pump_paus": {
+        "name": "Mettre la pompe en pause"
+      }
     },
     "button": {
-      "pump_pausa": { "name": "Pause pompe" }
+      "pump_pausa": {
+        "name": "Pause pompe"
+      }
     },
     "number": {
-      "pump_timmar_per_dygn": { "name": "Heures par jour" }
+      "pump_timmar_per_dygn": {
+        "name": "Heures par jour"
+      }
     }
   },
   "services": {

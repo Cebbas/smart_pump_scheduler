@@ -5,7 +5,11 @@
         "title": "Prijsbron",
         "description": "Kies waar de elektriciteitsprijzen vandaan komen",
         "data": {
+          "name": "Naam",
           "price_source": "Bron"
+        },
+        "data_description": {
+          "name": "Een naam om deze pomp te identificeren, handig als je er meerdere instelt."
         }
       },
       "nordpool": {
@@ -133,22 +137,42 @@
       }
     },
     "sensor": {
-      "pump_aktuellt_pris": { "name": "Huidige elektriciteitsprijs" },
-      "pump_nasta_start": { "name": "Volgende geplande start" },
-      "pump_timmar_kvar_idag": { "name": "Geplande uren resterend" },
-      "pump_energi_idag": { "name": "Energie vandaag" },
-      "pump_kostnad_idag": { "name": "Kosten vandaag" },
-      "pump_sparade_kronor": { "name": "Bespaard vandaag" },
-      "pump_effekt": { "name": "Huidig vermogen" }
+      "pump_aktuellt_pris": {
+        "name": "Huidige elektriciteitsprijs"
+      },
+      "pump_nasta_start": {
+        "name": "Volgende geplande start"
+      },
+      "pump_timmar_kvar_idag": {
+        "name": "Geplande uren resterend"
+      },
+      "pump_energi_idag": {
+        "name": "Energie vandaag"
+      },
+      "pump_kostnad_idag": {
+        "name": "Kosten vandaag"
+      },
+      "pump_sparade_kronor": {
+        "name": "Bespaard vandaag"
+      },
+      "pump_effekt": {
+        "name": "Huidig vermogen"
+      }
     },
     "switch": {
-      "pump_paus": { "name": "Pomp pauzeren" }
+      "pump_paus": {
+        "name": "Pomp pauzeren"
+      }
     },
     "button": {
-      "pump_pausa": { "name": "Pomp pauzeren" }
+      "pump_pausa": {
+        "name": "Pomp pauzeren"
+      }
     },
     "number": {
-      "pump_timmar_per_dygn": { "name": "Uur per dag" }
+      "pump_timmar_per_dygn": {
+        "name": "Uur per dag"
+      }
     }
   },
   "services": {

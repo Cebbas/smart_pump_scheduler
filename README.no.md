@@ -32,6 +32,9 @@ En Home Assistant-integrasjon (HACS) som optimaliserer pumpens kjøretider baser
 Integrasjonen konfigureres helt via grensesnittet – ingen YAML-redigering kreves.
 
 ### Trinn 1 – Priskilde
+
+Du gir også pumpen et navn først (nyttig hvis du setter opp flere enn en).
+
 | Alternativ | Beskrivelse |
 |---|---|
 | Nordpool | Henter priser automatisk. Velg område (NO1–NO5, SE, DK, FI...) og valuta. |
