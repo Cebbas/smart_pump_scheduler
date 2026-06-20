@@ -2,6 +2,10 @@
 
 [🇬🇧 English](README.md) | [🇸🇪 Svenska](README.sv.md) | [🇳🇴 Norsk](README.no.md) | [🇫🇮 Suomi](README.fi.md) | [🇩🇰 Dansk](README.da.md) | **🇩🇪 Deutsch** | [🇫🇷 Français](README.fr.md) | [🇳🇱 Nederlands](README.nl.md)
 
+<p align="center">
+  <a href="https://buymeacoffee.com/h7jyzdywm9s"><img src="https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=flat&logo=buy-me-a-coffee&logoColor=black" alt="Buy Me A Coffee"></a>
+</p>
+
 ---
 
 # Smart Pump Scheduler
