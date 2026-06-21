@@ -33,11 +33,16 @@
           "switch_entity": "Pompschakelaar",
           "hours_per_day": "Uur per dag",
           "min_price": "Altijd draaien onder (ct/kWh)",
-          "max_price": "Nooit draaien boven (ct/kWh)"
+          "max_price": "Nooit draaien boven (ct/kWh)",
+          "pool_volume": "Zwembadvolume (m³)",
+          "pump_flow_rate": "Pompcapaciteit (m³/h)",
+          "enable_pool_recommendation": "Bereken een aanbevolen looptijd op basis van het zwembadvolume"
         },
         "data_description": {
           "min_price": "Optioneel – pomp draait altijd als de prijs onder deze drempel ligt.",
-          "max_price": "Optioneel – pomp draait nooit als de prijs deze drempel overschrijdt."
+          "max_price": "Optioneel – pomp draait nooit als de prijs deze drempel overschrijdt.",
+          "pool_volume": "Optioneel – wordt gebruikt om een aanbevolen dagelijkse looptijd te berekenen. Laat op 0 staan om uit te schakelen.",
+          "pump_flow_rate": "Optioneel – zie het specificatieblad van de pomp, meestal aangegeven in m³/h."
         }
       },
       "schedule": {
@@ -135,11 +140,16 @@
           "switch_entity": "Pompschakelaar",
           "hours_per_day": "Uur per dag",
           "min_price": "Altijd draaien onder (ct/kWh)",
-          "max_price": "Nooit draaien boven (ct/kWh)"
+          "max_price": "Nooit draaien boven (ct/kWh)",
+          "pool_volume": "Zwembadvolume (m³)",
+          "pump_flow_rate": "Pompcapaciteit (m³/h)",
+          "enable_pool_recommendation": "Bereken een aanbevolen looptijd op basis van het zwembadvolume"
         },
         "data_description": {
           "min_price": "Optioneel – pomp draait altijd als de prijs onder deze drempel ligt.",
-          "max_price": "Optioneel – pomp draait nooit als de prijs deze drempel overschrijdt."
+          "max_price": "Optioneel – pomp draait nooit als de prijs deze drempel overschrijdt.",
+          "pool_volume": "Optioneel – wordt gebruikt om een aanbevolen dagelijkse looptijd te berekenen. Laat op 0 staan om uit te schakelen.",
+          "pump_flow_rate": "Optioneel – zie het specificatieblad van de pomp, meestal aangegeven in m³/h."
         }
       },
       "schedule": {
@@ -237,6 +247,9 @@
       },
       "pump_effekt": {
         "name": "Huidig vermogen"
+      },
+      "pump_rekommenderade_timmar": {
+        "name": "Aanbevolen uren per dag"
       }
     },
     "switch": {
@@ -258,6 +271,12 @@
       },
       "pump_kor_nu_minuter": {
         "name": "Duur voor nu starten"
+      },
+      "pump_poolvolym": {
+        "name": "Zwembadvolume"
+      },
+      "pump_pumpflode": {
+        "name": "Pompcapaciteit"
       }
     }
   },

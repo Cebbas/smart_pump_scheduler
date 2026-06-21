@@ -33,11 +33,16 @@
           "switch_entity": "Pump switch",
           "hours_per_day": "Hours per day",
           "min_price": "Always run below (öre/kWh)",
-          "max_price": "Never run above (öre/kWh)"
+          "max_price": "Never run above (öre/kWh)",
+          "pool_volume": "Pool volume (m³)",
+          "pump_flow_rate": "Pump flow rate (m³/h)",
+          "enable_pool_recommendation": "Calculate a recommended runtime from pool volume"
         },
         "data_description": {
           "min_price": "Optional – pump always runs when price is below this threshold.",
-          "max_price": "Optional – pump never runs when price exceeds this threshold."
+          "max_price": "Optional – pump never runs when price exceeds this threshold.",
+          "pool_volume": "Optional – used to calculate a recommended daily runtime. Leave at 0 to disable.",
+          "pump_flow_rate": "Optional – check your pump's spec sheet, usually printed as m³/h."
         }
       },
       "schedule": {
@@ -135,11 +140,16 @@
           "switch_entity": "Pump switch",
           "hours_per_day": "Hours per day",
           "min_price": "Always run below (öre/kWh)",
-          "max_price": "Never run above (öre/kWh)"
+          "max_price": "Never run above (öre/kWh)",
+          "pool_volume": "Pool volume (m³)",
+          "pump_flow_rate": "Pump flow rate (m³/h)",
+          "enable_pool_recommendation": "Calculate a recommended runtime from pool volume"
         },
         "data_description": {
           "min_price": "Optional – pump always runs when price is below this threshold.",
-          "max_price": "Optional – pump never runs when price exceeds this threshold."
+          "max_price": "Optional – pump never runs when price exceeds this threshold.",
+          "pool_volume": "Optional – used to calculate a recommended daily runtime. Leave at 0 to disable.",
+          "pump_flow_rate": "Optional – check your pump's spec sheet, usually printed as m³/h."
         }
       },
       "schedule": {
@@ -237,6 +247,9 @@
       },
       "pump_effekt": {
         "name": "Current power"
+      },
+      "pump_rekommenderade_timmar": {
+        "name": "Recommended hours per day"
       }
     },
     "switch": {
@@ -258,6 +271,12 @@
       },
       "pump_kor_nu_minuter": {
         "name": "Run now duration"
+      },
+      "pump_poolvolym": {
+        "name": "Pool volume"
+      },
+      "pump_pumpflode": {
+        "name": "Pump flow rate"
       }
     }
   },

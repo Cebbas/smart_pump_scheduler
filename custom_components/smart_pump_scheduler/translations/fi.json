@@ -33,11 +33,16 @@
           "switch_entity": "Pumpun kytkin",
           "hours_per_day": "Tuntia vuorokaudessa",
           "min_price": "Käynnistä aina alle (snt/kWh)",
-          "max_price": "Älä käynnistä yli (snt/kWh)"
+          "max_price": "Älä käynnistä yli (snt/kWh)",
+          "pool_volume": "Altaan tilavuus (m³)",
+          "pump_flow_rate": "Pumpun virtaus (m³/h)",
+          "enable_pool_recommendation": "Laske suositeltu käyntiaika altaan tilavuuden perusteella"
         },
         "data_description": {
           "min_price": "Valinnainen – pumppu käynnistyy aina kun hinta on alle tämän rajan.",
-          "max_price": "Valinnainen – pumppu ei koskaan käynnisty kun hinta ylittää tämän rajan."
+          "max_price": "Valinnainen – pumppu ei koskaan käynnisty kun hinta ylittää tämän rajan.",
+          "pool_volume": "Valinnainen – käytetään suositellun päivittäisen käyntiajan laskemiseen. Jätä arvoon 0 poistaaksesi käytöstä.",
+          "pump_flow_rate": "Valinnainen – tarkista pumpun tekniset tiedot, ilmoitetaan usein m³/h."
         }
       },
       "schedule": {
@@ -135,11 +140,16 @@
           "switch_entity": "Pumpun kytkin",
           "hours_per_day": "Tuntia vuorokaudessa",
           "min_price": "Käynnistä aina alle (snt/kWh)",
-          "max_price": "Älä käynnistä yli (snt/kWh)"
+          "max_price": "Älä käynnistä yli (snt/kWh)",
+          "pool_volume": "Altaan tilavuus (m³)",
+          "pump_flow_rate": "Pumpun virtaus (m³/h)",
+          "enable_pool_recommendation": "Laske suositeltu käyntiaika altaan tilavuuden perusteella"
         },
         "data_description": {
           "min_price": "Valinnainen – pumppu käynnistyy aina kun hinta on alle tämän rajan.",
-          "max_price": "Valinnainen – pumppu ei koskaan käynnisty kun hinta ylittää tämän rajan."
+          "max_price": "Valinnainen – pumppu ei koskaan käynnisty kun hinta ylittää tämän rajan.",
+          "pool_volume": "Valinnainen – käytetään suositellun päivittäisen käyntiajan laskemiseen. Jätä arvoon 0 poistaaksesi käytöstä.",
+          "pump_flow_rate": "Valinnainen – tarkista pumpun tekniset tiedot, ilmoitetaan usein m³/h."
         }
       },
       "schedule": {
@@ -237,6 +247,9 @@
       },
       "pump_effekt": {
         "name": "Nykyinen teho"
+      },
+      "pump_rekommenderade_timmar": {
+        "name": "Suositellut tunnit päivässä"
       }
     },
     "switch": {
@@ -258,6 +271,12 @@
       },
       "pump_kor_nu_minuter": {
         "name": "Käynnistä nyt -kesto"
+      },
+      "pump_poolvolym": {
+        "name": "Altaan tilavuus"
+      },
+      "pump_pumpflode": {
+        "name": "Pumpun virtaus"
       }
     }
   },

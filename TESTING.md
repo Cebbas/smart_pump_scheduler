@@ -43,6 +43,16 @@ Inställningar → Enheter & tjänster → Lägg till integration → sök "Smar
 
 Med Samba kan VS Code spara direkt till HA utan att kopiera manuellt.
 
+> **OBS – symlink fungerar bara om HA körs på samma dator som du redigerar på.**
+> Kör HA på en separat enhet (HAOS-burk, Raspberry Pi, NAS, etc. – allt som kräver
+> Samba-tillägget för åtkomst), tolkar *din* macOS-symlinken korrekt eftersom Mac:en
+> följer den lokalt över SMB. Men HA-processen på den andra enheten ser bara en
+> symlink som pekar på en macOS-sökväg (`/Users/...`) som inte finns på dess eget
+> filsystem – integrationen slutar laddas med felet
+> `Unable to get manifest for integration ...: Integration not found`.
+> Använd då **kopiering** (`cp -r`, se nedan) istället för symlinken, eller kör
+> VS Code Remote-SSH direkt mot HA-enheten (Alternativ 3).
+
 ### Installera Samba i HA
 
 1. Inställningar → Tillägg → Tilläggslager → sök **Samba share**
@@ -60,7 +70,7 @@ Med Samba kan VS Code spara direkt till HA utan att kopiera manuellt.
 1. Utforskaren → Denna dator → Anslut nätverksenhet
 2. Skriv: `\\homeassistant.local\config`
 
-### Skapa en symlink (macOS/Linux) – automatisk sync
+### Skapa en symlink (macOS/Linux) – bara om HA körs lokalt
 
 ```bash
 # Ta bort befintlig mapp om den finns
@@ -71,6 +81,16 @@ ln -s $(pwd)/custom_components/smart_pump_scheduler /Volumes/config/custom_compo
 ```
 
 Nu räcker det med att starta om HA efter varje ändring.
+
+### Kopiera om vid varje ändring – om HA körs på en separat enhet
+
+```bash
+rm -rf /Volumes/config/custom_components/smart_pump_scheduler
+cp -r custom_components/smart_pump_scheduler /Volumes/config/custom_components/smart_pump_scheduler
+find /Volumes/config/custom_components/smart_pump_scheduler -name "__pycache__" -exec rm -rf {} +
+```
+
+Kör sedan `homeassistant.reload_config_entry` (eller starta om HA om du lagt till nya filer).
 
 ---
 

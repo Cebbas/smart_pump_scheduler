@@ -33,11 +33,16 @@
           "switch_entity": "Interrupteur de la pompe",
           "hours_per_day": "Heures par jour",
           "min_price": "Toujours actif sous (c/kWh)",
-          "max_price": "Jamais actif au-dessus (c/kWh)"
+          "max_price": "Jamais actif au-dessus (c/kWh)",
+          "pool_volume": "Volume de la piscine (m³)",
+          "pump_flow_rate": "Débit de la pompe (m³/h)",
+          "enable_pool_recommendation": "Calculer une durée de fonctionnement recommandée à partir du volume de la piscine"
         },
         "data_description": {
           "min_price": "Optionnel – la pompe fonctionne toujours quand le prix est sous ce seuil.",
-          "max_price": "Optionnel – la pompe ne fonctionne jamais quand le prix dépasse ce seuil."
+          "max_price": "Optionnel – la pompe ne fonctionne jamais quand le prix dépasse ce seuil.",
+          "pool_volume": "Facultatif – utilisé pour calculer une durée de fonctionnement quotidienne recommandée. Laisser à 0 pour désactiver.",
+          "pump_flow_rate": "Facultatif – voir la fiche technique de la pompe, généralement indiqué en m³/h."
         }
       },
       "schedule": {
@@ -135,11 +140,16 @@
           "switch_entity": "Interrupteur de la pompe",
           "hours_per_day": "Heures par jour",
           "min_price": "Toujours actif sous (c/kWh)",
-          "max_price": "Jamais actif au-dessus (c/kWh)"
+          "max_price": "Jamais actif au-dessus (c/kWh)",
+          "pool_volume": "Volume de la piscine (m³)",
+          "pump_flow_rate": "Débit de la pompe (m³/h)",
+          "enable_pool_recommendation": "Calculer une durée de fonctionnement recommandée à partir du volume de la piscine"
         },
         "data_description": {
           "min_price": "Optionnel – la pompe fonctionne toujours quand le prix est sous ce seuil.",
-          "max_price": "Optionnel – la pompe ne fonctionne jamais quand le prix dépasse ce seuil."
+          "max_price": "Optionnel – la pompe ne fonctionne jamais quand le prix dépasse ce seuil.",
+          "pool_volume": "Facultatif – utilisé pour calculer une durée de fonctionnement quotidienne recommandée. Laisser à 0 pour désactiver.",
+          "pump_flow_rate": "Facultatif – voir la fiche technique de la pompe, généralement indiqué en m³/h."
         }
       },
       "schedule": {
@@ -237,6 +247,9 @@
       },
       "pump_effekt": {
         "name": "Puissance actuelle"
+      },
+      "pump_rekommenderade_timmar": {
+        "name": "Heures recommandées par jour"
       }
     },
     "switch": {
@@ -258,6 +271,12 @@
       },
       "pump_kor_nu_minuter": {
         "name": "Durée de démarrage immédiat"
+      },
+      "pump_poolvolym": {
+        "name": "Volume de la piscine"
+      },
+      "pump_pumpflode": {
+        "name": "Débit de la pompe"
       }
     }
   },

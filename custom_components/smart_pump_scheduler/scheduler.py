@@ -202,6 +202,22 @@ def get_savings(
     return round(max(0.0, cost_expensive - cost_actual), 2)
 
 
+def calculate_recommended_hours(pool_volume_m3: float, pump_flow_rate_m3h: float) -> float | None:
+    """
+    Recommend daily pump runtime so the whole pool volume is circulated once.
+
+    Args:
+        pool_volume_m3: Pool volume in cubic meters.
+        pump_flow_rate_m3h: Pump flow rate in cubic meters per hour.
+
+    Returns:
+        Recommended hours (capped at 24), or None if either input is missing/zero.
+    """
+    if not pool_volume_m3 or not pump_flow_rate_m3h:
+        return None
+    return round(min(pool_volume_m3 / pump_flow_rate_m3h, 24), 1)
+
+
 def format_hour_ranges(hours: list[int]) -> str:
     """
     Format scheduled hours as readable time ranges.

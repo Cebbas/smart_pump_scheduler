@@ -33,11 +33,16 @@
           "switch_entity": "Pumpenschalter",
           "hours_per_day": "Stunden pro Tag",
           "min_price": "Immer laufen unter (Ct/kWh)",
-          "max_price": "Nie laufen über (Ct/kWh)"
+          "max_price": "Nie laufen über (Ct/kWh)",
+          "pool_volume": "Poolvolumen (m³)",
+          "pump_flow_rate": "Pumpenförderleistung (m³/h)",
+          "enable_pool_recommendation": "Empfohlene Laufzeit anhand des Poolvolumens berechnen"
         },
         "data_description": {
           "min_price": "Optional – Pumpe läuft immer, wenn der Preis unter diesem Schwellenwert liegt.",
-          "max_price": "Optional – Pumpe läuft nie, wenn der Preis diesen Schwellenwert überschreitet."
+          "max_price": "Optional – Pumpe läuft nie, wenn der Preis diesen Schwellenwert überschreitet.",
+          "pool_volume": "Optional – wird verwendet, um eine empfohlene tägliche Laufzeit zu berechnen. Auf 0 lassen, um zu deaktivieren.",
+          "pump_flow_rate": "Optional – siehe Datenblatt der Pumpe, meist als m³/h angegeben."
         }
       },
       "schedule": {
@@ -135,11 +140,16 @@
           "switch_entity": "Pumpenschalter",
           "hours_per_day": "Stunden pro Tag",
           "min_price": "Immer laufen unter (Ct/kWh)",
-          "max_price": "Nie laufen über (Ct/kWh)"
+          "max_price": "Nie laufen über (Ct/kWh)",
+          "pool_volume": "Poolvolumen (m³)",
+          "pump_flow_rate": "Pumpenförderleistung (m³/h)",
+          "enable_pool_recommendation": "Empfohlene Laufzeit anhand des Poolvolumens berechnen"
         },
         "data_description": {
           "min_price": "Optional – Pumpe läuft immer, wenn der Preis unter diesem Schwellenwert liegt.",
-          "max_price": "Optional – Pumpe läuft nie, wenn der Preis diesen Schwellenwert überschreitet."
+          "max_price": "Optional – Pumpe läuft nie, wenn der Preis diesen Schwellenwert überschreitet.",
+          "pool_volume": "Optional – wird verwendet, um eine empfohlene tägliche Laufzeit zu berechnen. Auf 0 lassen, um zu deaktivieren.",
+          "pump_flow_rate": "Optional – siehe Datenblatt der Pumpe, meist als m³/h angegeben."
         }
       },
       "schedule": {
@@ -237,6 +247,9 @@
       },
       "pump_effekt": {
         "name": "Aktuelle Leistung"
+      },
+      "pump_rekommenderade_timmar": {
+        "name": "Empfohlene Stunden pro Tag"
       }
     },
     "switch": {
@@ -258,6 +271,12 @@
       },
       "pump_kor_nu_minuter": {
         "name": "Dauer für \"Jetzt laufen lassen\""
+      },
+      "pump_poolvolym": {
+        "name": "Poolvolumen"
+      },
+      "pump_pumpflode": {
+        "name": "Pumpenförderleistung"
       }
     }
   },

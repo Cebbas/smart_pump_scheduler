@@ -33,11 +33,16 @@
           "switch_entity": "Pump-switch",
           "hours_per_day": "Timmar per dygn",
           "min_price": "Kör alltid under (öre/kWh)",
-          "max_price": "Kör aldrig över (öre/kWh)"
+          "max_price": "Kör aldrig över (öre/kWh)",
+          "pool_volume": "Poolvolym (m³)",
+          "pump_flow_rate": "Pumpflöde (m³/h)",
+          "enable_pool_recommendation": "Räkna ut rekommenderad drifttid utifrån poolvolym"
         },
         "data_description": {
           "min_price": "Valfritt – pumpen körs alltid när priset understiger detta.",
-          "max_price": "Valfritt – pumpen körs aldrig när priset överstiger detta."
+          "max_price": "Valfritt – pumpen körs aldrig när priset överstiger detta.",
+          "pool_volume": "Valfritt – används för att räkna ut en rekommenderad daglig drifttid. Lämna på 0 för att inaktivera.",
+          "pump_flow_rate": "Valfritt – kontrollera pumpens specifikation, brukar anges som m³/h."
         }
       },
       "schedule": {
@@ -135,11 +140,16 @@
           "switch_entity": "Pump-switch",
           "hours_per_day": "Timmar per dygn",
           "min_price": "Kör alltid under (öre/kWh)",
-          "max_price": "Kör aldrig över (öre/kWh)"
+          "max_price": "Kör aldrig över (öre/kWh)",
+          "pool_volume": "Poolvolym (m³)",
+          "pump_flow_rate": "Pumpflöde (m³/h)",
+          "enable_pool_recommendation": "Räkna ut rekommenderad drifttid utifrån poolvolym"
         },
         "data_description": {
           "min_price": "Valfritt – pumpen körs alltid när priset understiger detta.",
-          "max_price": "Valfritt – pumpen körs aldrig när priset överstiger detta."
+          "max_price": "Valfritt – pumpen körs aldrig när priset överstiger detta.",
+          "pool_volume": "Valfritt – används för att räkna ut en rekommenderad daglig drifttid. Lämna på 0 för att inaktivera.",
+          "pump_flow_rate": "Valfritt – kontrollera pumpens specifikation, brukar anges som m³/h."
         }
       },
       "schedule": {
@@ -237,6 +247,9 @@
       },
       "pump_effekt": {
         "name": "Aktuell effekt"
+      },
+      "pump_rekommenderade_timmar": {
+        "name": "Rekommenderade timmar per dygn"
       }
     },
     "switch": {
@@ -258,6 +271,12 @@
       },
       "pump_kor_nu_minuter": {
         "name": "Kör nu-längd"
+      },
+      "pump_poolvolym": {
+        "name": "Poolvolym"
+      },
+      "pump_pumpflode": {
+        "name": "Pumpflöde"
       }
     }
   },

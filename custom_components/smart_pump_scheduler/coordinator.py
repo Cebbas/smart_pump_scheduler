@@ -32,6 +32,9 @@ from .const import (
     CONF_NORDPOOL_AREA,
     CONF_NORDPOOL_CURRENCY,
     CONF_NORDPOOL_VAT,
+    CONF_ENABLE_POOL_RECOMMENDATION,
+    CONF_POOL_VOLUME,
+    CONF_PUMP_FLOW_RATE,
     PRICE_SOURCE_NORDPOOL,
     PRICE_SOURCE_SENSOR,
     ENERGY_SOURCE_SENSOR,
@@ -41,7 +44,7 @@ from .const import (
     DEFAULT_RUN_NOW_DURATION,
 )
 from .price_fetcher import fetch_nordpool_prices, get_hourly_prices_from_sensor
-from .scheduler import build_schedule, find_next_available_hour, get_savings
+from .scheduler import build_schedule, find_next_available_hour, get_savings, calculate_recommended_hours
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -555,6 +558,13 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
             if current_hour in self._scheduled_hours and not self._is_paused:
                 current_power = float(self.config.get(CONF_MANUAL_WATT, 350))
 
+        recommended_hours = None
+        if self.config.get(CONF_ENABLE_POOL_RECOMMENDATION, False):
+            recommended_hours = calculate_recommended_hours(
+                self.config.get(CONF_POOL_VOLUME, 0),
+                self.config.get(CONF_PUMP_FLOW_RATE, 0),
+            )
+
         run_now_active = self._run_now_until is not None and now < self._run_now_until
         return {
             "is_active": (current_hour in self._scheduled_hours and not self._is_paused) or run_now_active,
@@ -574,4 +584,5 @@ class SmartPumpSchedulerCoordinator(DataUpdateCoordinator):
             "savings_today": savings,
             "current_power": current_power,
             "pause_count_today": self._pause_count_today,
+            "recommended_hours": recommended_hours,
         }

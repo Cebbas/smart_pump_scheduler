@@ -24,6 +24,9 @@ CONF_ENERGY_SOURCE = "energy_source"
 CONF_ENERGY_SENSOR = "energy_sensor"
 CONF_MANUAL_WATT = "manual_watt"
 CONF_RUN_NOW_DURATION = "run_now_duration"
+CONF_ENABLE_POOL_RECOMMENDATION = "enable_pool_recommendation"
+CONF_POOL_VOLUME = "pool_volume"
+CONF_PUMP_FLOW_RATE = "pump_flow_rate"
 
 # Price sources
 PRICE_SOURCE_NORDPOOL = "nordpool"
@@ -76,6 +79,8 @@ DEFAULT_GLOBAL_START = "00:00"
 DEFAULT_GLOBAL_STOP = "00:00"
 DEFAULT_MANUAL_WATT = 350
 DEFAULT_RUN_NOW_DURATION = 30
+DEFAULT_POOL_VOLUME = 0
+DEFAULT_PUMP_FLOW_RATE = 0
 
 # Update intervals
 SCHEDULE_UPDATE_HOUR = 0
@@ -103,6 +108,9 @@ SUFFIX_PAUSE_BUTTON = "pause_button"
 SUFFIX_HOURS_NUMBER = "hours_number"
 SUFFIX_RUN_NOW_BUTTON = "run_now_button"
 SUFFIX_RUN_NOW_NUMBER = "run_now_number"
+SUFFIX_POOL_VOLUME_NUMBER = "pool_volume_number"
+SUFFIX_PUMP_FLOW_NUMBER = "pump_flow_number"
+SUFFIX_RECOMMENDED_HOURS = "recommended_hours"
 
 # Platforms
 PLATFORMS = ["binary_sensor", "sensor", "switch", "button", "number"]

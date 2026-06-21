@@ -23,6 +23,7 @@ from .const import (
     SUFFIX_COST_TODAY,
     SUFFIX_SAVED_TODAY,
     SUFFIX_POWER,
+    SUFFIX_RECOMMENDED_HOURS,
     CONF_NORDPOOL_CURRENCY,
 )
 from .coordinator import SmartPumpSchedulerCoordinator
@@ -44,6 +45,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
         SmartPumpSchedulerCostTodaySensor(coordinator, entry, currency),
         SmartPumpSchedulerSavedTodaySensor(coordinator, entry, currency),
         SmartPumpSchedulerPowerSensor(coordinator, entry),
+        SmartPumpSchedulerRecommendedHoursSensor(coordinator, entry),
     ])
 
 
@@ -201,3 +203,22 @@ class SmartPumpSchedulerPowerSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self):
         return self.coordinator.data.get("current_power")
+
+
+class SmartPumpSchedulerRecommendedHoursSensor(CoordinatorEntity, SensorEntity):
+    """Recommended daily runtime so the pool volume is fully circulated once."""
+
+    _attr_has_entity_name = True
+    _attr_translation_key = "pump_rekommenderade_timmar"
+    _attr_native_unit_of_measurement = "h"
+    _attr_state_class = SensorStateClass.MEASUREMENT
+    _attr_icon = "mdi:pool"
+
+    def __init__(self, coordinator, entry):
+        super().__init__(coordinator)
+        self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_RECOMMENDED_HOURS}"
+        self._attr_device_info = build_device_info(entry)
+
+    @property
+    def native_value(self):
+        return self.coordinator.data.get("recommended_hours")

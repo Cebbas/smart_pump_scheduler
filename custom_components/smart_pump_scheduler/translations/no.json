@@ -33,11 +33,16 @@
           "switch_entity": "Pumpebryter",
           "hours_per_day": "Timer per døgn",
           "min_price": "Kjør alltid under (øre/kWh)",
-          "max_price": "Kjør aldri over (øre/kWh)"
+          "max_price": "Kjør aldri over (øre/kWh)",
+          "pool_volume": "Poolvolum (m³)",
+          "pump_flow_rate": "Pumpeflyt (m³/h)",
+          "enable_pool_recommendation": "Beregn en anbefalt driftstid basert på poolvolumet"
         },
         "data_description": {
           "min_price": "Valgfritt – pumpen kjører alltid når prisen er under denne grensen.",
-          "max_price": "Valgfritt – pumpen kjører aldri når prisen overstiger denne grensen."
+          "max_price": "Valgfritt – pumpen kjører aldri når prisen overstiger denne grensen.",
+          "pool_volume": "Valgfritt – brukes til å beregne en anbefalt daglig driftstid. La stå på 0 for å deaktivere.",
+          "pump_flow_rate": "Valgfritt – se pumpens spesifikasjoner, angis vanligvis som m³/h."
         }
       },
       "schedule": {
@@ -135,11 +140,16 @@
           "switch_entity": "Pumpebryter",
           "hours_per_day": "Timer per døgn",
           "min_price": "Kjør alltid under (øre/kWh)",
-          "max_price": "Kjør aldri over (øre/kWh)"
+          "max_price": "Kjør aldri over (øre/kWh)",
+          "pool_volume": "Poolvolum (m³)",
+          "pump_flow_rate": "Pumpeflyt (m³/h)",
+          "enable_pool_recommendation": "Beregn en anbefalt driftstid basert på poolvolumet"
         },
         "data_description": {
           "min_price": "Valgfritt – pumpen kjører alltid når prisen er under denne grensen.",
-          "max_price": "Valgfritt – pumpen kjører aldri når prisen overstiger denne grensen."
+          "max_price": "Valgfritt – pumpen kjører aldri når prisen overstiger denne grensen.",
+          "pool_volume": "Valgfritt – brukes til å beregne en anbefalt daglig driftstid. La stå på 0 for å deaktivere.",
+          "pump_flow_rate": "Valgfritt – se pumpens spesifikasjoner, angis vanligvis som m³/h."
         }
       },
       "schedule": {
@@ -237,6 +247,9 @@
       },
       "pump_effekt": {
         "name": "Gjeldende effekt"
+      },
+      "pump_rekommenderade_timmar": {
+        "name": "Anbefalte timer per dag"
       }
     },
     "switch": {
@@ -258,6 +271,12 @@
       },
       "pump_kor_nu_minuter": {
         "name": "Kjør nå-lengde"
+      },
+      "pump_poolvolym": {
+        "name": "Poolvolum"
+      },
+      "pump_pumpflode": {
+        "name": "Pumpeflyt"
       }
     }
   },

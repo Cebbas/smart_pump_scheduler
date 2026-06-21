@@ -30,6 +30,9 @@ from .const import (
     CONF_ENERGY_SENSOR,
     CONF_MANUAL_WATT,
     CONF_RUN_NOW_DURATION,
+    CONF_ENABLE_POOL_RECOMMENDATION,
+    CONF_POOL_VOLUME,
+    CONF_PUMP_FLOW_RATE,
     PRICE_SOURCE_NORDPOOL,
     PRICE_SOURCE_SENSOR,
     PRICE_SOURCE_FIXED,
@@ -46,21 +49,52 @@ from .const import (
     DEFAULT_GLOBAL_STOP,
     DEFAULT_MANUAL_WATT,
     DEFAULT_RUN_NOW_DURATION,
+    DEFAULT_POOL_VOLUME,
+    DEFAULT_PUMP_FLOW_RATE,
 )
 
 
-def _optional_price_selector():
-    """NumberSelector for an optional price threshold.
+def _pool_volume_selector():
+    return selector.NumberSelector(
+        selector.NumberSelectorConfig(min=0, max=500, step=0.5, mode=selector.NumberSelectorMode.BOX)
+    )
+
+
+def _pump_flow_rate_selector():
+    return selector.NumberSelector(
+        selector.NumberSelectorConfig(min=0, max=100, step=0.1, mode=selector.NumberSelectorMode.BOX)
+    )
+
+
+class _OptionalNumberSelector(selector.Selector):
+    """NumberSelector that also tolerates "" (blank field) as None.
 
     Left blank, HA's frontend submits "" rather than omitting the key, which
-    a plain NumberSelector rejects with "expected float". Accepting "" here
-    too lets the field stay genuinely optional.
+    a plain NumberSelector rejects with "expected float". A bare
+    vol.Any(vol.Equal(""), NumberSelector(...)) accepts that at validation
+    time, but voluptuous_serialize can't turn a vol.Any into form JSON and
+    the options/config flow 500s as soon as this step needs to be rendered.
+    Subclassing Selector makes HA's custom_serializer call our .serialize()
+    directly instead of falling through to that generic (and here, broken)
+    path.
     """
-    return vol.Any(
-        vol.Equal(""),
-        selector.NumberSelector(
-            selector.NumberSelectorConfig(min=0, max=500, step=1, mode=selector.NumberSelectorMode.BOX)
-        ),
+
+    def __init__(self, config):
+        self._inner = selector.NumberSelector(config)
+
+    def __call__(self, data):
+        if data in (None, ""):
+            return None
+        return self._inner(data)
+
+    def serialize(self):
+        return self._inner.serialize()
+
+
+def _optional_price_selector():
+    """NumberSelector for an optional price threshold."""
+    return _OptionalNumberSelector(
+        selector.NumberSelectorConfig(min=0, max=500, step=1, mode=selector.NumberSelectorMode.BOX)
     )
 
 
@@ -191,6 +225,9 @@ class SmartPumpSchedulerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 ),
                 vol.Optional(CONF_MIN_PRICE): _optional_price_selector(),
                 vol.Optional(CONF_MAX_PRICE): _optional_price_selector(),
+                vol.Required(CONF_ENABLE_POOL_RECOMMENDATION, default=False): selector.BooleanSelector(),
+                vol.Optional(CONF_POOL_VOLUME, default=DEFAULT_POOL_VOLUME): _pool_volume_selector(),
+                vol.Optional(CONF_PUMP_FLOW_RATE, default=DEFAULT_PUMP_FLOW_RATE): _pump_flow_rate_selector(),
             }),
             errors=errors,
         )
@@ -385,6 +422,12 @@ class SmartPumpSchedulerOptionsFlow(config_entries.OptionsFlow):
                 ),
                 vol.Optional(CONF_MIN_PRICE, default=current.get(CONF_MIN_PRICE)): _optional_price_selector(),
                 vol.Optional(CONF_MAX_PRICE, default=current.get(CONF_MAX_PRICE)): _optional_price_selector(),
+                vol.Required(
+                    CONF_ENABLE_POOL_RECOMMENDATION,
+                    default=current.get(CONF_ENABLE_POOL_RECOMMENDATION, False),
+                ): selector.BooleanSelector(),
+                vol.Optional(CONF_POOL_VOLUME, default=current.get(CONF_POOL_VOLUME, DEFAULT_POOL_VOLUME)): _pool_volume_selector(),
+                vol.Optional(CONF_PUMP_FLOW_RATE, default=current.get(CONF_PUMP_FLOW_RATE, DEFAULT_PUMP_FLOW_RATE)): _pump_flow_rate_selector(),
             }),
         )
 
