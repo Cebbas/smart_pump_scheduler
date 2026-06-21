@@ -250,6 +250,16 @@
       },
       "pump_rekommenderade_timmar": {
         "name": "Heures recommandées par jour"
+      },
+      "pump_status": {
+        "name": "État de la pompe",
+        "state": {
+          "running_manual": "En marche (manuel)",
+          "running_scheduled": "En marche (planifié)",
+          "waiting_run_now": "En attente d'un prix plus bas",
+          "paused": "En pause",
+          "idle": "Inactif"
+        }
       }
     },
     "switch": {

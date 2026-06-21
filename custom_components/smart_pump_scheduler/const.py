@@ -111,6 +111,14 @@ SUFFIX_RUN_NOW_NUMBER = "run_now_number"
 SUFFIX_POOL_VOLUME_NUMBER = "pool_volume_number"
 SUFFIX_PUMP_FLOW_NUMBER = "pump_flow_number"
 SUFFIX_RECOMMENDED_HOURS = "recommended_hours"
+SUFFIX_STATUS = "status"
+
+# Pump status values
+STATUS_RUNNING_SCHEDULED = "running_scheduled"
+STATUS_RUNNING_MANUAL = "running_manual"
+STATUS_PAUSED = "paused"
+STATUS_WAITING_RUN_NOW = "waiting_run_now"
+STATUS_IDLE = "idle"
 
 # Platforms
 PLATFORMS = ["binary_sensor", "sensor", "switch", "button", "number"]

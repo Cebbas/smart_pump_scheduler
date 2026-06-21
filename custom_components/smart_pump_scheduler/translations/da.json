@@ -250,6 +250,16 @@
       },
       "pump_rekommenderade_timmar": {
         "name": "Anbefalede timer pr. dag"
+      },
+      "pump_status": {
+        "name": "Pumpestatus",
+        "state": {
+          "running_manual": "Kører nu (manuelt)",
+          "running_scheduled": "Kører (skema)",
+          "waiting_run_now": "Venter på lavere pris",
+          "paused": "Pause",
+          "idle": "Inaktiv"
+        }
       }
     },
     "switch": {

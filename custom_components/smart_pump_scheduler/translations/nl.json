@@ -250,6 +250,16 @@
       },
       "pump_rekommenderade_timmar": {
         "name": "Aanbevolen uren per dag"
+      },
+      "pump_status": {
+        "name": "Pompstatus",
+        "state": {
+          "running_manual": "Actief nu (handmatig)",
+          "running_scheduled": "Actief (schema)",
+          "waiting_run_now": "Wacht op lagere prijs",
+          "paused": "Gepauzeerd",
+          "idle": "Inactief"
+        }
       }
     },
     "switch": {

@@ -24,6 +24,12 @@ from .const import (
     SUFFIX_SAVED_TODAY,
     SUFFIX_POWER,
     SUFFIX_RECOMMENDED_HOURS,
+    SUFFIX_STATUS,
+    STATUS_RUNNING_SCHEDULED,
+    STATUS_RUNNING_MANUAL,
+    STATUS_PAUSED,
+    STATUS_WAITING_RUN_NOW,
+    STATUS_IDLE,
     CONF_NORDPOOL_CURRENCY,
 )
 from .coordinator import SmartPumpSchedulerCoordinator
@@ -46,6 +52,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry, async_add_e
         SmartPumpSchedulerSavedTodaySensor(coordinator, entry, currency),
         SmartPumpSchedulerPowerSensor(coordinator, entry),
         SmartPumpSchedulerRecommendedHoursSensor(coordinator, entry),
+        SmartPumpSchedulerStatusSensor(coordinator, entry),
     ])
 
 
@@ -222,3 +229,37 @@ class SmartPumpSchedulerRecommendedHoursSensor(CoordinatorEntity, SensorEntity):
     @property
     def native_value(self):
         return self.coordinator.data.get("recommended_hours")
+
+
+class SmartPumpSchedulerStatusSensor(CoordinatorEntity, SensorEntity):
+    """What the pump is doing right now, in priority order."""
+
+    _attr_has_entity_name = True
+    _attr_translation_key = "pump_status"
+    _attr_device_class = SensorDeviceClass.ENUM
+    _attr_options = [
+        STATUS_RUNNING_MANUAL,
+        STATUS_RUNNING_SCHEDULED,
+        STATUS_WAITING_RUN_NOW,
+        STATUS_PAUSED,
+        STATUS_IDLE,
+    ]
+    _attr_icon = "mdi:water-pump"
+
+    def __init__(self, coordinator, entry):
+        super().__init__(coordinator)
+        self._attr_unique_id = f"{entry.entry_id}_{SUFFIX_STATUS}"
+        self._attr_device_info = build_device_info(entry)
+
+    @property
+    def native_value(self):
+        data = self.coordinator.data
+        if data.get("run_now_active"):
+            return STATUS_RUNNING_MANUAL
+        if data.get("is_paused"):
+            return STATUS_PAUSED
+        if data.get("run_now_pending"):
+            return STATUS_WAITING_RUN_NOW
+        if data.get("is_active"):
+            return STATUS_RUNNING_SCHEDULED
+        return STATUS_IDLE

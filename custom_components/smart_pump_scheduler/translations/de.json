@@ -250,6 +250,16 @@
       },
       "pump_rekommenderade_timmar": {
         "name": "Empfohlene Stunden pro Tag"
+      },
+      "pump_status": {
+        "name": "Pumpenstatus",
+        "state": {
+          "running_manual": "Läuft jetzt (manuell)",
+          "running_scheduled": "Läuft (Zeitplan)",
+          "waiting_run_now": "Wartet auf niedrigeren Preis",
+          "paused": "Pausiert",
+          "idle": "Inaktiv"
+        }
       }
     },
     "switch": {
